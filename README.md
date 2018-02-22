@@ -1,4 +1,6 @@
-# WaveStation 3122
+EPICS IOC for WaveStation 3122
+---
+[![Build Status](https://travis-ci.org/icshwi/WaveStation3122.svg?branch=master)](https://travis-ci.org/icshwi/WaveStation3122)
 
 
 
