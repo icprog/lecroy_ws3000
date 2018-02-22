@@ -93,12 +93,15 @@ if [ ! -e "$CDIR/built" ]
 then
   install -d "$CDIR"
 
-  ( cd "$CDIR" && git clone --depth 50 --branch master https://github.com/epics-modules/stream.git stream )
+  ( cd "$CDIR" && git clone --recursive --depth 50 --branch master https://github.com/epics-modules/stream.git stream )
 
   STREAM="$CDIR/stream"
 
-  echo "ASYN=$ASYN"             >  ${STREAM}/configure/RELEASE
-  echo "EPICS_BASE=$EPICS_BASE" >  ${STREAM}/configure/RELEASE
+  echo "ASYN=$ASYN"              >  ${STREAM}/configure/RELEASE
+  echo "EPICS_BASE=$EPICS_BASE" >>  ${STREAM}/configure/RELEASE
+  echo "CHECK_RELEASE = YES"    >  ${STREAM}/configure/CONFIG_SITE
+  echo "BUILD_PCRE=NO"          >> ${STREAM}/configure/CONFIG_SITE
+ 
  
   make -C "$STREAM"
 
