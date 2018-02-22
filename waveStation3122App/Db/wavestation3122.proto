@@ -1,0 +1,6 @@
+# streamDevice protocol file for WaveStation 3112
+
+@mismatch { disconnect; }
+@writetimeout { disconnect; }
+@readtimeout { disconnect; }
+@replyTimeout { disconnect; }
