@@ -4,3 +4,22 @@
 @writetimeout { disconnect; }
 @readtimeout { disconnect; }
 @replyTimeout { disconnect; }
+
+idn
+{
+	out "*IDN?;";
+
+	in  "*IDN "
+	    "%[^,],"         # device id
+	    "%(\$1)[^,],"    # model
+	    "%(\$2)[^,],"    # serial number
+	    "%(\$3)[^,],"    # software version
+	    "%(\$4)[^;];";   # firmware version
+}
+
+write
+{
+	out "%s;";
+
+	in  "%(\$1)[^;];";
+}

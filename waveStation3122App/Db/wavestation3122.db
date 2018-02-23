@@ -41,3 +41,38 @@ record(longin, "$(P)$(R)STB")
     field(PINI, "YES")
 }
 
+record(stringin, "$(P)$(R):DevIdR")
+{
+	field(PINI, "YES")
+	field(DTYP, "stream")
+	field(INP,  "@wavestation3122.proto idn($(P)$(R):ModelR,$(P)$(R):SerNumR,$(P)$(R):SoftwareVerR,$(P)$(R):FirmwareVerR) $(PORT)")
+}
+
+record(stringin, "$(P)$(R):ModelR")
+{
+}
+
+record(stringin, "$(P)$(R):SerNumR")
+{
+}
+
+record(stringin, "$(P)$(R):SoftwareVerR")
+{
+}
+
+record(stringin, "$(P)$(R):FirmwareVerR")
+{
+}
+
+
+record(stringout, "$(P)$(R):RawWriteS")
+{
+	field(DTYP, "stream")
+	field(OUT,  "@wavestation3122.proto write($(P)$(R):RawResultR) $(PORT)")
+}
+
+record(waveform, "$(P)$(R):RawResultR")
+{
+	field(FTVL, "CHAR")
+	field(NELM, "255")
+}

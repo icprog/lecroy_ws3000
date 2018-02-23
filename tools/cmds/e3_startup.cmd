@@ -11,22 +11,19 @@ epicsEnvSet("STREAM_PROTOCOL_PATH", "/home/jhlee/gitsrc/m-epics-wavestation-3000
 
 epicsEnvSet(P, "$(USBTMC_P=usbtmc:)")
 epicsEnvSet(R, "$(USBTMC_R=asyn)")
+epicsEnvSet(PORT, "asyn-$(P)$(R)")
 
 # Bus 002 Device 015: ID 05ff:0a21 LeCroy Corp.
 
 # Configure hardware
-usbtmcConfigure("/dev/usbtmc1", 0x05ff, 0x0a21)
-# asynSetTraceIOMask("/dev/usbtmc1",0,0x2)
-# asynSetTraceMask("/dev/usbtmc1",0,0x03)
+usbtmcConfigure("$(PORT)", 0x05ff, 0x0a21)
+# asynSetTraceIOMask("$(PORT)",0,0x2)
+# asynSetTraceMask("$(PORT)",0,0x03)
 
 ###############################################################################
 # Load record instances
-#dbLoadRecords("asynRecord.db","P=$(P),R=$(R),PORT=/dev/usbtmc1,ADDR=0,OMAX=100,IMAX=100")
-
-
-epicsEnvSet("IPPORT", "002")
-epicsEnvSet("SCAN", "10");
+#dbLoadRecords("asynRecord.db","P=$(P),R=$(R),PORT=$(PORT),ADDR=0,OMAX=100,IMAX=100")
 
 
 # Load the database defining the EPICS records
-dbLoadRecords(wavestation.db, "P=$(P), PORT=/dev/usbtmc1, ADDR=$(IPPORT), SCAN=$(SCAN)")
+dbLoadRecords(wavestation3122.db, "P=$(P), R=$(R), PORT=$(PORT)")
