@@ -1,1 +1,1 @@
-SUBSYSTEM=="usb", ATTRS{idVendor}=="05FF", ATTRS{idProduct}=="0A21", MODE="0666"
+KERNEL=="usbtmc*", SUBSYSTEM=="usbmisc" MODE="0666"

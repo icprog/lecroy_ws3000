@@ -3,25 +3,33 @@
 
 < envPaths
 
+#epicsEnvSet("EPICS_CAS_INTF_ADDR_LIST" "10.0.7.1")
+
+epicsEnvSet("STREAM_PROTOCOL_PATH", ".:${TOP}/db")
+epicsEnvSet(P, "usbtmc:")
+epicsEnvSet(R, "icslab")
+epicsEnvSet(PORT, "usbtmc1")
+
 cd "${TOP}"
 
-epicsEnvSet("vendorID" 
-
-## Register all support components
 dbLoadDatabase "dbd/waveStation3122.dbd"
 waveStation3122_registerRecordDeviceDriver pdbbase
 
 
-# usbtmcConfigure("asynPort", vendorId, productId, "serialNumber", priority, flags)
-usbtmcConfigure("usbtmc1", 0x05ff, 0x0a21)
-asynSetTraceIOMask("usbtmc1",0,0x2)
-asynSetTraceMask("usbtmc1",0,0x03)
+# Bus 001 Device 084: ID 05ff:0a21 LeCroy Corp.
+epicsEnvSet(vendorNum, "05ff")
+epicsEnvSet(productNum, "0a21")
 
 
-###############################################################################
-# Load record instances
-dbLoadRecords("db/asynRecord.db","P=$(P),R=$(R),PORT=usbtmc1,ADDR=0,OMAX=100,IMAX=100")
+# usbtmcConfigure(port, vendorNum, productNum, serialNumberStr, priority, flags)
+usbtmcConfigure("$(PORT)", "0x$(vendorNum)", "0x$(productNum)")
+#asynSetTraceIOMask("usbtmc1",0,0x2)
+#asynSetTraceMask("usbtmc1",0,0x03)
 
+
+dbLoadRecords("db/asynRecord.db","P=$(P),R=$(R),PORT=$(PORT),ADDR=0,OMAX=100,IMAX=100")
+
+#dbLoadRecords("${TOP}/db/wavestation3122.db", "P=$(P), R=$(R), PORT=$(PORT)"
 
 cd "${TOP}/iocBoot/${IOC}"
 iocInit
