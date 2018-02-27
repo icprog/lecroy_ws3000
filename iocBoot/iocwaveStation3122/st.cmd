@@ -23,10 +23,13 @@ epicsEnvSet(productNum, "0a21")
 
 # usbtmcConfigure(port, vendorNum, productNum, serialNumberStr, priority, flags)
 usbtmcConfigure("$(PORT)", "0x$(vendorNum)", "0x$(productNum)")
-
-dbLoadRecords("${TOP}/db/wavestation3122.db", "P=$(R):$(IOC), PORT=$(PORT)")
+#dbLoadRecords("db/asynRecord.db","P=$(P),R=$(R),PORT=$(PORT),ADDR=0,OMAX=100,IMAX=100")
+#dbLoadRecords("${TOP}/db/wavestation3122.db", "P=$(R):$(IOC):, PORT=$(PORT)")
+dbLoadRecords("${TOP}/db/devWS3122.db", "P=$(R):, ADDR=0, PORT=$(PORT)")
 
 cd "${TOP}/iocBoot/${IOC}"
+
 iocInit
 
 dbl > "${TOP}/${IOC}_PVs.list"
+

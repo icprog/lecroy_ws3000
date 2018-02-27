@@ -4,6 +4,7 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 #=============================
+#USR_CPPFLAGS += -DUSE_TYPED_RSET
 
 #=============================
 # Build the IOC application
@@ -17,10 +18,13 @@ waveStation3122_DBD += base.dbd
 
 # Include dbd files from all support applications:
 waveStation3122_DBD += stream.dbd
-waveStation3122_DBD += drvAsynUSBTMC.dbd
 waveStation3122_DBD += asyn.dbd
+waveStation3122_DBD += drvAsynUSBTMC.dbd
+waveStation3122_DBD += devWaveStation3112.dbd
 
 waveStation3122_LIBS += stream asyn
+
+waveStation3122_SRCS += devWaveStation3112.c
 
 # waveStation3122_registerRecordDeviceDriver.cpp derives from waveStation3122.dbd
 waveStation3122_SRCS += waveStation3122_registerRecordDeviceDriver.cpp

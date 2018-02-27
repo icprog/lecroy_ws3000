@@ -1,9 +1,32 @@
 
-record (stringin, "$(P):GetIDN")
+record (stringin, "$(P)GetIDN")
 {
     field(DESC, "Identification string")
     field(DTYP, "stream")
     field( INP, "@wavestation3122.proto getIDN($(P)) $(PORT)")
     field(PINI, "YES")
-    field(FLNK, "$(P):GetIDN")
+}
+
+
+record(bo, "$(P)REN")
+{
+    field(DESC, "REN control")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asynMask($(PORT), 0, 0) REN")
+    field(ZNAM, "Disable")
+    field(ONAM, "Enable")
+}
+
+record(longin, "$(P)STB")
+{
+    field(DESC, "Device status byte")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT), 0, 0) STB")
+    field(PINI, "YES")
+}
+
+record(stringin,"devSiAsynRead")
+{
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT),0, 0) IDN")
 }
