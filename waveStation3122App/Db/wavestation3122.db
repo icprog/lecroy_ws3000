@@ -3,43 +3,7 @@ record (stringin, "$(P):GetIDN")
 {
     field(DESC, "Identification string")
     field(DTYP, "stream")
-    field( INP, "@wavestation3122.proto getAll $(PORT)")
-}
-
-record (stringin, "_$(P):GetAll_")
-{
-    field(DESC, "Identification string")
-    field(DTYP, "stream")
     field( INP, "@wavestation3122.proto getIDN($(P)) $(PORT)")
     field(PINI, "YES")
     field(FLNK, "$(P):GetIDN")
 }
-
-record (stringin, "$(P):Serial")
-{
-    field(DTYP, "Soft Channel")
-}
-
-record (stringin, "$(P):FwVers") {
-    field(DTYP, "Soft Channel")
-}
-
-
-record (stringin, "$(P):SwVers")
-{
-    field(DTYP, "Soft Channel")
-    
-}
-
-
-# record(stringout, "$(P):RawWriteS")
-# {
-#     field(DTYP, "stream")
-#     field(OUT,  "@wavestation3122.proto write($(P):RawResultR) $(PORT)")
-# }
-
-# record(waveform, "$(P):RawResultR")
-# {
-#     field(FTVL, "CHAR")
-#     field(NELM, "255")
-# }

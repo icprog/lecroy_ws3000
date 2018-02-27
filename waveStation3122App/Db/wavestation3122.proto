@@ -16,24 +16,9 @@
 
 
 
-getAll
+getIDN
 {
     out "*IDN?";
     in  "*IDN WST,WaveStation 3122,%s\n";
     ExtraInput = Ignore; 
 }
-
-getIDN 
-{    
-    out "*IDN?";
-    in  "*IDN WST,WaveStation 3122,%(\$1:Serial.VAL)14s,%(\$1:SwVers.VAL)10c,%(\$1:FwVers.VAL)14c\n";
-    ExtraInput = Ignore; 
-}
-
-
-# write
-# {
-# 	out "%s;";
-
-# 	in  "%(\$1)[^;];";
-# }
