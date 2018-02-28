@@ -4,10 +4,11 @@
 
 #epicsEnvSet("EPICS_CAS_INTF_ADDR_LIST" "10.0.7.1")
 
-epicsEnvSet("STREAM_PROTOCOL_PATH", ".:${TOP}/db")
+#epicsEnvSet("STREAM_PROTOCOL_PATH", ".:${TOP}/db")
 epicsEnvSet(P, "usbtmc")
 epicsEnvSet(R, "icslab")
-epicsEnvSet(PORT, "usbtmc1")
+epicsEnvSet(USBTMCPORT, "usbtmc1")
+epicsEnvSet(WS3122PORT, "ws3122" )
 
 cd "${TOP}"
 
@@ -21,11 +22,11 @@ epicsEnvSet(productNum, "0a21")
 
 
 # usbtmcConfigure(port, vendorNum, productNum, serialNumberStr, priority, flags)
-usbtmcConfigure("$(PORT)", "0x$(vendorNum)", "0x$(productNum)")
-WS3122Configure("", 1000)
+usbtmcConfigure("$(USBTMCPORT)", "0x$(vendorNum)", "0x$(productNum)")
+drvWS3122Configure("$(WS3122PORT)", "$(USBTMCPORT)")
 
-dbLoadRecords("${TOP}/db/asynRecord.db","P=$(P),R=$(R),PORT=$(PORT),ADDR=0,OMAX=100,IMAX=100")
-dbLoadRecords("${TOP}/db/ws3122.db", "P=$(P):, R=$(R):,PORT=$(PORT),ADDR=0,TIMEOUT=0,NPOINTS=1000")
+dbLoadRecords("${TOP}/db/asynRecord.db","P=$(P):, R=$(R):, PORT=$(USBTMCPORT),ADDR=0,OMAX=100,IMAX=100")
+dbLoadRecords("${TOP}/db/ws3122.db",    "P=$(P):, R=$(R):, PORT=$(USBTMCPORT),ADDR=0,TIMEOUT=0,NPOINTS=1000")
 
 
 cd "${TOP}/iocBoot/${IOC}"
