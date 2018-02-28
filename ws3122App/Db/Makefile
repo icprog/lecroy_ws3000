@@ -6,9 +6,9 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------------------
 # Create and install (or just install) into <top>/db
 # databases, templates, substitutions like this
-DB += wavestation3122.db
-DB += devWS3122.db
-DB_INSTALLS += $(TOP)/waveStation3122App/Db/wavestation3122.proto
+#DB += wavestation3122.db
+DB += ws3122.db
+#DB_INSTALLS += $(TOP)/waveStation3122App/Db/wavestation3122.proto
 DB_INSTALLS += $(ASYN)/db/asynRecord.db
 
 #----------------------------------------------------
