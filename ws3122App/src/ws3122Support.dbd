@@ -1,1 +1,1 @@
-include "drvAsynUSBTMC.dbd"
+registrar(WS3122Registrar)

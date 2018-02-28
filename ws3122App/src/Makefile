@@ -2,26 +2,38 @@ TOP=../..
 
 include $(TOP)/configure/CONFIG
 
-LIBRARY_IOC += ws3122
+PROD_NAME=ws3122
 
-DBD += ws3122.dbd
-DBD += ws3122Support.dbd
+SUPPORT_NAME=$(PROD_NAME)Support
+
+LIBRARY_IOC += $(SUPPORT_NAME)
+
+DBD += $(SUPPORT_NAME).dbd
+
+$(SUPPORT_NAME)_SRCS += ws3122.cpp
+$(SUPPORT_NAME)_SRCS += StringUtils.cpp
+
+$(SUPPORT_NAME)_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 
-ws3122_SRC += WS3122.cpp
-ws3122_SRC += StringUtils.cpp
-
-ws3122_LIBS += asyn
-
-ws3122_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 
-PROD_IOC += ws3122App
-ws3122App_SRCS += ws3122_registerRecordDeviceDriver.cpp
-ws3122App_SRCS += ws3122Main.cpp
+PROD_IOC += $(PROD_NAME)
+DBD += $(PROD_NAME).dbd
 
-ws3122App_LIBS += asyn
-ws3122App_LIBS += $(EPICS_BASE_IOC_LIBS)
+$(PROD_NAME)_DBD += base.dbd
+$(PROD_NAME)_DBD += asyn.dbd
+$(PROD_NAME)_DBD += drvAsynUSBTMC.dbd
+
+
+$(PROD_NAME)_SRCS += $(PROD_NAME)_registerRecordDeviceDriver.cpp
+
+$(PROD_NAME)_SRCS_DEFAULT += $(PROD_NAME)Main.cpp
+$(PROD_NAME)_SRCS_vxWorks += -nil-
+
+$(PROD_NAME)_LIBS += asyn
+$(PROD_NAME)_LIBS +=$(SUPPORT_NAME)
+$(PROD_NAME)_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 
 include $(TOP)/configure/RULES
