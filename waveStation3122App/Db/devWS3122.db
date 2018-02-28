@@ -1,20 +1,85 @@
-record(stringin,"$(P)IDN")
+
+record(stringin,"$(P)$(R)IDN")
 {
     field(DTYP,"asyn WS3122")
     field(INP,"@asyn($(PORT), $(ADDR))GET_IDN")
     field(PINI,"YES")
 }
 
-# record(mbbi,"$(P):UNIT") {	
-# 	field(DTYP,"asyn WS3122")
-# 	field(INP,"@asyn($(PORT) $(ADDR))GET_UNIT")
-#         field(ZRVL,"0")
-#         field(ONVL,"1")
-#         field(TWVL,"2")
-#         field(ZRST,"bar")
-#         field(ONST,"Torr")
-#         field(TWST,"Pascal")
+record(mbbi, "$(P)$(R)WaveType")
+{
+    field(DESC, "Define Wave Type")
+    field(DTYP, "Soft Channel")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(ZRST, "BSWV")
+    field(ONST, "BTWV")
+    field(TWST, "ARWV")
+    field(THST, "MDWV")
+    field(FRST, "INVALID")
+    field(FVST, "INVALID")
+    field(SXST, "INVALID")
+    field(SVST, "INVALID")
+    field(EIST, "INVALID")
+    field(NIST, "INVALID")
+    field(TESV, "INVALID")
+    field(ELSV, "INVALID")
+    field(TVSV, "INVALID")
+    field(TTSV, "INVALID")
+    field(FTSV, "INVALID")
+    field(FTSV, "INVALID")
+    field(FFSV, "INVALID")
+    field(UNSV, "INVALID")
+}
+
+record(bi, "$(P)$(R)Channel") 
+{
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "C1")
+    field(ONAM, "C2")
+}
+
+
+# record(mbbi,"$(P)$(R)BasicWVTP")
+# {
+#     field(DESC, "Define Basice Wave Type")
+#     field(DTYP, "Soft Channel")
+#     field(ZRVL, "0")
+#     field(ONVL, "1")
+#     field(TWVL, "2")
+#     field(THVL, "3")
+#     field(FRVL, "4")
+#     field(FVVL, "5")
+#     field(SXVL, "6")
+#     field(ZRST, "SQUARE")
+#     field(ONST, "SINE")
+#     field(TWST, "RAMP")
+#     field(THST, "PULSE")
+#     field(FRST, "NOISE")
+#     field(FVST, "ARB")
+#     field(SXST, "DC")
+#     field(SVST, "INVALID")
+#     field(EIST, "INVALID")
+#     field(NIST, "INVALID")
+#     field(TESV, "INVALID")
+#     field(ELSV, "INVALID")
+#     field(TVSV, "INVALID")
+#     field(TTSV, "INVALID")
+#     field(FTSV, "INVALID")
+#     field(FTSV, "INVALID")
+#     field(FFSV, "INVALID")
+#     field(UNSV, "INVALID")
 # }
+
+
+
+record(ai,"$(P)$(R)Freq")
+{
+    field(DTYP, "Soft Channel")
+    field(EGU,  "HZ")
+}
+
 
 # record(ai,"$(P):PRES") {
 # 	field(DTYP,"asyn WS3122")

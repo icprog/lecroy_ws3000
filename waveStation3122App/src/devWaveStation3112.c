@@ -3,23 +3,6 @@
  
  Command Record Description
  0  -  SI      Read Gauge ID
- 1  -  AI      Read Pressure
-
- 2  -  MBBI    Read Pressure Units
- 3  -  MBBO    Set Pressure Units
- 
- 4  -  BI      Read Sensor On/Off
- 5  -  BO      Set Sensor On/Off
-
-
- 6  -  AI      Read Setpoint value 1
- 7  -  BI      Read On/Off of setpoint 1
- 8  -  AO      Set Setpoint 1
-
- 9  -  AI      Read Setpoint value 2
- 10 -  BI      Read On/Off of setpoint 2
- 11 -  AO      Set Setpoint 2
-
 */
 
 #include <stdlib.h>
@@ -153,7 +136,7 @@ static long initCommon(dbCommon *pr, DBLINK *plink)
    devWS3122Pvt *pPvt=NULL;
    char command[30];
    char *pstring;
-   
+
    /* Allocate private structure */
    pPvt = calloc(1, sizeof(devWS3122Pvt));
 
@@ -279,8 +262,8 @@ static int buildCommand(devWS3122Pvt *pPvt, char *pvalue)
 
 
     asynPrint(pPvt->pasynUser, ASYN_TRACEIO_DEVICE,
-              "devWS3122::buildCommand %s len=%d string=|%s|\n",
-              pr->name, (int)strlen(pPvt->sendBuf), pPvt->sendBuf);
+              "devWS3122::buildCommand %s len=%zd string=|%s|\n",
+              pr->name, strlen(pPvt->sendBuf), pPvt->sendBuf);
 
      return(0);
 }
@@ -441,44 +424,42 @@ static long readMbbi(mbbiRecord *pr)
     return(0);
 }
 
-static long readSi(stringinRecord *pr)
+static long
+readSi(stringinRecord *pr)
 {
-
-    devWS3122Pvt *pPvt = (devWS3122Pvt *)pr->dpvt;
-    int rtnSize;
-    char pvalue[WS3122_BUFFER_SIZE];
-    char tempcmd[5];
+  devWS3122Pvt *pPvt = (devWS3122Pvt *)pr->dpvt;
+  int  rtnSize;
+  char pvalue[WS3122_BUFFER_SIZE];
+  char tempcmd[WS3122_BUFFER_SIZE];
    
-    if (!pr->pact) {
-        switch (pPvt->command) {
-          case GetID:
-            strcpy(tempcmd, "*IDN?");
-            break;
-          default:
-            asynPrint(pPvt->pasynUser, ASYN_TRACE_ERROR,
-                      "devWS3122::readSi %s Wrong record type \n",
-                      pr->name);
-            break;
-        }
-        buildCommand(pPvt, tempcmd);
-        return(startIOCommon((dbCommon *)pr));
-    }
-
-      
-    rtnSize = strlen(pPvt->recBuf);
-    printf("%d\n", rtnSize);
+  if (!pr->pact) {
     switch (pPvt->command) {
-        case GetID:
-	  strcpy(pvalue, pPvt->recBuf);
-	  rolfl(pvalue, "*IDN WST,WaveStation 3122,");
-        break;
+    case GetID:
+      strcpy(tempcmd, "*IDN?");
+      break;
+    default:
+      asynPrint(pPvt->pasynUser, ASYN_TRACE_ERROR, "devWS3122::readSi %s Wrong record type \n", pr->name);
+      break;
     }
+    
+    buildCommand(pPvt, tempcmd);
+    
+    return(startIOCommon((dbCommon *)pr));
+  }
+      
+  rtnSize = strlen(pPvt->recBuf);
+  switch (pPvt->command) {
+  case GetID:
+    strcpy(pvalue, pPvt->recBuf);
+    rolfl(pvalue, "*IDN WST,WaveStation 3122,");
+    break;
+  }
    
-    strcpy(pr->val, pvalue);
+  strcpy(pr->val, pvalue);
  
  
-    pr->udf=0;
-    return(0);
+  pr->udf=0;
+  return(0);
 }
 
 
@@ -606,85 +587,80 @@ static long writeMbbo(mbboRecord *pr)
 }
 
 
-static long startIOCommon(dbCommon* pr)
+static long
+startIOCommon(dbCommon* pr)
 {
-   devWS3122Pvt *pPvt = (devWS3122Pvt *)pr->dpvt;
+   devWS3122Pvt *pPvt  = (devWS3122Pvt *)pr->dpvt;
    asynUser *pasynUser = pPvt->pasynUser;
-   int status;
+   int          status;
 
    pr->pact = 1;
-   status = pasynManager->queueRequest(pasynUser, 0, 0);
+   status   = pasynManager->queueRequest(pasynUser, 0, 0);
    if (status != asynSuccess) status = -1;
    return(status);
 }
 
 
 
-static void devWS3122Callback(asynUser *pasynUser)
+static void
+devWS3122Callback(asynUser *pasynUser)
 {
 
-    dbCommon *pr = (dbCommon *)pasynUser->userPvt;
-    devWS3122Pvt *pPvt = (devWS3122Pvt *)pr->dpvt;
-    char readBuffer[WS3122_BUFFER_SIZE]; 
-    struct rset *prset = (struct rset *)(pr->rset);
+  dbCommon *pr       = (dbCommon *)pasynUser->userPvt;
+  devWS3122Pvt *pPvt = (devWS3122Pvt *)pr->dpvt;
+  rset *prset        = (rset *)(pr->rset);
 
-    size_t nread, nwrite;
-    int eomReason;
+  char   readBuffer[WS3122_BUFFER_SIZE]; 
+  size_t nread;
+  size_t nwrite;
+  int    eomReason;
 
-    char inputEos[5];
- 
-    strcpy(inputEos,"\r");
-    pPvt->status = pPvt->pasynOctet->setInputEos(pPvt->octetPvt, pasynUser, inputEos, strlen(inputEos));
+  char inputEos[4];
+  strcpy(inputEos,"\r");
+   
+  pPvt->status             = pPvt->pasynOctet->setInputEos(pPvt->octetPvt, pasynUser, inputEos, strlen(inputEos));
+  pPvt->pasynUser->timeout = WS3122_TIMEOUT;
 
-    pPvt->pasynUser->timeout = WS3122_TIMEOUT;
-
-    pPvt->status = pPvt->pasynOctet->write(pPvt->octetPvt, pasynUser,
-                                           pPvt->sendBuf, strlen(pPvt->sendBuf),
-                                           &nwrite);
+  pPvt->status             = pPvt->pasynOctet->write(pPvt->octetPvt,
+						     pasynUser,
+						     pPvt->sendBuf,
+						     strlen(pPvt->sendBuf),
+						     &nwrite);
     
-    asynPrint(pasynUser, ASYN_TRACEIO_DEVICE,
-              "devWS3122::devWS3122Callback Cmd %s nwrite=%d, output=[%s]\n",
-              pr->name, nwrite, pPvt->sendBuf);
+  asynPrint(pasynUser, ASYN_TRACEIO_DEVICE, "devWS3122::devWS3122Callback Cmd %s nwrite=%zd, output=[%s]\n", pr->name, nwrite, pPvt->sendBuf);
 
-    pPvt->status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
-                                          readBuffer, WS3122_BUFFER_SIZE,
-                                          &nread, &eomReason);
-    printf("<< devWS3122::devWS3122Callback Cmd %s nread=%d, input=[%s]\n",
-              pr->name, nread, readBuffer);
-    asynPrint(pasynUser, ASYN_TRACEIO_DEVICE,
-              "devWS3122::devWS3122Callback Cmd %s nread=%d, input=[%s]\n",
-              pr->name, nread, readBuffer);
-
-    
-    if (nread < 1 ) {
-        asynPrint(pasynUser, ASYN_TRACE_ERROR,
-                  "devWS3122::devWS3122Callback Cmd %s message too small=%d\n",
-                  pr->name, nread);
-        recGblSetSevr(pr, READ_ALARM, INVALID_ALARM);
-
-    }
+  pPvt->status             = pPvt->pasynOctet->read(pPvt->octetPvt,
+						    pasynUser,
+						    readBuffer,
+						    WS3122_BUFFER_SIZE,
+						    &nread,
+						    &eomReason);
+  
+  asynPrint(pasynUser, ASYN_TRACEIO_DEVICE, "devWS3122::devWS3122Callback Cmd %s nread=%zd, input=[%s]\n", pr->name, nread, readBuffer);
 
     
-    memset(pPvt->recBuf, 0, WS3122_BUFFER_SIZE);
-    strcpy(pPvt->recBuf,readBuffer);
-    asynPrint(pasynUser, ASYN_TRACEIO_DEVICE,
-              "devWS3122: %s command (%d) received (after processing) |%s|\n",
-              pr->name, pPvt->command, pPvt->recBuf);
-
-    /* /\* finish: *\/ */
-    dbScanLock(pr);
-    (*prset->process)(pr);
-    dbScanUnlock(pr);
+  if ( nread < 1 ) {
+    asynPrint(pasynUser, ASYN_TRACE_ERROR, "devWS3122::devWS3122Callback Cmd %s message too small=%zd\n", pr->name, nread);
+    recGblSetSevr(pr, READ_ALARM, INVALID_ALARM);
+  }
+  
+  memset(pPvt->recBuf, 0, WS3122_BUFFER_SIZE);
+  strcpy(pPvt->recBuf, readBuffer);
+  asynPrint(pasynUser, ASYN_TRACEIO_DEVICE, "devWS3122: %s command (%d) received (after processing) |%s|\n", pr->name, pPvt->command, pPvt->recBuf);
+  
+  dbScanLock((dbCommon*)pr);
+  (*prset->process)(pr);
+  dbScanUnlock((dbCommon*)pr);
     
 }
 
 
 static long WS3122Convert(dbCommon* pr,int pass)
 {
-   /* aiRecord* pai = (aiRecord*)pr; */
-   /* pai->eslo=1.0; */
-   /* pai->roff=0; */
-   return 0;
+  /* aiRecord* pai = (aiRecord*)pr; */
+  /* pai->eslo=1.0; */
+  /* pai->roff=0; */
+  return 0;
 }
 
 
@@ -692,20 +668,20 @@ static long WS3122Convert(dbCommon* pr,int pass)
 // https://codereview.stackexchange.com/questions/67055/fastest-way-of-removing-a-substring-from-a-string
 static void rolfl(char *str, const char *toRemove)
 {
-    if (NULL == (str = strstr(str, toRemove)))
+  if (NULL == (str = strstr(str, toRemove)))
     {
       return;
     }
 
-    const size_t remLen = strlen(toRemove);
-    char *copyEnd;
-    char *copyFrom = str + remLen;
-    while (NULL != (copyEnd = strstr(copyFrom, toRemove)))
+  const size_t remLen = strlen(toRemove);
+  char *copyEnd;
+  char *copyFrom = str + remLen;
+  while (NULL != (copyEnd = strstr(copyFrom, toRemove)))
     {
-        memmove(str, copyFrom, copyEnd - copyFrom);
-        str += copyEnd - copyFrom;
-        copyFrom = copyEnd + remLen;
+      memmove(str, copyFrom, copyEnd - copyFrom);
+      str += copyEnd - copyFrom;
+      copyFrom = copyEnd + remLen;
     }
-    memmove(str, copyFrom, 1 + strlen(copyFrom));
+  memmove(str, copyFrom, 1 + strlen(copyFrom));
 };
 

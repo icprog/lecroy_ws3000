@@ -24,7 +24,7 @@ STREAM=${EPICS_MODULES}/stream
 * Point , & Separator On : Utility > System > Number > Point , > Separator On > Done
 * Power On Setting : Utility > System > Power On : Last > More > Done
 ## Information
-* Software version : 5.01.02.12
+* Software version : 5.01.02.13
 * Hardware version : 00-00-00-17-36
 * Product Type : WaveStation 3122
 
@@ -53,3 +53,4 @@ However, IOC is running, can access through epics IOC.
 
 # References
 * https://epics.anl.gov/modules/soft/asyn/R4-33/asynDriver.html#testUsbtmcApp
+* StringUtils.{cpp,h} from https://github.com/keenanlang/epics-usb

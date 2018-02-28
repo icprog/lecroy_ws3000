@@ -6,7 +6,7 @@
 #epicsEnvSet("EPICS_CAS_INTF_ADDR_LIST" "10.0.7.1")
 
 epicsEnvSet("STREAM_PROTOCOL_PATH", ".:${TOP}/db")
-epicsEnvSet(P, "usbtmc:")
+epicsEnvSet(P, "usbtmc")
 epicsEnvSet(R, "icslab")
 epicsEnvSet(PORT, "usbtmc1")
 
@@ -24,8 +24,8 @@ epicsEnvSet(productNum, "0a21")
 # usbtmcConfigure(port, vendorNum, productNum, serialNumberStr, priority, flags)
 usbtmcConfigure("$(PORT)", "0x$(vendorNum)", "0x$(productNum)")
 #dbLoadRecords("db/asynRecord.db","P=$(P),R=$(R),PORT=$(PORT),ADDR=0,OMAX=100,IMAX=100")
-#dbLoadRecords("${TOP}/db/wavestation3122.db", "P=$(R):$(IOC):, PORT=$(PORT)")
-dbLoadRecords("${TOP}/db/devWS3122.db", "P=$(R):, ADDR=0, PORT=$(PORT)")
+dbLoadRecords("${TOP}/db/wavestation3122.db", "P=$(R):, PORT=$(PORT)")
+dbLoadRecords("${TOP}/db/devWS3122.db", "P=$(P):, R=$(R):, ADDR=0, PORT=$(PORT), TIMEOUT=0")
 
 cd "${TOP}/iocBoot/${IOC}"
 

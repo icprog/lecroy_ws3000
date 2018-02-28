@@ -25,8 +25,28 @@ record(longin, "$(P)STB")
     field(PINI, "YES")
 }
 
-record(stringin,"devSiAsynRead")
+
+record(stringout, "_$(P)RAW_CMD")
 {
-    field(DTYP,"asynInt32")
-    field(INP,"@asyn($(PORT),0, 0) IDN")
+    field(DESC, "raw command")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field( OUT, "@wavestation3122.proto sendRawCommand $(PORT)")
 }
+
+# With the simulator, we can set the status 1 bit via
+record(stringout, "_$(P)RAW_QUERY")
+{
+    field(DESC, "raw query")
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field( OUT, "@wavestation3122.proto sendRawQuery(_$(P)RAW_REPLY.VAL) $(PORT)")
+}
+
+record(stringin, "_$(P)RAW_REPLY")
+{
+    field(DESC, "raw query reply")
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+}
+

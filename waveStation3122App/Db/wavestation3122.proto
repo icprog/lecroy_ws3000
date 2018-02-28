@@ -22,3 +22,22 @@ getIDN
     in  "*IDN WST,WaveStation 3122,%s\n";
     ExtraInput = Ignore; 
 }
+
+
+
+#----------------------------------------------------------------------
+# send a raw command
+#
+sendRawCommand {
+  out "%s";
+}
+
+#----------------------------------------------------------------------
+# send a raw query (needs argument for PV to receive reply)
+#
+sendRawQuery {
+  ExtraInput = Ignore;
+  out "%s";
+  in  "%(\$1)40c";
+}
+

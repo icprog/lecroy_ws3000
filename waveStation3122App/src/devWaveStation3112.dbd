@@ -1,8 +1,1 @@
-
-device(ai,        INST_IO, devAiWS3122,    "asyn WS3122")
-device(bi,        INST_IO, devBiWS3122,    "asyn WS3122")
-device(mbbi,      INST_IO, devMbbiWS3122,  "asyn WS3122")
 device(stringin,  INST_IO, devSiWS3122,    "asyn WS3122")
-device(ao,        INST_IO, devAoWS3122,    "asyn WS3122")
-device(bo,        INST_IO, devBoWS3122,    "asyn WS3122")
-device(mbbo,      INST_IO, devMbboWS3122,  "asyn WS3122")
