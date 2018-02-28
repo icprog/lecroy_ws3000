@@ -1,11 +1,10 @@
 EPICS IOC for WaveStation 3122
 ---
-[![Build Status](https://travis-ci.org/icshwi/WaveStation3122.svg?branch=master)](https://travis-ci.org/icshwi/WaveStation3122)
-
+[![Build Status](https://travis-ci.org/jeonghanlee/lecroy_ws3122.svg?branch=master)](https://travis-ci.org/jeonghanlee/lecroy_ws3122)
 
 # Warning
 
-This repository doesn't hold any WaveStation 3122 support. That means no DB and no protocol file.
+Heavily working repository, so not working at all
 
 # Requirements
 
