@@ -1,1 +1,0 @@
-device(stringin,  INST_IO, devSiWS3122,    "asyn WS3122")

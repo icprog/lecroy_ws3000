@@ -1,5 +1,4 @@
-#!../../bin/linux-x86_64/waveStation3122
-
+#!../../bin/linux-x86_64/ws3122App
 
 < envPaths
 
@@ -12,8 +11,8 @@ epicsEnvSet(PORT, "usbtmc1")
 
 cd "${TOP}"
 
-dbLoadDatabase "dbd/waveStation3122.dbd"
-waveStation3122_registerRecordDeviceDriver pdbbase
+dbLoadDatabase "dbd/ws3122.dbd"
+ws3122_registerRecordDeviceDriver pdbbase
 
 
 # Bus 001 Device 084: ID 05ff:0a21 LeCroy Corp.
@@ -23,9 +22,9 @@ epicsEnvSet(productNum, "0a21")
 
 # usbtmcConfigure(port, vendorNum, productNum, serialNumberStr, priority, flags)
 usbtmcConfigure("$(PORT)", "0x$(vendorNum)", "0x$(productNum)")
-#dbLoadRecords("db/asynRecord.db","P=$(P),R=$(R),PORT=$(PORT),ADDR=0,OMAX=100,IMAX=100")
-dbLoadRecords("${TOP}/db/wavestation3122.db", "P=$(R):, PORT=$(PORT)")
-dbLoadRecords("${TOP}/db/devWS3122.db", "P=$(P):, R=$(R):, ADDR=0, PORT=$(PORT), TIMEOUT=0")
+dbLoadRecords("db/asynRecord.db","P=$(P),R=$(R),PORT=$(PORT),ADDR=0,OMAX=100,IMAX=100")
+#dbLoadRecords("${TOP}/db/wavestation3122.db", "P=$(R):, PORT=$(PORT)")
+#dbLoadRecords("${TOP}/db/ws3122.db", "P=$(P):, R=$(R):, ADDR=0, PORT=$(PORT), TIMEOUT=0")
 
 cd "${TOP}/iocBoot/${IOC}"
 
@@ -33,3 +32,4 @@ iocInit
 
 dbl > "${TOP}/${IOC}_PVs.list"
 
+< asyn_usbtmc.cmd
