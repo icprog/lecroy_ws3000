@@ -22,10 +22,11 @@ epicsEnvSet(productNum, "0a21")
 # usbtmcConfigure(port, vendorNum, productNum, serialNumberStr, priority, flags)
 usbtmcConfigure("$(USBTMCPORT)", "0x$(vendorNum)", "0x$(productNum)")
 
+# 
 drvWS3122Configure("$(WS3122PORT)", "$(USBTMCPORT)")
 
-dbLoadRecords("${TOP}/db/asynRecord.db","P=$(P), R=$(R), PORT=$(USBTMCPORT),ADDR=0,OMAX=100,IMAX=100")
-dbLoadRecords("${TOP}/db/ws3122.db",    "P=$(P):, R=$(R):, PORT=$(USBTMCPORT),ADDR=0,TIMEOUT=0,NPOINTS=1000")
+dbLoadRecords("${TOP}/db/asynRecord.db","P=$(P), R=$(R),  PORT=$(USBTMCPORT),ADDR=0,OMAX=100,IMAX=100")
+dbLoadRecords("${TOP}/db/WS3122Base.template",    "P=$(P):,R=$(R):, PORT=$(WS3122PORT),ADDR=0,TIMEOUT=0,NPOINTS=1000")
 
 
 cd "${TOP}/iocBoot/${IOC}"

@@ -1,0 +1,33 @@
+
+record(stringin, "$(P)$(R)DevManufacturer_RBV")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))DEV_MANUFACTURER")
+   field(VAL,  "Unknown")
+   field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)$(R)DevModel_RBV")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))DEV_MODEL")
+   field(VAL,  "Unknown")
+   field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)$(R)DevSerialNumber_RBV")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))DEV_SERIAL_NUMBER")
+   field(VAL,  "Unknown")
+   field(SCAN, "I/O Intr")
+}
+
+
+record(stringin, "$(P)$(R)DevFirmwareVersion_RBV")
+{
+   field(DTYP, "asynOctetRead")
+   field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))DEV_FIRMWARE_VERSION")
+   field(VAL,  "Unknown")
+   field(SCAN, "I/O Intr")
+}

@@ -15,41 +15,35 @@
 #define MAX_BUF_SIZE            65536
 #define TIMEOUT                 5
 
-#define WS3122_IPN_Str 		"WS3122_IPN"            /* asynOctet      r  */
-#define WS3122_FwVer_Str        "WS3122_FWVER"
-#define WS3122_SwVer_Str        "WS3122_SWVER"
-
+#define WS3122ManufacturerString        "DEV_MANUFACTURER"          /**< (asynOctet,    r/o) manufacturer name */
+#define WS3122ModelString               "DEV_MODEL"                 /**< (asynOctet,    r/o) model name */
+#define WS3122SerialNumberString        "DEV_SERIAL_NUMBER"         /**< (asynOctet,    r/o) serial number */
+#define WS3122FirmwareVersionString     "DEV_FIRMWARE_VERSION"      /**< (asynOctet,    r/o) firmware version */
 
 class drvWS3122 : public asynPortDriver {
  public:
   drvWS3122(const char *portName, const char *asynUSBTMCPortName);
 
-  /* These are the methods that we override from asynPortDriver */
   virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-  virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
-
 
   //  void readTask(void);
  protected:
   /** Values used for pasynUser->reason, and indexes into the parameter library. */
-  int  WS3122_IPN;
-#define FIRST_WS3122_PARAM WS3122_IPN
-  int  WS3122_FwVer;
-  int  WS3122_SwVer;
-#define LAST_WS3122_PARAM WS3122_SwVer
+
+  int  WS3122Manufacturer;
+#define FIRST_WS3122_PARAM WS3122Manufacturer
+  int  WS3122Model;
+  int  WS3122SerialNumber;
+  int  WS3122FirmwareVersion;
+#define LAST_WS3122_PARAM WS3122FirmwareVersion
 
  private:
-
-  epicsEventId eventId_;
 
   asynUser	*pasynUserDriver;
 
   asynStatus usbTMCPortWriteRead(char *sendBuffer, char *recvBuffer, int &recvBufSize, double timeout=TIMEOUT);
   asynStatus usbTMCPortRead(char *recvBuffer, int &recvBufSize, double timeout=TIMEOUT);
-  //  asynStatus usbTMCPortWrite(double timeout);
 
-  // asynStatus    GetData(asynUser *pasynUser, epicsFloat64 &value);
-  // asynStatus    SetStartStop(asynUser *pasynUser, epicsInt32 value);
   
 };
 
