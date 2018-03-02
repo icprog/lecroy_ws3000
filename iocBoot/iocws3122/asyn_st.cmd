@@ -26,7 +26,7 @@ usbtmcConfigure("$(USBTMCPORT)", "0x$(vendorNum)", "0x$(productNum)")
 drvWS3122Configure("$(WS3122PORT)", "$(USBTMCPORT)")
 
 dbLoadRecords("${TOP}/db/asynRecord.db","P=$(P), R=$(R),  PORT=$(USBTMCPORT),ADDR=0,OMAX=100,IMAX=100")
-dbLoadRecords("${TOP}/db/WS3122Base.template",    "P=$(P):,R=$(R):, PORT=$(WS3122PORT),ADDR=0,TIMEOUT=0,NPOINTS=1000")
+dbLoadRecords("${TOP}/db/WS3122Base.db",    "P=$(P):,R=$(R):, PORT=$(WS3122PORT),ADDR=0,TIMEOUT=0,NPOINTS=1000")
 
 
 cd "${TOP}/iocBoot/${IOC}"
@@ -35,6 +35,15 @@ iocInit
 
 dbl > "${TOP}/${IOC}_PVs.list"
 
-< asyn_report.cmd
+# < asyn_report.cmd
 
 # < asyn_db.cmd
+
+## Twice the commands
+## caput usbtmc:icslab:DevGetIDN 1
+
+## epics> hello
+## *IDN?
+## hello
+## *IDN?
+## *IDN WST,WaveStation 3122,LCRY3601C00251,5.01.02.13,00-00-00-17-35

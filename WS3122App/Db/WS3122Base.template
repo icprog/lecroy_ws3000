@@ -4,7 +4,6 @@ record(stringin, "$(P)$(R)DevManufacturer_RBV")
    field(DTYP, "asynOctetRead")
    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))DEV_MANUFACTURER")
    field(VAL,  "Unknown")
-   field(SCAN, "I/O Intr")
 }
 
 record(stringin, "$(P)$(R)DevModel_RBV")
@@ -31,3 +30,10 @@ record(stringin, "$(P)$(R)DevFirmwareVersion_RBV")
    field(VAL,  "Unknown")
    field(SCAN, "I/O Intr")
 }
+
+
+record(bo, "$(P)$(R)DevGetIDN")
+{
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TMEOUT=1))DEV_GET_IDN")
+}  
