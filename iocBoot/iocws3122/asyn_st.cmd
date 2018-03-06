@@ -35,15 +35,15 @@ iocInit
 
 dbl > "${TOP}/${IOC}_PVs.list"
 
-# < asyn_report.cmd
+#-< asyn_report.cmd
 
-# < asyn_db.cmd
+#-< asyn_db.cmd
 
-## Twice the commands
-## caput usbtmc:icslab:DevGetIDN 1
+#- Twice the commands
+#- caput usbtmc:icslab:DevGetIDN 1
 
-## epics> hello
-## *IDN?
-## hello
-## *IDN?
-## *IDN WST,WaveStation 3122,LCRY3601C00251,5.01.02.13,00-00-00-17-35
+#- epics> hello
+#- *IDN?
+#- hello
+#- *IDN?
+#- *IDN WST,WaveStation 3122,LCRY3601C00251,5.01.02.13,00-00-00-17-35
