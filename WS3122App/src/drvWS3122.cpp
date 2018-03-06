@@ -174,7 +174,8 @@ drvWS3122::usbTmcRead(double timeout)
 
 //   return status;
 // }
-			   
+
+
 
 asynStatus
 drvWS3122::writeOctet(asynUser *pasynUser, const char *value, size_t nChars, size_t *nActual)
