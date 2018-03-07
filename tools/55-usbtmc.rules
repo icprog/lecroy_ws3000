@@ -1,1 +1,3 @@
-KERNEL=="usbtmc*", SUBSYSTEM=="usbmisc" MODE="0666"
+KERNEL=="usbtmc*", SUBSYSTEM=="usbmisc",  MODE="0666", GROUP="dialout"
+SUBSYSTEMS=="usb", DRIVERS=="usbtmc", MODE="0666", GROUP="dialout"
+SUBSYSTEMS=="usb", DRIVERS=="usb, ATTRS{idVendor}=="05ff",  ATTRS{idProduct}=="0a21",  MODE="0666", GROUP="dialout"
