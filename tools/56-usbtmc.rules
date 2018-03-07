@@ -1,0 +1,4 @@
+# Teledyne LeCroy WaveStation 3122
+SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="05ff",  ATTRS{idProduct}=="0a21", GROUP="usbtmc", MODE="0660"
+# Additional Option : add the kernel usbtmc device in the same group, in this case,  the device will be gone in /dev/usbtsm1 when IOC connects to
+# KERNEL=="usbtmc*", SUBSYSTEM=="usbmisc",  MODE="0660", GROUP="usbtmc"
