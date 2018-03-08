@@ -123,6 +123,9 @@ drvWS3122::Init()
   createParam(DevManufacturerString,        asynParamOctet, &devManufacturer_);
   createParam(DevModelString,               asynParamOctet, &devModel_);
   createParam(DevSerialNumberString,        asynParamOctet, &devSerialNumber_);
+  createParam(CmdHeaderPathString,          asynParamOctet, &cmdHeaderPath_);
+  createParam(CmdPhaseInvertString,         asynParamInt32, &cmdPhaseInvert_);
+  createParam(CmdClockSourceString,         asynParamInt32, &cmdClockSource_);
   
   status = pasynOctetSyncIO->connect(this->getUsbTmcPortName(), 0, &usbTmcAsynUser, NULL);
 
@@ -235,18 +238,42 @@ asynStatus drvWS3122::set_device_information()
 
 
 asynStatus
-drvWS3122::usbTmcWriteRead(char *sendBuffer, char *recvBuffer, int &recvBufSize, int timeout)
+drvWS3122::usbTmcWrite(std::string sendBuffer, double timeout)
+{
+  size_t nbytesOut       = 0;
+ /* 
+    asynUser   *pasynUser,
+    const char *write_buffer, 
+    size_t      write_buffer_len,
+    double      timeout,
+    size_t     *nbytesOut
+ */
+
+ 
+  asynStatus status = pasynOctetSyncIO->write(this->usbTmcAsynUser,
+					      sendBuffer.c_str(),
+					      sendBuffer.size(),
+					      timeout,
+					      &nbytesOut);
+    
+  callParamCallbacks();
+ 
+  return status;
+
+}
+
+
+
+
+asynStatus
+drvWS3122::usbTmcWriteRead(char *sendBuffer, char *recvBuffer, int &recvBufSize, double timeout)
 {
   size_t nbytesOut = 0;
   size_t nbytesIn  = 0;
   int    eomReason;
   size_t send_buffer_len = strlen(sendBuffer);
   size_t read_buffer_len = MAX_BUF_SIZE;
-  char   *pReadBuffer = recvBuffer;
-
-  //    int                    vendorId;
-  //    int                    productId;
-  //    const char            *serialNumber;
+  char   *pReadBuffer    = recvBuffer;
 
  printf("%s :: sendBuffer %s, len %zd, recvBuffer %s, len %zd, nbytesOut %zd, nbytesIn %zd, eomReason %d\n",
 	 __func__,
@@ -257,7 +284,18 @@ drvWS3122::usbTmcWriteRead(char *sendBuffer, char *recvBuffer, int &recvBufSize,
 	 nbytesOut,
 	 nbytesIn,
 	 eomReason);
- 
+
+ /* 
+    asynUser   *pasynUser,
+    const char *write_buffer, 
+    size_t      write_buffer_len,
+    char       *read_buffer, 
+    size_t      read_buffer_len,
+    double      timeout,
+    size_t     *nbytesOut, 
+    size_t     *nbytesIn, 
+    int        *eomReason
+ */
   asynStatus status = pasynOctetSyncIO->writeRead(this->usbTmcAsynUser,
 						  sendBuffer,
 						  send_buffer_len,
@@ -285,47 +323,37 @@ drvWS3122::usbTmcWriteRead(char *sendBuffer, char *recvBuffer, int &recvBufSize,
 
 }
 
-// asynStatus
-// drvWS3122::usbTmcWrite(double timeout)
-// {
-//   asynStatus status        = asynSuccess;
-//   const char *functionName = "usbTmcWrite";
+
+asynStatus
+drvWS3122::writeInt32(asynUser *pasynUser, epicsInt32 value)
+{
+  int function = pasynUser->reason;
+  asynStatus status = asynSuccess;
+  const char* functionName = "writeInt32";
+
+  setIntegerParam(function, value);
+
+  std::string value_s;
   
-//   status = pasynOctetSyncIO->write(usbTmcAsynUser,
-// 				   sendBuffer.c_str(),
-// 				   sendBufferSize,
-// 				   timeout,
-// 				   &sendBufferActualSize);
-
-//   callParamCallbacks();
-
-//   if (status) {
-//     asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-// 	      "%s:%s, status=%d\n", driverName, functionName, status);
-//   }
+  if ( function == cmdClockSource_ ) {
+    status = this-> SetClockSource(value);
+  } else if (function == cmdPhaseInvert_ ) {
+    status = this-> SetPhaseInvert(value);
+  }
   
-//   return status;
-// }
-
-
-
-// asynStatus
-// drvWS3122::buildSendBuffer()
-// {
-//   asynStatus status = asynSuccess;
-
-//   memset(sendBuffer, 0, MAX_BUFFER_SIZE);
-//   memset(recvBuffer, 0, MAX_BUFFER_SIZE);
-//   sendBufferActualSize = 0;
-//   recvBufferActualSize = 0;
+  callParamCallbacks();
   
-//   sendBufferSize = strlen(sendBuffer);
-
-//   memcpy(sendBuffer, msg, sendBufferSize);
-
-//   return status;
-// }
-
+  if (status == 0) {
+    asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
+	      "%s:%s, port %s, wrote %d \n",
+	      driverName, functionName, this->portName, value);
+  } else {
+    asynPrint(pasynUser, ASYN_TRACE_ERROR, 
+	      "%s:%s, port %s, ERROR writing %d to  status=%d\n",
+	      driverName, functionName, this->portName, value, status);
+  }
+  return (status==0) ? asynSuccess : asynError;
+}
 
 
 
@@ -356,7 +384,7 @@ drvWS3122::writeOctet(asynUser *pasynUser, const char *value, size_t nChars, siz
       if(function == devIdentification_) {
 	value_s = "*IDN?";
 	nChars = value_s.size();
-	status = this->SetDataCmd(value_s);
+	status = this->write_read(value_s);
       }
 
       callParamCallbacks();
@@ -388,7 +416,7 @@ drvWS3122::writeOctet(asynUser *pasynUser, const char *value, size_t nChars, siz
 
 
 asynStatus
-drvWS3122::SetDataCmd(std::string cmd)
+drvWS3122::write_read(std::string cmd)
 {
   asynStatus status = asynSuccess;
 
@@ -409,13 +437,44 @@ drvWS3122::SetDataCmd(std::string cmd)
   return status;
 }
 
-//
-  // std::string sendBuffer;
-  // size_t sendBufferSize;
-  // size_t sendBufferActualSize;
-  // std::string recvBuffer;
-  // size_t recvBufferSize;
-  // size_t recvBufferActualSize;
+asynStatus
+drvWS3122::SetClockSource(epicsInt32 value)
+{
+  asynStatus status = asynSuccess;
+  std::string value_s;
+  value_s.clear();
+  // 0     : INTERNAL CLOCK
+  // Other : EXTERNAL CLOCK
+  if (value == 0) {
+    value_s = "ROSC INT";
+  } else {
+    value_s = "ROSC EXT";
+  }
+
+  status = this->usbTmcWrite(value_s);
+
+  return status;
+};
+
+
+asynStatus
+drvWS3122::SetPhaseInvert(epicsInt32 value)
+{
+  asynStatus status = asynSuccess;
+  std::string value_s;
+  value_s.clear();
+  // 0     : INVERT ON
+  // Other : INVERT OFF
+  if (value == 0) {
+    value_s = "INVT OFF";
+  } else {
+    value_s = "INVT ON";
+  }
+
+  status = this->usbTmcWrite(value_s);
+
+  return status;
+};
 
 
 
