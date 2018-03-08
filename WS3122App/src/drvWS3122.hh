@@ -24,11 +24,12 @@
 
 
 
-#include "asynPortDriver.h"
-#include "asynOctetSyncIO.h"
+#include <asynPortDriver.h>
+#include <asynOctetSyncIO.h>
 
 
 //#include "WS3122Def.hh"
+#include "snipDrvAsynUSBTMC.hh"
 
 #define MAX_BUF_SIZE            65536
 #define TIMEOUT                 2
@@ -36,11 +37,10 @@
 #define MAX_ASYN_ADDRESS        0
 #define MAX_BUFFER_SIZE	        512
 
-#define DevIDNString                    "DEV_IDN"                   /* asynOctet      w  */
-#define WS3122ManufacturerString        "DEV_MANUFACTURER"          /**< (asynOctet,    r/o) manufacturer name */
-#define WS3122ModelString               "DEV_MODEL"                 /**< (asynOctet,    r/o) model name */
-#define WS3122SerialNumberString        "DEV_SERIAL_NUMBER"         /**< (asynOctet,    r/o) serial number */
-#define WS3122FirmwareVersionString     "DEV_FIRMWARE_VERSION"      /**< (asynOctet,    r/o) firmware version */
+#define DevIDNString                 "DEV_IDN"                   /* asynOctet      w  */
+#define DevManufacturerString        "DEV_MANUFACTURER"          /**< (asynOctet,    r/o) manufacturer name */
+#define DevModelString               "DEV_MODEL"                 /**< (asynOctet,    r/o) model name */
+#define DevSerialNumberString        "DEV_SERIAL_NUMBER"         /**< (asynOctet,    r/o) serial number */
 
 
 
@@ -78,8 +78,13 @@ protected:
   
 private:
 
-  asynUser	*usbTmcAsynUser;
 
+  asynStatus Init();
+  
+  asynUser	*usbTmcAsynUser;
+  std::string    asynUsbTmcPortName;
+  
+  const char* getUsbTmcPortName() const { return asynUsbTmcPortName.c_str();};
   //asynStatus WriteRead(char *sendBuffer, char *recvBuffer, int &recvBufSize, int timeout)
   //  asynStatus usbTmcWriteRead(double timeout=TIMEOUT);
   asynStatus    usbTmcWriteRead(char *sendBuffer, char *recvBuffer, int &recvBufSize, int timeout=TIMEOUT);
@@ -89,7 +94,12 @@ private:
   //  asynStatus usbSendBuffer(const char* param, std::string value_s);
   asynStatus SetDataCmd(std::string cmd);
 
-  
+  asynInterface *pasynInterface;
+  drvPvt        *pasynDrvPvt;
+
+
+  asynStatus report_device_information(FILE *fp);
+  asynStatus set_device_information();
   
 };
 
