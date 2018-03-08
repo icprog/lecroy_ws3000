@@ -1,4 +1,6 @@
 # Teledyne LeCroy WaveStation 3122
-SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="05ff",  ATTRS{idProduct}=="0a21", GROUP="usbtmc", MODE="0660"
-# Additional Option : add the kernel usbtmc device in the same group, in this case,  the device will be gone in /dev/usbtsm1 when IOC connects to
-# KERNEL=="usbtmc*", SUBSYSTEM=="usbmisc",  MODE="0660", GROUP="usbtmc"
+# With the following option, the device will be disappreared in /dev/usbtmc* when IOC connects to it. 
+SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="05ff",  ATTRS{idProduct}=="0a21", GROUP="dialout", MODE="0660"
+# With the following option, only sudo can connect the device properly. 
+# libusb_open failed: Access denied (insufficient permissions) usbtmc1 -1 autoConnect could not connect
+# KERNEL=="usbtmc*", SUBSYSTEM=="usbmisc",  MODE="0660", GROUP="dialout"

@@ -1,16 +1,29 @@
 Linux Udev configuration
 ---
 
+The user can run this ioc are in dialout group, if one wants to use other group, one should create it, and change rules according to.
 
-Put 55-usbtmc.rules in /etc/udev/rules.d/ and Run the following commands:
+* Please Run the following commands:
 
 ```
-$ sudo scp 55-usbtmc.rules /etc/udev/rules.d/
+$ sudo scp 56-usbtmc.rules /etc/udev/rules.d/
 $ sudo udevadm control --reload
 $ sudo udevadm trigger
 ```
 
-One can access the usbtmc1 information as follows:
+* When the device is connected to a PC, the following device will be shown :
+```
+crw-rw---- 1 root dialout 180, 1 Mar  8 10:06 /dev/usbtmc1
+```
+
+* One can test its access through 
+```
+$ echo "*IDN?" > /dev/usbtmc1 
+$ cat /dev/usbtmc1 
+*IDN WST,WaveStation 3122,LCRY3601C00251,5.01.02.13,00-00-00-17-35
+```
+
+* One can access the usbtmc1 information as follows:
 
 ```
 # udevadm info --name=/dev/usbtmc1 --attribute-walk
@@ -142,8 +155,4 @@ and the attributes from one single parent device.
 ```
 
 
-```
-$ echo "*IDN?" > /dev/usbtmc1 
-$ cat /dev/usbtmc1 
-*IDN WST,WaveStation 3122,LCRY3601C00251,5.01.02.13,00-00-00-17-35
-```
+* Start IOC, and device will be disappeared
