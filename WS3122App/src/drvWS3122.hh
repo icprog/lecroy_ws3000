@@ -45,6 +45,7 @@
 
 #define CmdHeaderPathString          "CMD_HEADER_PATH"
 #define CmdPhaseInvertString         "CMD_PHASE_INVERT"              // asynParamInt32
+#define CmdScreenSaveString          "CMD_SCREEN_SAVE"
 #define CmdClockSourceString         "CMD_CLOCK_SOURCE"              // asynParamInt32
 
 
@@ -71,6 +72,7 @@ protected:
   int  devSerialNumber_;
   int  cmdHeaderPath_;
   int  cmdPhaseInvert_;
+  int  cmdScreenSave_;
   int  cmdClockSource_;
 #define LAST_PARAM cmdClockSource_
 
@@ -89,9 +91,11 @@ private:
   //asynStatus usbTmcRead(double timeout=TIMEOUT);
   //asynStatus usbTmcWrite(double timeout=TIMEOUT);
 
-  asynStatus write_read(std::string cmd);
+  asynStatus write_read    (std::string cmd);
   asynStatus SetClockSource(epicsInt32 value);
   asynStatus SetPhaseInvert(epicsInt32 value);
+  asynStatus SetScreenSave (epicsInt32 value);
+  
   
   asynInterface *pasynInterface;
   drvPvt        *pasynDrvPvt;

@@ -119,13 +119,14 @@ drvWS3122::Init()
 {
   asynStatus status = asynSuccess;
   
-  createParam(DevIDNString,                 asynParamOctet, &devIdentification_);
-  createParam(DevManufacturerString,        asynParamOctet, &devManufacturer_);
-  createParam(DevModelString,               asynParamOctet, &devModel_);
-  createParam(DevSerialNumberString,        asynParamOctet, &devSerialNumber_);
-  createParam(CmdHeaderPathString,          asynParamOctet, &cmdHeaderPath_);
-  createParam(CmdPhaseInvertString,         asynParamInt32, &cmdPhaseInvert_);
-  createParam(CmdClockSourceString,         asynParamInt32, &cmdClockSource_);
+  createParam(DevIDNString,            asynParamOctet,  &devIdentification_);
+  createParam(DevManufacturerString,   asynParamOctet,  &devManufacturer_  );
+  createParam(DevModelString,          asynParamOctet,  &devModel_         );
+  createParam(DevSerialNumberString,   asynParamOctet,  &devSerialNumber_  );
+  createParam(CmdHeaderPathString,     asynParamOctet,  &cmdHeaderPath_    );
+  createParam(CmdPhaseInvertString,    asynParamInt32,  &cmdPhaseInvert_   );
+  createParam(CmdScreenSaveString,     asynParamInt32,  &cmdScreenSave_    );
+  createParam(CmdClockSourceString,    asynParamInt32,  &cmdClockSource_   );
   
   status = pasynOctetSyncIO->connect(this->getUsbTmcPortName(), 0, &usbTmcAsynUser, NULL);
 
@@ -339,7 +340,10 @@ drvWS3122::writeInt32(asynUser *pasynUser, epicsInt32 value)
     status = this-> SetClockSource(value);
   } else if (function == cmdPhaseInvert_ ) {
     status = this-> SetPhaseInvert(value);
+  }  else if (function == cmdScreenSave_ ) {
+    status = this-> SetScreenSave(value);
   }
+  
   
   callParamCallbacks();
   
@@ -463,8 +467,8 @@ drvWS3122::SetPhaseInvert(epicsInt32 value)
   asynStatus status = asynSuccess;
   std::string value_s;
   value_s.clear();
-  // 0     : INVERT ON
-  // Other : INVERT OFF
+  // 0     : INVERT OFF
+  // Other : INVERT ON
   if (value == 0) {
     value_s = "INVT OFF";
   } else {
@@ -477,6 +481,26 @@ drvWS3122::SetPhaseInvert(epicsInt32 value)
 };
 
 
+
+asynStatus
+drvWS3122::SetScreenSave(epicsInt32 value)
+{
+  asynStatus  status = asynSuccess;
+  std::string value_s;
+  std::ostringstream toString;   // stream used for the conversion
+
+  toString << value;
+  
+  value_s += "SCSV";
+  value_s += " ";
+  value_s += toString.str();
+    
+  //  std::cout << "0 " << __func__ << " value: " << value << " value_s : " << value_s << std::endl;
+
+  status = this->usbTmcWrite(value_s);
+
+  return status;
+};
 
 
 
