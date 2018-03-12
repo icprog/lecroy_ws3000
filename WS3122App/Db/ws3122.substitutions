@@ -1,0 +1,12 @@
+
+file WS3122Base.template {
+pattern { P, R, PORT } 
+{ "$(P)", "$(R)", "$(PORT)"}
+}
+
+
+file BasicWave.template {
+pattern { P, R, PORT } 
+{ "$(P)", "$(R)", "$(PORT)"}
+}
+

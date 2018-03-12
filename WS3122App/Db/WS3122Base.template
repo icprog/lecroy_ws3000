@@ -31,14 +31,14 @@ record(stringout, "$(P)$(R)DevIDN")
 }  
 
 
-record(waveform, "$(P)$(R)DevIDN_WF_RBV")
-{
-    field(DTYP, "asynOctetRead")
-    field(FTVL, "CHAR")
-    field(NELM, 512)
-    field( INP, "@asyn($(PORT),0,0)DEV_IDN")
-    field(SCAN, "I/O Intr")
-}
+# record(waveform, "$(P)$(R)DevIDN_WF_RBV")
+# {
+#     field(DTYP, "asynOctetRead")
+#     field(FTVL, "CHAR")
+#     field(NELM, 512)
+#     field( INP, "@asyn($(PORT),0,0)DEV_IDN")
+#     field(SCAN, "I/O Intr")
+# }
 
 record(stringin, "$(P)$(R)DevIDN_RBV")
 {
@@ -48,19 +48,22 @@ record(stringin, "$(P)$(R)DevIDN_RBV")
 }
 
 
-record (stringin, "$(P)$(R)HeaderPath")
+record(stringout, "$(P)$(R)HeaderPath")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynOctetWrite")
+    field( OUT, "@asyn($(PORT),0,0) PAR_HEADER_PATH")
+    field( VAL, "C1")
+}
+
+record(stringin, "$(P)$(R)HeaderPath_RBV")
 {
     field(DTYP, "asynOctetRead")
-    field( INP, "@asyn($(PORT),0,0) CMD_HEADER_PATH")
+    field( INP, "@asyn($(PORT),0,0) PAR_HEADER_PATH")
     field(SCAN, "I/O Intr")
 }
 
-record (stringout, "$(P)$(R)SetHeaderPath") 
-{
-    field( VAL, "C1")
-    field( OUT, "$(P)$(R)HeaderPath PP")
-    field(PINI, "YES")
-}
+
 
 
 ## ROSC - Clock Source
@@ -182,3 +185,5 @@ record(mbbi, "$(P)$(R)ScreenSave_RBV")
     field(UNSV, "INVALID")
     field(SCAN, "I/O Intr")
 }
+
+

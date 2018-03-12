@@ -1,0 +1,8 @@
+
+record(bo, "$(P)$(R)SetWaveType")
+{
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) CMD_SET_WAVE_TYPE")
+}
+
+

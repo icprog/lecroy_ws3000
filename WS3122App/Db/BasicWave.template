@@ -1,0 +1,117 @@
+
+record(mbbo, "$(P)$(R)BasicWaveTypeSelect")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field( OUT, "@asyn($(PORT),0,0) BASIC_WAVE_TYPE_SELECT")
+   field(ZRST, "Sine")
+   field(ZRVL, "0")
+   field(ONST, "Square")
+   field(ONVL, "1")
+   field(TWST, "Ramp")
+   field(TWVL, "2")
+   field(THST, "Pulse")
+   field(THVL, "3")
+   field(FRST, "Noise")
+   field(FRVL, "4")
+   field(FVST, "Arb")
+   field(FVVL, "5")
+   field(SXST, "Dc")
+   field(SXVL, "6")
+   field(SVSV, "INVALID")
+   field(EISV, "INVALID")
+   field(NISV, "INVALID")
+   field(TESV, "INVALID")
+   field(ELSV, "INVALID")
+   field(TVSV, "INVALID")
+   field(TTSV, "INVALID")
+   field(FTSV, "INVALID")
+   field(FFSV, "INVALID")
+   field(UNSV, "INVALID")
+   field( VAL, "1")
+}
+
+record(mbbi, "$(P)$(R)BasicWaveTypeSelect_RBV")
+{
+   field(DTYP, "asynInt32")
+   field( INP,  "@asyn($(PORT),0,0) BASIC_WAVE_TYPE_SELECT")
+   field(ZRST, "Sine")
+   field(ZRVL, "0")
+   field(ONST, "Square")
+   field(ONVL, "1")
+   field(TWST, "Ramp")
+   field(TWVL, "2")
+   field(THST, "Pulse")
+   field(THVL, "3")
+   field(FRST, "Noise")
+   field(FRVL, "4")
+   field(FVST, "Arb")
+   field(FVVL, "5")
+   field(SXST, "Dc")
+   field(SXVL, "6")
+   field(SVSV, "INVALID")
+   field(EISV, "INVALID")
+   field(NISV, "INVALID")
+   field(TESV, "INVALID")
+   field(ELSV, "INVALID")
+   field(TVSV, "INVALID")
+   field(TTSV, "INVALID")
+   field(FTSV, "INVALID")
+   field(FFSV, "INVALID")
+   field(UNSV, "INVALID")
+   field(SCAN, "I/O Intr")
+}
+
+
+
+
+## Frequency
+## WS3122 up to 120MHz
+record(ao, "$(P)$(R)WaveFrequency")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_FREQUENCY")
+   field(DRVL, 1E-6)
+   field(DRVH, 120E+6)
+   field( VAL, 14)
+   field( EGU, "Hz")
+}
+
+record(ai, "$(P)$(R)WaveFrequency_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field( INP, "@asyn($(PORT),0,0) PAR_WAVE_FREQUENCY")
+   field(EGUL, 1E-6)
+   field(EGUF, 120E+6)
+   field(LOPR, 1)
+   field(HOPR, 120E+6)
+   field(SCAN, "I/O Intr")
+}
+
+
+
+## Amplifier
+## WS300, CH1/2 2mVpp <= val <= 20
+record(ao, "$(P)$(R)WaveAmplifier")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_AMPLIFIER")
+   field(DRVL, 0.002)
+   field(DRVH, 20)
+   field( VAL, 1)
+   field( EGU, "V")
+}
+
+record(ai, "$(P)$(R)WaveAmplifier_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field( INP, "@asyn($(PORT),0,0) PAR_WAVE_AMPLIFIER")
+   field(EGUL, 0.002)
+   field(EGUF, 20)
+   field(LOPR, 0.002)
+   field(HOPR, 20)
+   field(SCAN, "I/O Intr")
+}
+

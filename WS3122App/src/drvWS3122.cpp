@@ -91,9 +91,8 @@ showCount(FILE *fp, const char *label, size_t count)
 drvWS3122::drvWS3122(const char *portName, const char *asynUSBTMCPortName) 
   : asynPortDriver(portName, 
 		   MAX_ASYN_ADDRESS, 
-		   NUM_PARAMS,
-		   asynInt32Mask | asynOctetMask |  asynDrvUserMask, 
-		   asynInt32Mask | asynOctetMask,
+		   asynInt32Mask  | asynFloat64Mask | asynOctetMask |  asynDrvUserMask, 
+		   asynInt32Mask  | asynFloat64Mask | asynOctetMask,
 		   0, /* asynFlags.  This driver does not block and it is not multi-device, so flag is 0 */
 		   1,    /* Autoconnect */
 		   0, 0) /* Default priority and stack size*/    
@@ -104,6 +103,7 @@ drvWS3122::drvWS3122(const char *portName, const char *asynUSBTMCPortName)
   /* Create an EPICS exit handler */
   epicsAtExit(exitHandler, this);
 
+   
   Init();
   
  
@@ -112,21 +112,30 @@ drvWS3122::drvWS3122(const char *portName, const char *asynUSBTMCPortName)
 drvWS3122::~drvWS3122()
 {
   pasynOctetSyncIO->disconnect(usbTmcAsynUser);
+  delete basicWave; basicWave = NULL;
 };
 
 asynStatus
 drvWS3122::Init()
 {
+  basicWave = new BasicWave();
+  
   asynStatus status = asynSuccess;
   
   createParam(DevIDNString,            asynParamOctet,  &devIdentification_);
   createParam(DevManufacturerString,   asynParamOctet,  &devManufacturer_  );
   createParam(DevModelString,          asynParamOctet,  &devModel_         );
   createParam(DevSerialNumberString,   asynParamOctet,  &devSerialNumber_  );
-  createParam(CmdHeaderPathString,     asynParamOctet,  &cmdHeaderPath_    );
-  createParam(CmdPhaseInvertString,    asynParamInt32,  &cmdPhaseInvert_   );
-  createParam(CmdScreenSaveString,     asynParamInt32,  &cmdScreenSave_    );
-  createParam(CmdClockSourceString,    asynParamInt32,  &cmdClockSource_   );
+
+  createParam(ParBasicWaveTypeSelecString, asynParamInt32,   &parBasicWaveTypeSelect_);
+  createParam(ParHeaderPathString,         asynParamOctet,   &parHeaderPath_    );
+  createParam(ParWaveFrequencyString,      asynParamFloat64, &parWaveFrequency_);
+  createParam(ParWaveAmplifierString,      asynParamFloat64, &parWaveAmplifier_);
+
+  createParam(CmdSetWaveTypeString,    asynParamInt32,  &cmdSetWaveType_ );
+  createParam(CmdPhaseInvertString,    asynParamInt32,  &cmdPhaseInvert_  );
+  createParam(CmdScreenSaveString,     asynParamInt32,  &cmdScreenSave_   );
+  createParam(CmdClockSourceString,    asynParamInt32,  &cmdClockSource_  );
   
   status = pasynOctetSyncIO->connect(this->getUsbTmcPortName(), 0, &usbTmcAsynUser, NULL);
 
@@ -214,10 +223,10 @@ drvWS3122::report_device_information(FILE *fp)
 	       0);
   }
   
-  showCount(fp, "Connection",  pasynDrvPvt->connectionCount);
+  showCount(fp, "Connection", pasynDrvPvt->connectionCount);
   showCount(fp, "Interrupt",  pasynDrvPvt->interruptCount);
-  showCount(fp, "Send",  pasynDrvPvt->bytesSentCount);
-  showCount(fp, "Receive",  pasynDrvPvt->bytesReceivedCount);
+  showCount(fp, "Send",       pasynDrvPvt->bytesSentCount);
+  showCount(fp, "Receive",    pasynDrvPvt->bytesReceivedCount);
 
   fprintf(fp, "\n");
   return status;
@@ -236,6 +245,88 @@ asynStatus drvWS3122::set_device_information()
   return status;
   
 };
+
+
+asynStatus
+drvWS3122::set_wave_type()
+{
+  asynStatus status = asynSuccess;
+  int bWaveType;
+  std::string header_path;
+  getStringParam(parHeaderPath_,           header_path);
+  getIntegerParam(parBasicWaveTypeSelect_, &bWaveType);
+  setStringParam(parHeaderPath_,           header_path);
+  setIntegerParam(parBasicWaveTypeSelect_, bWaveType);
+  basicWave -> setHeaderPath(header_path);
+  basicWave -> setWaveTypeID(( EBasicWaveType_t) bWaveType);
+  basicWave -> Print();
+  return status;
+}
+
+
+asynStatus
+drvWS3122::set_wave_freq()
+{
+  asynStatus status = asynSuccess;
+  double   wave_freq = 0.0;
+  getDoubleParam(parWaveFrequency_,        &wave_freq);
+  setDoubleParam(parWaveFrequency_,        wave_freq);
+  basicWave -> setFrequencyVal(wave_freq);
+
+  basicWave -> Print();
+  
+  return status;
+  
+}
+
+
+asynStatus
+drvWS3122::set_wave_ampl()
+{
+  asynStatus status = asynSuccess;
+  double   wave_val = 0.0;
+  getDoubleParam(parWaveAmplifier_,        &wave_val);
+  setDoubleParam(parWaveAmplifier_,        wave_val);
+  basicWave -> setAmplifierVal(wave_val);
+
+  basicWave -> Print();
+  
+  return status;
+  
+}
+
+  
+// asynStatus drvWS3122::set_wavetype_parameters()
+// {
+//   asynStatus status = asynSuccess;
+
+//   int bWaveType;
+//   std::string wave_type;
+//   std::string header_path;
+//   //  double   wave_freq;
+  
+//   getIntegerParam(parBasicWaveTypeSelect_, &bWaveType);
+//   getStringParam(parHeaderPath_,           header_path);
+//   setIntegerParam(parBasicWaveTypeSelect_, bWaveType);
+//   //  getDoubleParam(parWaveFrequency_,        &wave_freq);
+//   //  setDoubleParam(parWaveFrequency_,        wave_freq);
+  
+//   basicWave -> setWaveTypeID(( EBasicWaveType_t) bWaveType);
+//   basicWave -> setHeaderPath(header_path);
+//   //  basicWave -> setFrequencyVal(wave_freq);
+
+
+//   basicWave-> Print();
+    
+//   std::cout << " set_wavetype_paramter " << header_path << " " << wave_type << std::endl;
+//   //  std::cout << header_path << std::endl;
+//   //  std::cout << wave_type   << std::endl;
+   
+//   return status;
+  
+// };
+
+
 
 
 asynStatus
@@ -334,14 +425,21 @@ drvWS3122::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
   setIntegerParam(function, value);
 
+ 
+    
   std::string value_s;
   
   if ( function == cmdClockSource_ ) {
     status = this-> SetClockSource(value);
   } else if (function == cmdPhaseInvert_ ) {
     status = this-> SetPhaseInvert(value);
-  }  else if (function == cmdScreenSave_ ) {
+  } else if (function == cmdScreenSave_ ) {
     status = this-> SetScreenSave(value);
+  }  else if (function == cmdSetWaveType_) {
+    status = this-> SetWaveTypeCmds(1);
+  }
+  else if (function == parBasicWaveTypeSelect_) {
+    status = this->set_wave_type();
   }
   
   
@@ -359,6 +457,44 @@ drvWS3122::writeInt32(asynUser *pasynUser, epicsInt32 value)
   return (status==0) ? asynSuccess : asynError;
 }
 
+
+asynStatus
+drvWS3122::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
+{
+    int function = pasynUser->reason;
+    asynStatus status = asynSuccess;
+    //    epicsInt32 run;
+    const char *paramName;
+    const char* functionName = "writeFloat64";
+
+    /* Set the parameter in the parameter library. */
+    status = (asynStatus) setDoubleParam(function, value);
+
+    /* Fetch the parameter string name for possible use in debugging */
+    getParamName(function, &paramName);
+
+    if (function == parWaveFrequency_) {
+      status = this->set_wave_freq();
+    } else if (function == parWaveAmplifier_) {
+      status = this->set_wave_ampl();
+    } else {
+        /* All other parameters just get set in parameter list, no need to
+         * act on them here */
+    }
+    
+    /* Do callbacks so higher layers see any changes */
+    status = (asynStatus) callParamCallbacks();
+    
+    if (status) 
+        epicsSnprintf(pasynUser->errorMessage, pasynUser->errorMessageSize, 
+                  "%s:%s: status=%d, function=%d, name=%s, value=%f", 
+                  driverName, functionName, status, function, paramName, value);
+    else        
+        asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
+              "%s:%s: function=%d, name=%s, value=%f\n", 
+              driverName, functionName, function, paramName, value);
+    return status;
+}
 
 
 
@@ -440,6 +576,29 @@ drvWS3122::write_read(std::string cmd)
 
   return status;
 }
+
+
+asynStatus
+drvWS3122::SetWaveTypeCmds(epicsInt32 value)
+{
+  asynStatus status = asynSuccess;
+  std::string value_s;
+  value_s.clear();
+  basicWave -> buildCommand();
+  value_s = basicWave-> getFullCommand();
+
+  std::cout << value_s << std::endl;
+  // if (value == 1) {
+  status = this->usbTmcWrite(value_s);
+
+  basicWave -> clearCommand();
+  return status;
+};
+
+
+
+
+
 
 asynStatus
 drvWS3122::SetClockSource(epicsInt32 value)

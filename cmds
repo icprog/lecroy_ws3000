@@ -1,0 +1,2 @@
+caput usbtmc:icslab:BasicWaveTypeSelect Sine
+caput usbtmc:icslab:SetWaveType 1

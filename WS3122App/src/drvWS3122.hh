@@ -28,7 +28,8 @@
 #include <asynOctetSyncIO.h>
 
 
-//#include "WS3122Def.hh"
+#include "WS3122Def.hh"
+#include "WSTypes.hh"
 #include "snipDrvAsynUSBTMC.hh"
 
 #define MAX_BUF_SIZE            65536
@@ -43,7 +44,12 @@
 #define DevSerialNumberString        "DEV_SERIAL_NUMBER"         // asynOctet,    r/o serial number 
 
 
-#define CmdHeaderPathString          "CMD_HEADER_PATH"
+#define ParBasicWaveTypeSelecString  "BASIC_WAVE_TYPE_SELECT"
+#define ParHeaderPathString          "PAR_HEADER_PATH"
+#define ParWaveFrequencyString       "PAR_WAVE_FREQUENCY"
+#define ParWaveAmplifierString       "PAR_WAVE_AMPLIFIER"
+
+#define CmdSetWaveTypeString         "CMD_SET_WAVE_TYPE"
 #define CmdPhaseInvertString         "CMD_PHASE_INVERT"              // asynParamInt32
 #define CmdScreenSaveString          "CMD_SCREEN_SAVE"
 #define CmdClockSourceString         "CMD_CLOCK_SOURCE"              // asynParamInt32
@@ -58,6 +64,7 @@ public:
   //virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
   //virtual asynStatus readOctet (asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
   virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+  virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
   virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t 	nChars, size_t *nActual);
   
   friend std::ostream& operator<<(std::ostream& os, const drvWS3122 &ws);
@@ -70,7 +77,11 @@ protected:
   int  devManufacturer_;
   int  devModel_;
   int  devSerialNumber_;
-  int  cmdHeaderPath_;
+  int  parBasicWaveTypeSelect_;
+  int  parHeaderPath_;
+  int  parWaveFrequency_;
+  int  parWaveAmplifier_;
+  int  cmdSetWaveType_;
   int  cmdPhaseInvert_;
   int  cmdScreenSave_;
   int  cmdClockSource_;
@@ -95,13 +106,18 @@ private:
   asynStatus SetClockSource(epicsInt32 value);
   asynStatus SetPhaseInvert(epicsInt32 value);
   asynStatus SetScreenSave (epicsInt32 value);
-  
+  asynStatus SetWaveTypeCmds(epicsInt32 value);
   
   asynInterface *pasynInterface;
   drvPvt        *pasynDrvPvt;
 
+  BasicWave  *basicWave;
+  
   asynStatus report_device_information(FILE *fp);
   asynStatus set_device_information();
+  asynStatus set_wave_type();
+  asynStatus set_wave_freq();
+  asynStatus set_wave_ampl();
   
 };
 

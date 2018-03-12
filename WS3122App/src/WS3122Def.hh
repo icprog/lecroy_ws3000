@@ -9,295 +9,8 @@
 #include <string>
 #include <vector>
 
-#define NUM_HEADER_PATH         10
-#define NUM_HEADER              26
-#define NUM_BSWV_WAVETYPE_NUM    7
-#define NUM_BSWV_PARAMS         13
-#define NUM_BTWV_PARAMS         22
-//#define NUM_MDWV_PARAMS         35
-#define NUM_OUTP_PARAMS          4
-//#define NUM_SWWV_PARAMS         12
+#include "WSTypes.hh"
 
-#define MAX_ENUM_STRING_SIZE 26
-
-
-typedef struct {
-    int value;
-    char string[MAX_ENUM_STRING_SIZE];
-} enumStruct_t;
-
-
-
-static const char * headerPathStrings[NUM_HEADER_PATH] =
-  {
-   "C1"
-   ,"C2"
-   ,"M1"
-   ,"M2"
-   ,"M3"
-   /* */
-   ,"M4"
-   ,"M5"
-   ,"M6"
-   ,"M7"
-   ,"M8"
-  };
-							  
-// enum Header
-//   {
-//    HEADER_IDN,
-//    HEADER_CLS,
-//    HEADER_ESE,
-//    HEADER_ESR,
-//    HEADER_RET,
-//    HEADER_SRE,
-//    HEADER_STB,
-//    HEADER_TST,
-//    HEADER_WAI,
-//    HEADER_ARWV,
-//    HEADER_BSWV,
-//    HEADER_BTWV,
-//    HEADER_BUZZ,
-//    HEADER_CHDR,
-//    HEADER_INVT,
-//    HEADER_MDWV,
-//    HEADER_OUTP,
-//    HEADER_PACP,
-//    HEADER_ROSC,
-//    HEADER_SCFG,
-//    HEADER_SCSV,
-//    HEADER_STL,
-//    HEADER_SWWV,
-//    HEADER_SYNC,
-//    HEADER_VKEY,
-//    HEADER_WVCSV
-//   };
-
-static const char * headerStrings[NUM_HEADER] =
-  {
-   "*IDN"
-   , "*CLS"
-   , "*ESE"
-   , "*ESR"
-   , "*RET"
-   /* */
-   , "*SRE"
-   , "*STB"
-   , "*TST"
-   , "*WAI"
-   , "ARWV"
-   /* */
-   , "BSWV"
-   , "BTWV"
-   , "BUZZ"
-   , "CHDR"
-   , "INVT"
-   /* */
-   , "MDWV"
-   , "OUTP"
-   , "PACP"
-   , "ROSC"
-   , "SCFG"
-   /* */
-   , "SCSV"
-   , "STL"
-   , "SWWV"
-   , "SYNC"
-   , "VKEY"
-   /* */
-   , "WVCSV"
-  };
-
- 
-enum BSWVType
-  {
-   BSWV_SINE,
-   BSWV_SQUARE,
-   BSWV_RAMP,
-   BSWV_PULSE,
-   BSWV_NOISE,
-   BSWV_ARB,
-   BSWV_DC
-  };
-
-
-static const char *bswv_waveTypeStrings[NUM_BSWV_WAVETYPE_NUM] =
-  {
-   "SINE",
-   "SQUARE",
-   "RAMP",
-   "PULSE",
-   "NOISE",
-   "ARB",
-   "DC"	      
-  };
-
-static const int convertbswvWaveTypeValues[NUM_BSWV_WAVETYPE_NUM] =
-  {
-   BSWV_SINE,
-   BSWV_SQUARE,
-   BSWV_RAMP,
-   BSWV_PULSE,
-   BSWV_NOISE,
-   BSWV_ARB,
-   BSWV_DC
-};
-
-  
-
-enum BSWVParameter
-  {
-   BSWVPARM_WVTP,
-   BSWVPARM_FRQ,
-   BSWVPARM_AMP,
-   BSWVPARM_OFST,
-   BSWVPARM_SYM,
-   BSWVPARM_DUTY,
-   BSWVPARM_PHSE,
-   BSWVPARM_STDEV,
-   BSWVPARM_MEAN,
-   BSWVPARM_WIDTH,
-   BSWVPARM_RISE,
-   BSWVPARM_FALL,
-   BSWVPARM_DLY
-  };
-  
-  
-static const char * bswv_parametersStrings[NUM_BSWV_PARAMS] =
-  {
-   "WVTP"
-   , "FRQ"
-   , "AMP"
-   , "OFST"
-   , "SYM"
-   /* */
-   , "DUTY"
-   , "PHSE"
-   , "STDEV"
-   , "MEAN"
-   , "WIDTH"
-   /* */
-   , "RISE"
-   , "FALL"
-   , "DLY"
-  };
-
-
-static const char * btwv_parametersStrings[NUM_BTWV_PARAMS] =
-  {
-   "STATE"
-   , "PRD"
-   , "STPS"
-   , "GATE_SYNC"
-   , "TRSR"
-   /* */
-   , "DLAY"
-   , "PLRT"
-   , "TRMD"
-   , "EDGE"
-   , "TIME"
-   /* */
-   , "CARR,WVTP"
-   , "CARR,FRQ"
-   , "CARR,AMP"
-   , "CARR,OFST"
-   , "CARR,SYM"
-   /* */
-   , "CARR,DUTY"
-   , "CARR,PHSE"
-   , "CARR,RISE"
-   , "CARR,FALL"
-   , "CARR,DLY"
-   /* */
-   , "CARR,STDEV"
-   , "CARR,MEAN"
-  };
-
-
-// static const char * mdwv_parametersStrings[NUM_MDWV_PARAMS] =
-//   {
-//    "STATE"
-//    , "AM,SRC"
-//    , "AM,MDSP"
-//    , "AM,FRQ"
-//    , "AM,DEPTH"
-//    /* */
-//    , "DSBAM,SRC"
-//    , "DSBAM,MDSP"
-//    , "DSBAM,FRQ"
-//    , "FM,SRC"
-//    , "FM,MDSP"
-//    /* */
-//    , "FM,FRQ"
-//    , "FM,DEVI"
-//    , "PM,SRC"
-//    , "PM,MDSP"
-//    , "PM,FRQ"
-//    /* */
-//    , "PM,DEVI"
-//    , "PWM,FRQ"
-//    , "PWM,DEVI"
-//    , "PWM,MDSP"
-//    , "PWM,SRC"
-//    /* */
-//    , "ASK,SRC"
-//    , "ASK,KFRQ"
-//    , "FSK,KFRQ"
-//    , "FSK,HFRQ"
-//    , "FSK,SRC"
-//    /* */
-//    , "CARR,WVTP"
-//    , "CARR,FRQ"
-//    , "CARR,AMP"
-//    , "CARR,OFST"
-//    , "CARR,SYM"
-//    /* */
-//    , "CARR,DUTY"
-//    , "CARR,PHSE"
-//    , "CARR,RISE"
-//    , "CARR,FALL"
-//    , "CARR,DLY"
-//      /* */
-//   };
-
-
-static const char *outp_parametersStrings[NUM_OUTP_PARAMS] =
-  {
-   "ON"
-   ,"OFF"
-   ,"LOAD"
-   ,"PLRT"
-  };
-
-// static const char *swwv_parametersStrings[NUM_SWWV_PARAMS] =
-//   {
-//    "STATE"
-//    , "TIME"
-//    , "STOP"
-//    , "START"
-//    , "TRSR"
-//    /* */
-//    , "TRMD"
-//    , "SWMD"
-//    , "DIR"
-//    , "EDGE"
-//    , "MTRIG"
-//    /* */
-//    , "CARR,WVTP"
-//    , "CARR,FRQ"
-//    , "CARR,AMP"
-//    , "CARR,OFST"
-//    , "CARR,SYM"
-//    /* */
-//    , "CARR,DUTY"
-//    , "CARR,PHSE"
-//   };
-
-
-
-
-static const unsigned int maxStringLength = 512;
-static const unsigned int maxUnitStringLength = 10;
 
 class BasicWave
 {
@@ -312,76 +25,108 @@ public:
   BasicWave & operator=(const BasicWave &bwv);
   
   void Init();
+  void Print();
 
+  void buildCommand();
+  void clearCommand();
+  
   const std::string     getFullCommand()             { return fullCommandStream.str();};
   const char*           getCharFullCommand()         { return fullCommandStream.str().c_str();};
   
-  const unsigned int    getChannelID()               { return channelID; };
-  const unsigned int    getWaveTypeID()              { return waveTypeID; };
+  const std::string       getHeaderPath()            { return headerPath; };
+  const EBasicWaveType_t  getWaveTypeID()            { return waveTypeID; };
+  const std::string       getWaveTypeString()        { return waveTypeString;};
   
-  const long            getFrequencyVal()            { return frequencyVal; };
-  const long            getAmplifierVal()            { return amplifierVal; };
-  const long            getOffsetVal()               { return offsetVal; };
+  const double          getFrequencyVal()            { return frequencyVal; };
+  const double          getAmplifierVal()            { return amplifierVal; };
+  const double          getOffsetVal()               { return offsetVal; };
   
-  const unsigned int    getSymmetryVal()             { return symmetryVal; };
+  const double          getSymmetryVal()             { return symmetryVal; };
   
-  const long            getDutyCycleVal()            { return dutyCycleVal; };
+  const double          getDutyCycleVal()            { return dutyCycleVal; };
   
-  const unsigned int    getPhaseVal()                { return phaseVal; };
-  const long            getStandardDeviationVal()    { return standardDeviationVal; };
-  const long            getMeanVal()                 { return meanVal; };
+  const double          getPhaseVal()                { return phaseVal; };
+  const double          getStdDevVal()               { return stdDevVal; };
+  const double          getMeanVal()                 { return meanVal; };
   
-  const long            getWidthVal()                { return widthVal; };
-  const long            getRiseVal()                 { return riseVal; };
-  const long            getFallVall()                { return fallVal; };
-  const long            getDelayVal()                { return delayVal; };
+  const double          getWidthVal()                { return widthVal; };
+  const double          getRiseVal()                 { return riseVal; };
+  const double          getFallVall()                { return fallVal; };
+  const double          getDelayVal()                { return delayVal; };
   
 
-  void    setChannelID(unsigned int id)        { channelID = id; };
-  void    setWaveTypeID(unsigned int id)       { waveTypeID = id; };
+  void    setHeaderPath(std::string in)        { headerPath = in;  };
+  void    setWaveTypeID(EBasicWaveType_t id) ;   
   
-  void    setFrequencyVal(long val)            { frequencyVal = val; };
-  void    setAmplifierVal(long val)            { amplifierVal = val; };
-  void    setOffsetVal(long val)               { offsetVal = val; };
+  void    setFrequencyVal(double val)          { frequencyVal = val; };
+  void    setAmplifierVal(double val)          { amplifierVal = val; };
+  void    setOffsetVal(double val)             { offsetVal    = val; };
   
-  void    setSymmetryVal(unsigned int val)     { symmetryVal = val; };
+  void    setSymmetryVal(unsigned int val)     { symmetryVal  = val; };
   
-  void    setDutyCycleVal(long val)            { dutyCycleVal = val; };
+  void    setDutyCycleVal(double val)          { dutyCycleVal = val; };
+
+  void    setPhaseVal(unsigned int val)        { phaseVal     = val; };
+  void    setStandardDeviationVal(double val)  { stdDevVal    = val; };
+  void    setMeanVal(double val)               { meanVal      = val; };
+
+  void    setWidthVal(double val)              { widthVal     = val; };
+  void    setRiseVal(double val)               { riseVal      = val; };
+  void    setFallVall(double val)              { fallVal      = val; };
+  void    setDelayVal(double val)              { delayVal     = val; };
+
+  bool    IsFrequency()          const {return frequency_flag;};
+  bool    IsAmplifier()          const {return amplifier_flag;};
+  bool    IsOffset()             const {return offset_flag;};
+  bool    IsSymmetry()           const {return symmetry_flag;};
+  bool    IsDutyCycle()          const {return duty_cycle_flag;};
+
+  bool    IsWidth()              const {return width_flag;};
+  bool    IsRIse()               const {return rise_flag;};
+  bool    IsFall()               const {return fall_flag;};
+  bool    IsDelay()              const {return delay_flag;};
   
-  void    setPhaseVal(unsigned int val)        { phaseVal = val; };
-  void    setStandardDeviationVal(long val)    { standardDeviationVal = val; };
-  void    setMeanVal(long val)                 { meanVal = val; };
-  
-  void    setWidthVal(long val)                { widthVal = val; };
-  void    setRiseVal(long val)                 { riseVal = val; };
-  void    setFallVall(long val)                { fallVal = val; };
-  void    setDelayVal(long val)                { delayVal = val; };
-  
+  bool    IsPhase()              const {return phase_flag;};
+  bool    IsStdDev()             const {return std_dev_flag;};
+  bool    IsMean()               const {return mean_flag;};
+
   
 private:
 
-  unsigned int        channelID;
-  unsigned int        waveTypeID;           //SINE, SQUARE, RAMP, PULSE, NOISE, ARB, DC
+  std::string            headerPath;
+  EBasicWaveType_t       waveTypeID; 
 
 
   
-  long                frequencyVal;         //SINE[O], SQUARE[O], RAMP[O], PULSE[O], NOISE[X], ARB[O], DC[O]
-  long                amplifierVal;         //SINE[O], SQUARE[O], RAMP[O], PULSE[O], NOISE[X], ARB[O], DC[O]
-  long                offsetVal;            //SINE[O], SQUARE[O], RAMP[O], PULSE[O], NOISE[X], ARB[O], DC[O]
+  double              frequencyVal;   
+  double              amplifierVal;   
+  double              offsetVal;      
+  double              symmetryVal;    
   
-  unsigned int        symmetryVal;          //SINE[X], SQUARE[X], RAMP[O], PULSE[X], NOISE[X], ARB[X], DC[X]
+  double              dutyCycleVal;   
+
+  double              widthVal; 
+  double              riseVal;  
+  double              fallVal;  
+  double              delayVal;
+
+  double              phaseVal;       
+  double              stdDevVal;
+  double              meanVal;  
   
-  long                dutyCycleVal;         //SINE[X], SQUARE[O], RAMP[X], PULSE[O], NOISE[X], ARB[X], DC[X]
-  
-  unsigned int        phaseVal;             //SINE[X], SQUARE[X], RAMP[X], PULSE[X], NOISE[O], ARB[X], DC[X]       
-  long                standardDeviationVal; //SINE[X], SQUARE[X], RAMP[X], PULSE[X], NOISE[O], ARB[X], DC[X]
-  long                meanVal;              //SINE[X], SQUARE[X], RAMP[X], PULSE[X], NOISE[O], ARB[X], DC[X]
-  
-  long                widthVal;             //SINE[X], SQUARE[X], RAMP[X], PULSE[O], NOISE[X], ARB[X], DC[X]
-  long                riseVal;              //SINE[X], SQUARE[X], RAMP[X], PULSE[O], NOISE[X], ARB[X], DC[X]
-  long                fallVal;              //SINE[X], SQUARE[X], RAMP[X], PULSE[O], NOISE[X], ARB[X], DC[X]
-  long                delayVal;             //SINE[X], SQUARE[X], RAMP[X], PULSE[O], NOISE[X], ARB[X], DC[X]
-  
+
+  bool                frequency_flag;
+  bool                amplifier_flag;
+  bool                offset_flag;
+  bool                symmetry_flag;
+  bool                duty_cycle_flag;
+  bool                phase_flag;
+  bool                std_dev_flag;
+  bool                mean_flag;
+  bool                width_flag;
+  bool                rise_flag;
+  bool                fall_flag;
+  bool                delay_flag;
 
   std::string waveTypeString;
   std::string frequencyUnit;  // Hz, [1e-6, depends on the model]
