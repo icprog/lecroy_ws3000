@@ -10,37 +10,38 @@ BasicWave::BasicWave()
 };
 
 
-BasicWave::BasicWave(const BasicWave &bwobj)
-{
+// BasicWave::BasicWave(const BasicWave &bwobj)
+// {
 
    
-  headerPath           = bwobj.headerPath;
-  waveTypeID           = bwobj.waveTypeID;
-  frequencyVal         = bwobj.frequencyVal;
-  amplifierVal         = bwobj.amplifierVal;
-  offsetVal            = bwobj.offsetVal;
-  dutyCycleVal         = bwobj.dutyCycleVal;
-  phaseVal             = bwobj.phaseVal;
-  stdDevVal            = bwobj.stdDevVal ;
-  meanVal              = bwobj.meanVal;
-  widthVal             = bwobj.widthVal;
-  riseVal              = bwobj.riseVal;
-  fallVal              = bwobj.fallVal;
-  delayVal             = bwobj.delayVal;
+//   headerPath           = bwobj.headerPath;
+//   waveTypeID           = bwobj.waveTypeID;
+//   frequencyVal         = bwobj.frequencyVal;
+//   amplifierVal         = bwobj.amplifierVal;
+//   offsetVal            = bwobj.offsetVal;
+//   dutyCycleVal         = bwobj.dutyCycleVal;
+//   phaseVal             = bwobj.phaseVal;
+//   stdDevVal            = bwobj.stdDevVal ;
+//   meanVal              = bwobj.meanVal;
+//   widthVal             = bwobj.widthVal;
+//   riseVal              = bwobj.riseVal;
+//   fallVal              = bwobj.fallVal;
+//   delayVal             = bwobj.delayVal;
 
-  frequencyUnit        = bwobj.frequencyUnit;
-  amplifierUnit        = bwobj.amplifierUnit;
-  offsetUnit           = bwobj.offsetUnit;
-  dutyCycleUnit        = bwobj.dutyCycleUnit;
+//   frequencyUnit        = bwobj.frequencyUnit;
+//   amplifierUnit        = bwobj.amplifierUnit;
+//   offsetUnit           = bwobj.offsetUnit;
+//   dutyCycleUnit        = bwobj.dutyCycleUnit;
 
-  waveTypeString       = bwobj.waveTypeString;
-  frequencyUnit        = bwobj.frequencyUnit;
-  amplifierUnit        = bwobj.amplifierUnit;
-  offsetUnit           = bwobj.offsetUnit;
-  dutyCycleUnit        = bwobj.dutyCycleUnit;
-  fullCommandStream    << bwobj.fullCommandStream;
+//   waveTypeString       = bwobj.waveTypeString;
+//   frequencyUnit        = bwobj.frequencyUnit;
+//   amplifierUnit        = bwobj.amplifierUnit;
+//   offsetUnit           = bwobj.offsetUnit;
+//   dutyCycleUnit        = bwobj.dutyCycleUnit;
+//   fullCommandStream    << bwobj.fullCommandStream;
 
-};
+//   waveParameter
+// };
 
 
 BasicWave::~BasicWave()
@@ -52,7 +53,6 @@ void
 BasicWave::Init()
 {
 
-  headerPath.clear();
   waveTypeID   = kWaveTypeSquare;
   frequencyVal = 0.0;
   amplifierVal = 0.0;
@@ -67,21 +67,23 @@ BasicWave::Init()
   delayVal     = 0.0;
 
 
-  frequency_flag  = false;
-  amplifier_flag  = false;
-  offset_flag     = false;
-  symmetry_flag   = false;
-  duty_cycle_flag = false;
+  frequency_flag  = true;
+  amplifier_flag  = true;
+  offset_flag     = true;
+  symmetry_flag   = true;
+  duty_cycle_flag = true;
   
-  width_flag      = false;
-  rise_flag       = false;
-  fall_flag       = false;
-  delay_flag      = false;
+  width_flag      = true;
+  rise_flag       = true;
+  fall_flag       = true;
+  delay_flag      = true;
 
-  phase_flag      = false;
-  std_dev_flag    = false;
-  mean_flag       = false;
+  phase_flag      = true;
+  std_dev_flag    = true;
+  mean_flag       = true;
 
+  
+  
   waveTypeString.clear();
   frequencyUnit = "HZ";
   amplifierUnit = "V";
@@ -94,6 +96,10 @@ BasicWave::Init()
   // dutyCycleUnit.clear();
 
   clearCommand();
+
+  waveTypeMap     = CreateBasicWaveMap();
+  waveParamterMap = CreateWaveParameterMap();
+  headerPathMap   = CreateHeaderPathMap();
   
 };
 
@@ -101,90 +107,126 @@ void
 BasicWave::setWaveTypeID(EBasicWaveType_t id)
 {
   waveTypeID = id;
-  waveTypeString = GetBasicWaveType(waveTypeID);
+  waveTypeString = waveTypeMap[id];
+  this -> set_flags(id);
 
-  frequency_flag  = false;
-  amplifier_flag  = false;
-  offset_flag     = false;
-  symmetry_flag   = false;
-  duty_cycle_flag = false;
-  
-  width_flag      = false;
-  rise_flag       = false;
-  fall_flag       = false;
-  delay_flag      = false;
-
-  phase_flag      = false;
-  std_dev_flag    = false;
-  mean_flag       = false;
-
-  switch  (waveTypeID) {
-  case kWaveTypeSine | kWaveTypeSquare | kWaveTypeRamp | kWaveTypeArb | kWaveTypeDc :
-    frequency_flag  = true;
-    amplifier_flag  = true;
-    offset_flag     = true;
-    phase_flag      = true;
-    duty_cycle_flag = true;
-    ;
-    break;
-  case kWaveTypePulse :
-    frequency_flag  = true;
-    amplifier_flag  = true;
-    offset_flag     = true;
-    phase_flag      = true;
-    duty_cycle_flag = true;
-    
-    width_flag      = true;
-    rise_flag       = true;
-    fall_flag       = true;
-    delay_flag      = true;
-    ;
-    break;
-  case kWaveTypeNoise:
-    phase_flag      = true;
-    std_dev_flag    = true;
-    mean_flag       = true;
-  default:
-    ;
-    
-    
-  }
-    
   return;
 };
 
-
-BasicWave & BasicWave::operator=(const BasicWave &bwobj)
+void
+BasicWave::set_flags(EBasicWaveType_t id)
 {
-  if (this == &bwobj)
-    return *this;
+  switch (id)
+    {
+    case kWaveTypeSine:
+      frequency_flag  = true;    amplifier_flag  = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = true;
+      width_flag      = false;    rise_flag      = false;
+      fall_flag       = false;    delay_flag     = false;
+      symmetry_flag   = false;
+      std_dev_flag    = false;    mean_flag      = false;
+      break;
+    case kWaveTypeSquare:
+      frequency_flag  = true;    amplifier_flag  = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = true;
+      width_flag      = false;    rise_flag      = false;
+      fall_flag       = false;    delay_flag     = false;
+      symmetry_flag   = false;
+      std_dev_flag    = false;    mean_flag      = false;
+      break;
+    case kWaveTypeRamp:
+      frequency_flag  = true;    amplifier_flag  = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = true;
+      width_flag      = false;    rise_flag      = false;
+      fall_flag       = false;    delay_flag     = false;
+      symmetry_flag   = true;
+      std_dev_flag    = false;    mean_flag      = false;
+      break;
+    case kWaveTypePulse:
+      frequency_flag  = true;    amplifier_flag  = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = true;
+      width_flag      = true;    rise_flag       = true;
+      fall_flag       = true;    delay_flag      = true;
+      symmetry_flag   = false;
+      std_dev_flag    = false;   mean_flag       = false;
+      break;
+    case kWaveTypeNoise:
+      frequency_flag  = false;   amplifier_flag  = false;
+      offset_flag     = false;   phase_flag      = false;
+      duty_cycle_flag = true;
+      width_flag      = false;    rise_flag      = false;
+      fall_flag       = false;    delay_flag     = false;
+      symmetry_flag   = false;
+      std_dev_flag    = true;     mean_flag      = true;
+      break;
+    case kWaveTypeArb:
+      frequency_flag  = true;    amplifier_flag  = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = true;
+      width_flag      = false;    rise_flag      = false;
+      fall_flag       = false;    delay_flag     = false;
+      symmetry_flag   = false;
+      std_dev_flag    = false;    mean_flag      = false;
+      break;
+    case kWaveTypeDc:
+      frequency_flag  = true;    amplifier_flag  = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = true;
+      width_flag      = false;    rise_flag      = false;
+      fall_flag       = false;    delay_flag     = false;
+      symmetry_flag   = false;
+      std_dev_flag    = false;    mean_flag      = false;
+      break;
+    default:
+      frequency_flag  = true;    amplifier_flag  = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = true;
+      width_flag      = false;    rise_flag      = false;
+      fall_flag       = false;    delay_flag     = false;
+      symmetry_flag   = false;
+      std_dev_flag    = false;    mean_flag      = false;
+      break;
+      
+    }
   
-  headerPath           = bwobj.headerPath;
-  waveTypeID           = bwobj.waveTypeID;
-  frequencyVal         = bwobj.frequencyVal;
-  amplifierVal         = bwobj.amplifierVal;
-  offsetVal            = bwobj.offsetVal;
-  dutyCycleVal         = bwobj.dutyCycleVal;
-  phaseVal             = bwobj.phaseVal;
-  stdDevVal            = bwobj.stdDevVal ;
-  meanVal              = bwobj.meanVal;
-  widthVal             = bwobj.widthVal;
-  riseVal              = bwobj.riseVal;
-  fallVal              = bwobj.fallVal;
-  delayVal             = bwobj.delayVal;
-
-  frequencyUnit        = bwobj.frequencyUnit;
-  amplifierUnit        = bwobj.amplifierUnit;
-  offsetUnit           = bwobj.offsetUnit;
-  dutyCycleUnit        = bwobj.dutyCycleUnit;
-
-  waveTypeString       = bwobj.waveTypeString;
-  fullCommandStream    << bwobj.fullCommandStream;
-  
-
-  return *this;
-  
+  return;
 };
+
+// BasicWave & BasicWave::operator=(const BasicWave &bwobj)
+// {
+//   if (this == &bwobj)
+//     return *this;
+  
+//   headerPath           = bwobj.headerPath;
+//   waveTypeID           = bwobj.waveTypeID;
+//   frequencyVal         = bwobj.frequencyVal;
+//   amplifierVal         = bwobj.amplifierVal;
+//   offsetVal            = bwobj.offsetVal;
+//   dutyCycleVal         = bwobj.dutyCycleVal;
+//   phaseVal             = bwobj.phaseVal;
+//   stdDevVal            = bwobj.stdDevVal ;
+//   meanVal              = bwobj.meanVal;
+//   widthVal             = bwobj.widthVal;
+//   riseVal              = bwobj.riseVal;
+//   fallVal              = bwobj.fallVal;
+//   delayVal             = bwobj.delayVal;
+
+//   frequencyUnit        = bwobj.frequencyUnit;
+//   amplifierUnit        = bwobj.amplifierUnit;
+//   offsetUnit           = bwobj.offsetUnit;
+//   dutyCycleUnit        = bwobj.dutyCycleUnit;
+
+//   waveTypeString       = bwobj.waveTypeString;
+//   fullCommandStream    << bwobj.fullCommandStream;
+  
+
+//   return *this;
+  
+// };
 
 
 
@@ -236,8 +278,9 @@ std::ostream& operator<<(std::ostream& os, const BasicWave &bwobj)
 
 
 void
-BasicWave::Print()
+BasicWave::Print(std::string in)
 {
+  std::cout << " >>> " << in << std::endl;
   int width = 40;
   std::cout
     <<
@@ -289,13 +332,24 @@ BasicWave::Print()
 void
 BasicWave::buildCommand()
 {
-  fullCommandStream << this -> getHeaderPath();
+
+  bool front_comma = true;
+  
+  fullCommandStream << headerPathMap[headerPathID];
   fullCommandStream << ":BSWV WVTP,";
-  fullCommandStream << this -> getWaveTypeString();
-  fullCommandStream << ",";
-  fullCommandStream << "FREQ,";
-  fullCommandStream << this->getFrequencyVal();
-  fullCommandStream << frequencyUnit ;
+  fullCommandStream << waveTypeMap[waveTypeID];
+  fullCommandStream << getWaveCmdSnip(frequency_flag,  kWaveFreq,    frequencyVal, front_comma);
+  fullCommandStream << getWaveCmdSnip(amplifier_flag,  kWaveAmpl,    amplifierVal, front_comma);
+  fullCommandStream << getWaveCmdSnip(offset_flag,     kWaveOffset,  offsetVal,    front_comma);
+  fullCommandStream << getWaveCmdSnip(phase_flag,      kWavePhase,   phaseVal,     front_comma);
+  fullCommandStream << getWaveCmdSnip(duty_cycle_flag, kWaveDuty,    dutyCycleVal, front_comma);
+  fullCommandStream << getWaveCmdSnip(width_flag,      kWaveWidth,   widthVal,     front_comma);
+  fullCommandStream << getWaveCmdSnip(rise_flag,       kWaveRise,    riseVal,      front_comma);
+  fullCommandStream << getWaveCmdSnip(fall_flag,       kWaveFall,    fallVal,      front_comma);
+  fullCommandStream << getWaveCmdSnip(delay_flag,      kWaveDelay,   delayVal,     front_comma);
+  fullCommandStream << getWaveCmdSnip(symmetry_flag,   kWaveSymm,    symmetryVal,  front_comma);
+  fullCommandStream << getWaveCmdSnip(std_dev_flag,    kWaveStdDev,  stdDevVal,    front_comma);
+  fullCommandStream << getWaveCmdSnip(mean_flag,       kWaveMean,    meanVal,      front_comma);
   
   return;
 };
@@ -308,3 +362,33 @@ BasicWave::clearCommand()
   //  std::cout << "Is it clean? " << fullCommandStream.str() << std::endl;
   return;
 }
+
+const std::string
+BasicWave::getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool front_prefix)
+{
+  std::ostringstream result;
+  std::string        unit;
+
+  if(cmd_flag) {
+    if (front_prefix) result << ",";
+    result << waveParamterMap[id];
+    result << ",";
+    result << value;
+    switch (id)
+      {
+      case kWaveFreq:   unit=frequencyUnit; break;
+      case kWaveAmpl:   unit=amplifierUnit; break;
+      case kWaveOffset: unit=offsetUnit;    break;
+      case kWaveDuty:   unit=dutyCycleUnit; break;
+      default: unit.clear(); break;
+	
+      }
+    result << unit;
+  }
+  else {
+    result.str("");
+    result.clear();
+  }
+
+  return result.str();
+};

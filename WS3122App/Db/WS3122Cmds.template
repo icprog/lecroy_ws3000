@@ -1,4 +1,70 @@
 
+record(mbbo, "$(P)$(R)HeaderPath")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field( OUT, "@asyn($(PORT),0,0) PAR_HEADER_PATH")
+   field(ZRST, "C1")
+   field(ZRVL, "0")
+   field(ONST, "C2")
+   field(ONVL, "1")
+   field(TWST, "M1")
+   field(TWVL, "2")
+   field(THST, "M2")
+   field(THVL, "3")
+   field(FRST, "M3")
+   field(FRVL, "4")
+   field(FVST, "M4")
+   field(FVVL, "5")
+   field(SXST, "M5")
+   field(SXVL, "6")
+   field(SVSV, "INVALID")
+   field(EISV, "INVALID")
+   field(NISV, "INVALID")
+   field(TESV, "INVALID")
+   field(ELSV, "INVALID")
+   field(TVSV, "INVALID")
+   field(TTSV, "INVALID")
+   field(FTSV, "INVALID")
+   field(FFSV, "INVALID")
+   field(UNSV, "INVALID")
+   field( VAL, "0")
+}
+
+record(mbbi, "$(P)$(R)HeaderPath_RBV")
+{
+   field(DTYP, "asynInt32")
+   field( INP,  "@asyn($(PORT),0,0) PAR_HEADER_PATH")
+   field(ZRST, "C1")
+   field(ZRVL, "0")
+   field(ONST, "C2")
+   field(ONVL, "1")
+   field(TWST, "M1")
+   field(TWVL, "2")
+   field(THST, "M2")
+   field(THVL, "3")
+   field(FRST, "M3")
+   field(FRVL, "4")
+   field(FVST, "M4")
+   field(FVVL, "5")
+   field(SXST, "M5")
+   field(SXVL, "6")
+   field(SVSV, "INVALID")
+   field(EISV, "INVALID")
+   field(NISV, "INVALID")
+   field(TESV, "INVALID")
+   field(ELSV, "INVALID")
+   field(TVSV, "INVALID")
+   field(TTSV, "INVALID")
+   field(FTSV, "INVALID")
+   field(FFSV, "INVALID")
+   field(UNSV, "INVALID")
+   field(SCAN, "I/O Intr")
+}
+
+
+
+
 record(bo, "$(P)$(R)SetWaveType")
 {
     field(DTYP, "asynInt32")
@@ -6,3 +72,23 @@ record(bo, "$(P)$(R)SetWaveType")
 }
 
 
+# record(bo, "$(P)$(R)Run")
+# {
+#     field(PINI,  "1")
+#     field(DTYP, "asynInt32")
+#     field(OUT,  "@asyn($(PORT),0,0) CMD_OUTPUT")
+#     field(ZNAM, "Stop")
+#     field(ONAM, "Run")
+# }
+
+# record(bi, "$(P)$(R)Run_RBV")
+# {
+#     field(PINI, "1")
+#     field(DTYP, "asynInt32")
+#     field(INP,  "@asyn($(PORT),0,0) CMD_OUT")
+#     field(ZNAM, "Done")
+#     field(ZSV,  "NO_ALARM")
+#     field(ONAM, "Running")
+#     field(OSV,  "MINOR")
+#     field(SCAN, "I/O Intr")
+# }

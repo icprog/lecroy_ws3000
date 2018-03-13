@@ -17,23 +17,23 @@ class BasicWave
 
 public:
   BasicWave();
-  BasicWave(const BasicWave& bwv);
+  // BasicWave(const BasicWave& bwv);
   virtual ~BasicWave();
 
   friend std::ostream& operator<<(std::ostream& os, const BasicWave &bwv);
   
-  BasicWave & operator=(const BasicWave &bwv);
+  // BasicWave & operator=(const BasicWave &bwv);
   
   void Init();
-  void Print();
+  void Print(std::string in);
 
   void buildCommand();
   void clearCommand();
   
   const std::string     getFullCommand()             { return fullCommandStream.str();};
-  const char*           getCharFullCommand()         { return fullCommandStream.str().c_str();};
+   
+  const std::string       getHeaderPath()            { return headerPathMap[headerPathID]; };
   
-  const std::string       getHeaderPath()            { return headerPath; };
   const EBasicWaveType_t  getWaveTypeID()            { return waveTypeID; };
   const std::string       getWaveTypeString()        { return waveTypeString;};
   
@@ -55,34 +55,37 @@ public:
   const double          getDelayVal()                { return delayVal; };
   
 
-  void    setHeaderPath(std::string in)        { headerPath = in;  };
+  void    setHeaderPath(EHeaderPath_t id)        {  headerPathID = id; };
   void    setWaveTypeID(EBasicWaveType_t id) ;   
   
   void    setFrequencyVal(double val)          { frequencyVal = val; };
   void    setAmplifierVal(double val)          { amplifierVal = val; };
   void    setOffsetVal(double val)             { offsetVal    = val; };
-  
-  void    setSymmetryVal(unsigned int val)     { symmetryVal  = val; };
-  
-  void    setDutyCycleVal(double val)          { dutyCycleVal = val; };
-
-  void    setPhaseVal(unsigned int val)        { phaseVal     = val; };
-  void    setStandardDeviationVal(double val)  { stdDevVal    = val; };
+ 
+  void    setPhaseVal(double val)              { phaseVal     = val; };
+  void    setStdDevVal(double val)             { stdDevVal    = val; };
   void    setMeanVal(double val)               { meanVal      = val; };
 
   void    setWidthVal(double val)              { widthVal     = val; };
   void    setRiseVal(double val)               { riseVal      = val; };
-  void    setFallVall(double val)              { fallVal      = val; };
+  void    setFallVal(double val)              { fallVal      = val; };
   void    setDelayVal(double val)              { delayVal     = val; };
+ 
+  void    setSymmetryVal(double val)           { symmetryVal  = val; };
+  
+  void    setDutyCycleVal(double val)          { dutyCycleVal = val; };
 
+  
+  
   bool    IsFrequency()          const {return frequency_flag;};
   bool    IsAmplifier()          const {return amplifier_flag;};
   bool    IsOffset()             const {return offset_flag;};
+  
   bool    IsSymmetry()           const {return symmetry_flag;};
   bool    IsDutyCycle()          const {return duty_cycle_flag;};
 
   bool    IsWidth()              const {return width_flag;};
-  bool    IsRIse()               const {return rise_flag;};
+  bool    IsRise()               const {return rise_flag;};
   bool    IsFall()               const {return fall_flag;};
   bool    IsDelay()              const {return delay_flag;};
   
@@ -94,49 +97,63 @@ public:
 private:
 
   std::string            headerPath;
-  EBasicWaveType_t       waveTypeID; 
-
+  
+  EBasicWaveType_t       waveTypeID;
+  BasicWaveMap           waveTypeMap;
+  
+  EWaveParameter_t       waveParmeterID;
+  WaveParameterMap       waveParamterMap;
+  
+  EHeaderPath_t          headerPathID;
+  HeaderPathMap          headerPathMap;
 
   
   double              frequencyVal;   
   double              amplifierVal;   
-  double              offsetVal;      
-  double              symmetryVal;    
-  
-  double              dutyCycleVal;   
+  double              offsetVal;
+  double              phaseVal;
 
   double              widthVal; 
   double              riseVal;  
   double              fallVal;  
   double              delayVal;
-
-  double              phaseVal;       
+    
+  double              symmetryVal;    
   double              stdDevVal;
   double              meanVal;  
   
+  double              dutyCycleVal;
 
+  
   bool                frequency_flag;
   bool                amplifier_flag;
   bool                offset_flag;
-  bool                symmetry_flag;
-  bool                duty_cycle_flag;
   bool                phase_flag;
-  bool                std_dev_flag;
-  bool                mean_flag;
+  
   bool                width_flag;
   bool                rise_flag;
   bool                fall_flag;
   bool                delay_flag;
+  
+  bool                symmetry_flag;
+  bool                std_dev_flag;
+  bool                mean_flag;
+  
+  bool                duty_cycle_flag;
 
-  std::string waveTypeString;
-  std::string frequencyUnit;  // Hz, [1e-6, depends on the model]
-  std::string amplifierUnit;  // V   [2mVpp, 20Vpp] for WS3000
-  std::string offsetUnit;  // V   [, depends on the model]
-  std::string dutyCycleUnit;  // percent if WVTP SQUARE, [20,80], if WVTP PULSE [0.1,99.9]
+
+  std::string         waveTypeString;
+  std::string         frequencyUnit;  // Hz, [1e-6, depends on the model]
+  std::string         amplifierUnit;  // V   [2mVpp, 20Vpp] for WS3000
+  std::string         offsetUnit;     // V   [, depends on the model]
+  std::string         dutyCycleUnit;  // percent if WVTP SQUARE, [20,80], if WVTP PULSE [0.1,99.9]
   //  char standardDeviationUnit [maxUnitStringLength]; // V [0.5m, 1.599] valid only when WVTP NOISE
   
   std::ostringstream fullCommandStream;
-
+  
+  const std::string  getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool front_prefix);
+  void set_flags(EBasicWaveType_t id);
+   
 };
 
 

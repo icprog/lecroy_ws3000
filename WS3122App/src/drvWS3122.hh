@@ -46,13 +46,23 @@
 
 #define ParBasicWaveTypeSelecString  "BASIC_WAVE_TYPE_SELECT"
 #define ParHeaderPathString          "PAR_HEADER_PATH"
-#define ParWaveFrequencyString       "PAR_WAVE_FREQUENCY"
-#define ParWaveAmplifierString       "PAR_WAVE_AMPLIFIER"
+#define ParWaveFrequencyString       "PAR_WAVE_FREQUENCY"           //asynFloat64
+#define ParWaveAmplifierString       "PAR_WAVE_AMPLIFIER"           //asynFloat64
+#define ParWaveOffsetString          "PAR_WAVE_OFFSET"              //asynFloat64
+#define ParWavePhaseString           "PAR_WAVE_PHASE"               //asynFloat64
+#define ParWaveWidthString           "PAR_WAVE_WIDTH"               //asynFloat64
+#define ParWaveRiseString            "PAR_WAVE_RISE"                //asynFloat64
+#define ParWaveFallString            "PAR_WAVE_FALL"                //asynFloat64
+#define ParWaveDelayString           "PAR_WAVE_DELAY"               //asynFloat64
+#define ParWaveSymmetryString        "PAR_WAVE_SYMMETRY"            //asynFloat64
+#define ParWaveStdDevString          "PAR_WAVE_STDDEV"              //asynFloat64
+#define ParWaveMeanString            "PAR_WAVE_MEAN"                //asynFloat64
+#define ParWaveDutyCycleString       "PAR_WAVE_DUTYCYCLE"           //asynFloat64
 
 #define CmdSetWaveTypeString         "CMD_SET_WAVE_TYPE"
-#define CmdPhaseInvertString         "CMD_PHASE_INVERT"              // asynParamInt32
+#define CmdPhaseInvertString         "CMD_PHASE_INVERT"             // asynParamInt32
 #define CmdScreenSaveString          "CMD_SCREEN_SAVE"
-#define CmdClockSourceString         "CMD_CLOCK_SOURCE"              // asynParamInt32
+#define CmdClockSourceString         "CMD_CLOCK_SOURCE"             // asynParamInt32
 
 
 class drvWS3122 : public asynPortDriver {
@@ -77,10 +87,22 @@ protected:
   int  devManufacturer_;
   int  devModel_;
   int  devSerialNumber_;
+  
   int  parBasicWaveTypeSelect_;
   int  parHeaderPath_;
   int  parWaveFrequency_;
   int  parWaveAmplifier_;
+  int  parWaveOffset_;
+  int  parWavePhase_;
+  int  parWaveWidth_;
+  int  parWaveRise_;
+  int  parWaveFall_;
+  int  parWaveDelay_;
+  int  parWaveSymmetry_;
+  int  parWaveStdDev_;
+  int  parWaveMean_;
+  int  parWaveDutyCycle_;
+  
   int  cmdSetWaveType_;
   int  cmdPhaseInvert_;
   int  cmdScreenSave_;
@@ -115,9 +137,7 @@ private:
   
   asynStatus report_device_information(FILE *fp);
   asynStatus set_device_information();
-  asynStatus set_wave_type();
-  asynStatus set_wave_freq();
-  asynStatus set_wave_ampl();
+  asynStatus set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fValue, std::string value_s);
   
 };
 

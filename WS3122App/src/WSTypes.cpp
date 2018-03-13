@@ -3,7 +3,8 @@
 
 #include "WSTypes.hh"
 
-EBasicWaveType_t GetBasicWaveType(std::string name)
+EBasicWaveType_t
+GetBasicWaveType(std::string name)
 {
   std::transform(name.begin(), name.end(), name.begin(), ::tolower);
   EBasicWaveType_t result;
@@ -18,7 +19,8 @@ EBasicWaveType_t GetBasicWaveType(std::string name)
   return result;
 };
 
-std::string GetBasicWaveType(EBasicWaveType_t type)
+std::string
+GetBasicWaveType(EBasicWaveType_t type)
 {
   std::string result;
   if      (type==kWaveTypeSine)   result = "SINE";
@@ -31,4 +33,36 @@ std::string GetBasicWaveType(EBasicWaveType_t type)
   else                            result = "UNKNOWN";
 
   return result;
-}
+};
+
+
+
+EWaveParameter_t
+GetWaveParmeter(std::string name)
+{
+  std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+  EWaveParameter_t result;
+  if      (name.compare("frequency")==0) result = kWaveFreq;
+  else if (name.compare("amplifier")==0) result = kWaveAmpl;
+  else if (name.compare("offset")   ==0) result = kWaveOffset;
+  else if (name.compare("phase")    ==0) result = kWavePhase;
+  else if (name.compare("width")    ==0) result = kWaveWidth;
+  else if (name.compare("rise")     ==0) result = kWaveRise;
+  else if (name.compare("fall")     ==0) result = kWaveFall;
+  else if (name.compare("delay")    ==0) result = kWaveDelay;
+  else if (name.compare("symmetry") ==0) result = kWaveSymm;
+  else if (name.compare("stddev")   ==0) result = kWaveStdDev;
+  else if (name.compare("mean")     ==0) result = kWaveMean;
+  else if (name.compare("dutycycle")==0) result = kWaveDuty;
+  else                                   result = kWaveUnknown;
+  return result;
+};
+
+std::string
+GetWaveParameter(EWaveParameter_t type)
+{
+  std::string result;
+
+  return result;
+};
+

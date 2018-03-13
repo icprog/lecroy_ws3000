@@ -1,65 +1,65 @@
 
 record(mbbo, "$(P)$(R)BasicWaveTypeSelect")
 {
-   field(PINI, "YES")
-   field(DTYP, "asynInt32")
-   field( OUT, "@asyn($(PORT),0,0) BASIC_WAVE_TYPE_SELECT")
-   field(ZRST, "Sine")
-   field(ZRVL, "0")
-   field(ONST, "Square")
-   field(ONVL, "1")
-   field(TWST, "Ramp")
-   field(TWVL, "2")
-   field(THST, "Pulse")
-   field(THVL, "3")
-   field(FRST, "Noise")
-   field(FRVL, "4")
-   field(FVST, "Arb")
-   field(FVVL, "5")
-   field(SXST, "Dc")
-   field(SXVL, "6")
-   field(SVSV, "INVALID")
-   field(EISV, "INVALID")
-   field(NISV, "INVALID")
-   field(TESV, "INVALID")
-   field(ELSV, "INVALID")
-   field(TVSV, "INVALID")
-   field(TTSV, "INVALID")
-   field(FTSV, "INVALID")
-   field(FFSV, "INVALID")
-   field(UNSV, "INVALID")
-   field( VAL, "1")
+    field(PINI, "YES")
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) BASIC_WAVE_TYPE_SELECT")
+    field(ZRST, "Sine")
+    field(ZRVL, "0")
+    field(ONST, "Square")
+    field(ONVL, "1")
+    field(TWST, "Ramp")
+    field(TWVL, "2")
+    field(THST, "Pulse")
+    field(THVL, "3")
+    field(FRST, "Noise")
+    field(FRVL, "4")
+    field(FVST, "Arb")
+    field(FVVL, "5")
+    field(SXST, "Dc")
+    field(SXVL, "6")
+    field(SVSV, "INVALID")
+    field(EISV, "INVALID")
+    field(NISV, "INVALID")
+    field(TESV, "INVALID")
+    field(ELSV, "INVALID")
+    field(TVSV, "INVALID")
+    field(TTSV, "INVALID")
+    field(FTSV, "INVALID")
+    field(FFSV, "INVALID")
+    field(UNSV, "INVALID")
+    field( VAL, "1")
 }
 
 record(mbbi, "$(P)$(R)BasicWaveTypeSelect_RBV")
 {
-   field(DTYP, "asynInt32")
-   field( INP,  "@asyn($(PORT),0,0) BASIC_WAVE_TYPE_SELECT")
-   field(ZRST, "Sine")
-   field(ZRVL, "0")
-   field(ONST, "Square")
-   field(ONVL, "1")
-   field(TWST, "Ramp")
-   field(TWVL, "2")
-   field(THST, "Pulse")
-   field(THVL, "3")
-   field(FRST, "Noise")
-   field(FRVL, "4")
-   field(FVST, "Arb")
-   field(FVVL, "5")
-   field(SXST, "Dc")
-   field(SXVL, "6")
-   field(SVSV, "INVALID")
-   field(EISV, "INVALID")
-   field(NISV, "INVALID")
-   field(TESV, "INVALID")
-   field(ELSV, "INVALID")
-   field(TVSV, "INVALID")
-   field(TTSV, "INVALID")
-   field(FTSV, "INVALID")
-   field(FFSV, "INVALID")
-   field(UNSV, "INVALID")
-   field(SCAN, "I/O Intr")
+    field(DTYP, "asynInt32")
+    field( INP,  "@asyn($(PORT),0,0) BASIC_WAVE_TYPE_SELECT")
+    field(ZRST, "Sine")
+    field(ZRVL, "0")
+    field(ONST, "Square")
+    field(ONVL, "1")
+    field(TWST, "Ramp")
+    field(TWVL, "2")
+    field(THST, "Pulse")
+    field(THVL, "3")
+    field(FRST, "Noise")
+    field(FRVL, "4")
+    field(FVST, "Arb")
+    field(FVVL, "5")
+    field(SXST, "Dc")
+    field(SXVL, "6")
+    field(SVSV, "INVALID")
+    field(EISV, "INVALID")
+    field(NISV, "INVALID")
+    field(TESV, "INVALID")
+    field(ELSV, "INVALID")
+    field(TVSV, "INVALID")
+    field(TTSV, "INVALID")
+    field(FTSV, "INVALID")
+    field(FFSV, "INVALID")
+    field(UNSV, "INVALID")
+    field(SCAN, "I/O Intr")
 }
 
 
@@ -67,51 +67,268 @@ record(mbbi, "$(P)$(R)BasicWaveTypeSelect_RBV")
 
 ## Frequency
 ## WS3122 up to 120MHz
+# SINE,SQUARE,RAMP,ARB,DC,PULSE
 record(ao, "$(P)$(R)WaveFrequency")
 {
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_FREQUENCY")
-   field(DRVL, 1E-6)
-   field(DRVH, 120E+6)
-   field( VAL, 14)
-   field( EGU, "Hz")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_FREQUENCY")
+    field(DRVL, 1E-6)
+    field(DRVH, 120E+6)
+    field( VAL, 14)
+    field( EGU, "Hz")
 }
 
 record(ai, "$(P)$(R)WaveFrequency_RBV")
 {
-   field(DTYP, "asynFloat64")
-   field( INP, "@asyn($(PORT),0,0) PAR_WAVE_FREQUENCY")
-   field(EGUL, 1E-6)
-   field(EGUF, 120E+6)
-   field(LOPR, 1)
-   field(HOPR, 120E+6)
-   field(SCAN, "I/O Intr")
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_FREQUENCY")
+    field(EGUL, 1E-6)
+    field(EGUF, 120E+6)
+    field(LOPR, 1)
+    field(HOPR, 120E+6)
+    field(SCAN, "I/O Intr")
 }
 
 
 
 ## Amplifier
 ## WS300, CH1/2 2mVpp <= val <= 20
+## SINE,SQUARE,RAMP,ARB,DC,PULSE
 record(ao, "$(P)$(R)WaveAmplifier")
 {
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_AMPLIFIER")
-   field(DRVL, 0.002)
-   field(DRVH, 20)
-   field( VAL, 1)
-   field( EGU, "V")
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_AMPLIFIER")
+    field(DRVL, 0.002)
+    field(DRVH, 20)
+    field( VAL, 1)
+    field( EGU, "V")
 }
 
 record(ai, "$(P)$(R)WaveAmplifier_RBV")
 {
-   field(DTYP, "asynFloat64")
-   field( INP, "@asyn($(PORT),0,0) PAR_WAVE_AMPLIFIER")
-   field(EGUL, 0.002)
-   field(EGUF, 20)
-   field(LOPR, 0.002)
-   field(HOPR, 20)
-   field(SCAN, "I/O Intr")
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_AMPLIFIER")
+    field(EGUL, 0.002)
+    field(EGUF, 20)
+    field(LOPR, 0.002)
+    field(HOPR, 20)
+    field(SCAN, "I/O Intr")
 }
 
+
+
+## Offset
+## SINE,SQUARE,RAMP,ARB,DC,PULSE
+record(ao, "$(P)$(R)WaveOffset")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_OFFSET")
+    field( VAL, 0)
+    field( EGU, "V")
+}
+
+record(ai, "$(P)$(R)WaveOffset_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_OFFSET")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+
+## Phase
+## SINE,SQUARE,RAMP,ARB,DC,PULSE
+record(ao, "$(P)$(R)WavePhase")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_PHASE")
+    field(DRVL, 0)
+    field(DRVH, 360)
+    field( VAL, 0)
+    field( EGU, "V")
+}
+
+record(ai, "$(P)$(R)WaveOffset_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_PHASE")
+    field(EGUL, 0)
+    field(EGUF, 360)
+    field(LOPR, 0)
+    field(HOPR, 360)
+    field(SCAN, "I/O Intr")
+}
+
+
+
+
+
+## Width
+## PULSE
+record(ao, "$(P)$(R)WaveWidth")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_WIDTH")
+    field( VAL, 0)
+    field( EGU, "V")
+}
+
+record(ai, "$(P)$(R)WaveWidth_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_WIDTH")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+## RISE
+## PULSE
+record(ao, "$(P)$(R)WaveRise")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_RISE")
+}
+
+record(ai, "$(P)$(R)WaveWidth_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_RISE")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+## Fall
+## PULSE
+record(ao, "$(P)$(R)WaveFall")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_FALL")
+}
+
+record(ai, "$(P)$(R)WaveFall_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_FALL")
+    field(SCAN, "I/O Intr")
+}
+
+
+## Delay
+## PULSE
+record(ao, "$(P)$(R)WaveDelay")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_DELAY")
+    field(DRVL, 0)
+}
+
+record(ai, "$(P)$(R)WaveDelay_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_DELAY")
+    field(EGUL, 0)
+    field(LOPR, 0)
+    field(SCAN, "I/O Intr")
+}
+
+
+
+## Symmetry [RAMP]
+## 
+record(ao, "$(P)$(R)WaveSymmetry")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_SYMMETRY")
+    field(DRVL, 0)
+    field(DRVH, 100)
+}
+
+record(ai, "$(P)$(R)WaveSymmetry_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_SYMMETRY")
+    field(EGUL, 0)
+    field(EGUF, 100)
+    field(LOPR, 0)
+    field(HOPR, 100)
+    field(SCAN, "I/O Intr")
+    
+}
+
+
+
+## StdDev [NOISE]
+## 0.5mV to 1.599V for WS3000
+record(ao, "$(P)$(R)WaveStdDev")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_STDDEV")
+    field(DRVL, 0.0005)
+    field(DRVH, 1.5990)
+    field( VAL, 0.0005)
+    field( EGU, "V")
+}
+
+record(ai, "$(P)$(R)WaveStdDev_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_STDDEV")
+    field(EGUL, 0.0005)
+    field(EGUF, 1.5990)
+    field(LOPR, 0.0005)
+    field(HOPR, 1.5990)
+    field(SCAN, "I/O Intr")
+}
+
+
+
+## Mean [NOISE]
+## Range depends on <standard deviation>
+record(ao, "$(P)$(R)WaveMean")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_MEAN")
+    field( EGU, "V")
+}
+
+record(ai, "$(P)$(R)WaveMean_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_MEAN")
+    field(SCAN, "I/O Intr")
+}
+
+
+## DutyCycle 
+## Range is defined for maximum, it comes from PULSE.
+## If SQUARE, the range is [20%, 80%]
+record(ao, "$(P)$(R)WaveDutyCycle")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_DUTYCYCLE")
+    field(DRVL, 0.1)
+    field(DRVH, 99.9)
+    field( EGU, "Percent")
+}
+
+record(ai, "$(P)$(R)WaveDutyCycle_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_WAVE_DUTYCYCLE")
+    field(SCAN, "I/O Intr")
+}

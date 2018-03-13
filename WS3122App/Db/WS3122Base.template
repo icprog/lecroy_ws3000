@@ -48,20 +48,21 @@ record(stringin, "$(P)$(R)DevIDN_RBV")
 }
 
 
-record(stringout, "$(P)$(R)HeaderPath")
-{
-    field(PINI, "YES")
-    field(DTYP, "asynOctetWrite")
-    field( OUT, "@asyn($(PORT),0,0) PAR_HEADER_PATH")
-    field( VAL, "C1")
-}
+# record(stringout, "$(P)$(R)HeaderPath")
+# {
+#     field(PINI, "YES")
+#     field(DTYP, "asynOctetWrite")
+#     field( OUT, "@asyn($(PORT),0,0) PAR_HEADER_PATH")
+#     field( VAL, "C1")
+# }
 
-record(stringin, "$(P)$(R)HeaderPath_RBV")
-{
-    field(DTYP, "asynOctetRead")
-    field( INP, "@asyn($(PORT),0,0) PAR_HEADER_PATH")
-    field(SCAN, "I/O Intr")
-}
+# record(stringin, "$(P)$(R)HeaderPath_RBV")
+# {
+#     field(DTYP, "asynOctetRead")
+#     field( INP, "@asyn($(PORT),0,0) PAR_HEADER_PATH")
+#     field(SCAN, "I/O Intr")
+# }
+
 
 
 

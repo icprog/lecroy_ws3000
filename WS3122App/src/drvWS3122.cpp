@@ -128,14 +128,25 @@ drvWS3122::Init()
   createParam(DevSerialNumberString,   asynParamOctet,  &devSerialNumber_  );
 
   createParam(ParBasicWaveTypeSelecString, asynParamInt32,   &parBasicWaveTypeSelect_);
-  createParam(ParHeaderPathString,         asynParamOctet,   &parHeaderPath_    );
+  createParam(ParHeaderPathString,         asynParamInt32,   &parHeaderPath_    );
   createParam(ParWaveFrequencyString,      asynParamFloat64, &parWaveFrequency_);
   createParam(ParWaveAmplifierString,      asynParamFloat64, &parWaveAmplifier_);
-
-  createParam(CmdSetWaveTypeString,    asynParamInt32,  &cmdSetWaveType_ );
-  createParam(CmdPhaseInvertString,    asynParamInt32,  &cmdPhaseInvert_  );
-  createParam(CmdScreenSaveString,     asynParamInt32,  &cmdScreenSave_   );
-  createParam(CmdClockSourceString,    asynParamInt32,  &cmdClockSource_  );
+  createParam(ParWaveOffsetString,         asynParamFloat64, &parWaveOffset_);
+  createParam(ParWavePhaseString,          asynParamFloat64, &parWavePhase_);
+  createParam(ParWaveWidthString,          asynParamFloat64, &parWaveWidth_);
+  createParam(ParWaveRiseString,           asynParamFloat64, &parWaveRise_);
+  createParam(ParWaveFallString,           asynParamFloat64, &parWaveFall_);
+  createParam(ParWaveDelayString,          asynParamFloat64, &parWaveDelay_);
+  createParam(ParWaveSymmetryString,       asynParamFloat64, &parWaveSymmetry_);
+  createParam(ParWaveStdDevString,         asynParamFloat64, &parWaveStdDev_);
+  createParam(ParWaveMeanString,           asynParamFloat64, &parWaveMean_);
+  createParam(ParWaveDutyCycleString,      asynParamFloat64, &parWaveDutyCycle_);
+  
+  
+  createParam(CmdSetWaveTypeString,        asynParamInt32,   &cmdSetWaveType_ );
+  createParam(CmdPhaseInvertString,        asynParamInt32,   &cmdPhaseInvert_ );
+  createParam(CmdScreenSaveString,         asynParamInt32,   &cmdScreenSave_  );
+  createParam(CmdClockSourceString,        asynParamInt32,   &cmdClockSource_ );
   
   status = pasynOctetSyncIO->connect(this->getUsbTmcPortName(), 0, &usbTmcAsynUser, NULL);
 
@@ -247,49 +258,162 @@ asynStatus drvWS3122::set_device_information()
 };
 
 
-asynStatus
-drvWS3122::set_wave_type()
-{
-  asynStatus status = asynSuccess;
-  int bWaveType;
-  std::string header_path;
-  getStringParam(parHeaderPath_,           header_path);
-  getIntegerParam(parBasicWaveTypeSelect_, &bWaveType);
-  setStringParam(parHeaderPath_,           header_path);
-  setIntegerParam(parBasicWaveTypeSelect_, bWaveType);
-  basicWave -> setHeaderPath(header_path);
-  basicWave -> setWaveTypeID(( EBasicWaveType_t) bWaveType);
-  basicWave -> Print();
-  return status;
-}
-
-
-asynStatus
-drvWS3122::set_wave_freq()
-{
-  asynStatus status = asynSuccess;
-  double   wave_freq = 0.0;
-  getDoubleParam(parWaveFrequency_,        &wave_freq);
-  setDoubleParam(parWaveFrequency_,        wave_freq);
-  basicWave -> setFrequencyVal(wave_freq);
-
-  basicWave -> Print();
+// asynStatus
+// drvWS3122::set_wave_type()
+// {
+//   asynStatus status = asynSuccess;
+//   int bWaveType;
+//   int header_path;
   
-  return status;
+//   getIntegerParam(parHeaderPath_,          &header_path);
+//   setIntegerParam(parHeaderPath_,           header_path);
+//   getIntegerParam(parBasicWaveTypeSelect_, &bWaveType);
+//   setIntegerParam(parBasicWaveTypeSelect_,  bWaveType);
   
-}
+//   basicWave -> setHeaderPath((EHeaderPath_t)    header_path);
+//   basicWave -> setWaveTypeID((EBasicWaveType_t) bWaveType);
+//   //  basicWave -> Print();
+//   return status;
+// }
+
+
+// asynStatus
+// drvWS3122::set_wave_freq()
+// {
+//   asynStatus status = asynSuccess;
+//   double   wave_freq = 0.0;
+//   getDoubleParam(parWaveFrequency_,        &wave_freq);
+//   setDoubleParam(parWaveFrequency_,        wave_freq);
+//   basicWave -> setFrequencyVal(wave_freq);
+
+//   //  basicWave -> Print();
+  
+//   return status;
+  
+// }
+
+
+// asynStatus
+// drvWS3122::set_wave_ampl()
+// {
+//   asynStatus status = asynSuccess;
+//   double   wave_val = 0.0;
+//   getDoubleParam(parWaveAmplifier_,        &wave_val);
+//   setDoubleParam(parWaveAmplifier_,        wave_val);
+//   basicWave -> setAmplifierVal(wave_val);
+
+//   //  basicWave -> Print();
+  
+//   return status;
+  
+// }
+
 
 
 asynStatus
-drvWS3122::set_wave_ampl()
+drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fValue, std::string value_s)
 {
   asynStatus status = asynSuccess;
-  double   wave_val = 0.0;
-  getDoubleParam(parWaveAmplifier_,        &wave_val);
-  setDoubleParam(parWaveAmplifier_,        wave_val);
-  basicWave -> setAmplifierVal(wave_val);
+  int par    = 0;
+  double val = 0.0;
+  double val_reset = -0.1;
 
-  basicWave -> Print();
+  if ( function == parBasicWaveTypeSelect_ ) {
+    getIntegerParam(parHeaderPath_,           &par);
+    basicWave -> setHeaderPath((EHeaderPath_t) par);
+    setIntegerParam(parHeaderPath_,            par);
+    par = 0;
+    getIntegerParam(parBasicWaveTypeSelect_,  &par);
+    basicWave -> setWaveTypeID((EBasicWaveType_t) par);
+    setIntegerParam(parBasicWaveTypeSelect_,   par);
+  }
+  else if (function ==  parWaveFrequency_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveFrequency_,        &val);
+    if( basicWave->IsFrequency() ) basicWave -> setFrequencyVal(val);
+    else val = val_reset; // Ignore user input
+    setDoubleParam(parWaveFrequency_,         val);
+  } else if (function ==  parWaveAmplifier_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveAmplifier_,        &val);
+    if( basicWave->IsAmplifier() ) basicWave -> setAmplifierVal(val);
+    else val = val_reset; // Ignore user input
+    setDoubleParam(parWaveAmplifier_,         val);
+  }
+  else if (function ==  parWaveOffset_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveOffset_, &val);
+    if( basicWave->IsOffset() ) basicWave -> setOffsetVal(val);
+    else val = val_reset;    // Ignore user input
+    setDoubleParam(parWaveOffset_, val);
+  }
+  else if (function ==  parWavePhase_ ) {
+    val = 0.0;
+    getDoubleParam(parWavePhase_, &val);
+    if( basicWave->IsPhase() ) basicWave -> setPhaseVal(val);
+    else val = val_reset;
+    setDoubleParam(parWavePhase_, val);
+  }
+  else if (function ==  parWaveWidth_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveWidth_, &val);
+    if( basicWave->IsWidth() ) basicWave -> setWidthVal(val);
+    else val = val_reset;
+    setDoubleParam(parWaveWidth_, val);
+  }
+  else if (function ==  parWaveRise_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveRise_, &val);
+    if( basicWave->IsRise() ) basicWave -> setRiseVal(val);
+    else  val = val_reset;
+    setDoubleParam(parWaveRise_, val);
+  }
+  else if (function ==  parWaveFall_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveFall_, &val);
+    if( basicWave->IsFall() ) basicWave -> setFallVal(val);
+    else val = val_reset;
+    setDoubleParam(parWaveFall_, val);
+  }
+  else if (function ==   parWaveDelay_) {
+    val = 0.0;
+    getDoubleParam(parWaveDelay_, &val);
+    if( basicWave->IsDelay() ) basicWave -> setDelayVal(val);
+    else val = val_reset;
+    setDoubleParam(parWaveDelay_, val);
+  }
+  else if (function ==  parWaveSymmetry_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveSymmetry_, &val);
+    if( basicWave->IsSymmetry() ) basicWave -> setSymmetryVal(val);
+    else val = val_reset;
+    setDoubleParam(parWaveSymmetry_, val);
+  }
+  else if (function ==  parWaveStdDev_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveStdDev_, &val);
+    if( basicWave->IsStdDev() ) basicWave -> setStdDevVal(val);
+    else val = val_reset;
+    setDoubleParam(parWaveStdDev_, val);
+  }
+  else if (function ==  parWaveMean_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveMean_, &val);
+    if( basicWave->IsMean() ) basicWave -> setMeanVal(val);
+    else val = val_reset;
+    setDoubleParam(parWaveMean_, val);
+  }
+  else if (function == parWaveDutyCycle_ ) {
+    val = 0.0;
+    getDoubleParam(parWaveDutyCycle_, &val);
+    if( basicWave->IsDutyCycle() ) basicWave -> setDutyCycleVal(val);
+    else val=val_reset;
+    setDoubleParam(parWaveDutyCycle_, val);
+  }
+
+
+  
+  // basicWave -> Print( value_s );
   
   return status;
   
@@ -425,9 +549,8 @@ drvWS3122::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
   setIntegerParam(function, value);
 
- 
-    
   std::string value_s;
+  std::string string_in = functionName;
   
   if ( function == cmdClockSource_ ) {
     status = this-> SetClockSource(value);
@@ -435,13 +558,10 @@ drvWS3122::writeInt32(asynUser *pasynUser, epicsInt32 value)
     status = this-> SetPhaseInvert(value);
   } else if (function == cmdScreenSave_ ) {
     status = this-> SetScreenSave(value);
-  }  else if (function == cmdSetWaveType_) {
-    status = this-> SetWaveTypeCmds(1);
+  } else if (function == cmdSetWaveType_ ) {
+    status = this-> SetWaveTypeCmds(value);
   }
-  else if (function == parBasicWaveTypeSelect_) {
-    status = this->set_wave_type();
-  }
-  
+  status = this->set_wave_parameters( function, value, 0.0, functionName);
   
   callParamCallbacks();
   
@@ -473,14 +593,19 @@ drvWS3122::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
     /* Fetch the parameter string name for possible use in debugging */
     getParamName(function, &paramName);
 
-    if (function == parWaveFrequency_) {
-      status = this->set_wave_freq();
-    } else if (function == parWaveAmplifier_) {
-      status = this->set_wave_ampl();
-    } else {
-        /* All other parameters just get set in parameter list, no need to
-         * act on them here */
-    }
+    status = this->set_wave_parameters( function, 0, value, functionName);
+  
+    // if (function == parWaveFrequency_) {
+    //   status = this->set_wave_freq();
+    //   //        status = this->set_wave_parameters();
+    // } else if (function == parWaveAmplifier_) {
+    //   status = this->set_wave_ampl();
+    // //     status = this->set_wave_parameters();
+    // } else {
+    //   //     /* All other parameters just get set in parameter list, no need to
+    //   //      * act on them here */
+    //   status = this->set_wave_parameters(functionName);
+    // }
     
     /* Do callbacks so higher layers see any changes */
     status = (asynStatus) callParamCallbacks();
