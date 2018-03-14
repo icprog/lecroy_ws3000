@@ -107,7 +107,7 @@ private:
   EHeaderPath_t          headerPathID;
   HeaderPathMap          headerPathMap;
 
-  
+
   double              frequencyVal;   
   double              amplifierVal;   
   double              offsetVal;

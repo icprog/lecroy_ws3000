@@ -92,3 +92,74 @@ record(bo, "$(P)$(R)SetWaveType")
 #     field(OSV,  "MINOR")
 #     field(SCAN, "I/O Intr")
 # }
+
+
+
+
+
+## OUTP - Output Command
+
+record(bo, "$(P)$(R)Output")
+{
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) CMD_OUTPUT")
+    field(ZNAM, "ON")
+    field(ONAM, "OFF")
+}
+
+record(bi, "$(P)$(R)Output_RBV")
+{
+    field(DTYP, "asynInt32")
+    field( INP, "@asyn($(PORT),0,0) CMD_OUTPUT")
+    field(ZNAM, "ON")
+    field(ONAM, "OFF")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+
+## OUTP LOAD - Output Command
+## 50 : low-impedance (50 Ohm)
+## HZ : high-impedance 
+record(bo, "$(P)$(R)OutputLoad")
+{
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) CMD_OUTPUT_LOAD")
+    field(ZNAM, "50")
+    field(ONAM, "HZ")
+}
+
+record(bi, "$(P)$(R)OutputLoad_RBV")
+{
+    field(DTYP, "asynInt32")
+    field( INP, "@asyn($(PORT),0,0) CMD_OUTPUT_LOAD")
+    field(ZNAM, "50")
+    field(ONAM, "HZ")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+
+## OUTP PLRT - Output Parameter
+## NOR  : Normal Polarity
+## INVT : Inverted Polarity
+
+record(bo, "$(P)$(R)OutputPolarity")
+{
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) CMD_OUTPUT_POLARITY")
+    field(ZNAM, "NOR")
+    field(ONAM, "INVT")
+}
+
+record(bi, "$(P)$(R)OutputPolarity_RBV")
+{
+    field(DTYP, "asynInt32")
+    field( INP, "@asyn($(PORT),0,0) CMD_OUTPUT_POLARITY")
+    field(ZNAM, "NOR")
+    field(ONAM, "INVT")
+    field(SCAN, "I/O Intr")
+}
+

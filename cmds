@@ -1,5 +1,5 @@
 #caput usbtmc:icslab:HeaderPath C2
-caput usbtmc:icslab:BasicWaveTypeSelect Ramp
+caput usbtmc:icslab:BasicWaveTypeSelect Sine
 caput usbtmc:icslab:WaveFrequency    150
 caput usbtmc:icslab:WaveAmplifier    10
 caput usbtmc:icslab:WaveOffset       10

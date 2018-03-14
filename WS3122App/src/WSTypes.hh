@@ -8,6 +8,7 @@
 #define MAX_ENUM_STRING_SIZE 26
 
 
+// We only have the header supports on C1,C2 and upto M5.
 typedef enum {
 	      kHeaderC1,
 	      kHeaderC2,
@@ -51,10 +52,20 @@ typedef enum {
 } EWaveParameter_t;
 
 
+typedef enum {
+	      kOutputOnOff,
+	      kOutputLoad,
+	      kOutputPolarity,
+	      kOutputUnknown
+} EOutputParameter_t;
 
-typedef std::map < EHeaderPath_t,    std::string > HeaderPathMap;
-typedef std::map < EBasicWaveType_t, std::string > BasicWaveMap;
-typedef std::map < EWaveParameter_t, std::string > WaveParameterMap;
+
+
+
+typedef std::map < EHeaderPath_t,      std::string > HeaderPathMap;
+typedef std::map < EBasicWaveType_t,   std::string > BasicWaveMap;
+typedef std::map < EWaveParameter_t,   std::string > WaveParameterMap;
+typedef std::map < EOutputParameter_t, std::string > OutputParameterMap;
 
 
 inline HeaderPathMap CreateHeaderPathMap()
@@ -106,6 +117,20 @@ inline WaveParameterMap CreateWaveParameterMap()
   return map;
   
 };
+
+
+inline OutputParameterMap CreateOutputParameterMap()
+{
+  
+  OutputParameterMap map;
+  map[kOutputOnOff]    = "";
+  map[kOutputLoad]     = "LOAD";
+  map[kOutputPolarity] = "PLRT";
+  map[kOutputUnknown]  = "UNKNOWN";
+  return map;
+  
+};
+
 
 
 EBasicWaveType_t GetBasicWaveType(std::string name);

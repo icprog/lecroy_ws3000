@@ -59,6 +59,9 @@
 #define ParWaveMeanString            "PAR_WAVE_MEAN"                //asynFloat64
 #define ParWaveDutyCycleString       "PAR_WAVE_DUTYCYCLE"           //asynFloat64
 
+#define CmdOutputString              "CMD_OUTPUT"
+#define CmdOutputLoadString          "CMD_OUTPUT_LOAD"
+#define CmdOutputPolarityString      "CMD_OUTPUT_POLARITY"
 #define CmdSetWaveTypeString         "CMD_SET_WAVE_TYPE"
 #define CmdPhaseInvertString         "CMD_PHASE_INVERT"             // asynParamInt32
 #define CmdScreenSaveString          "CMD_SCREEN_SAVE"
@@ -102,7 +105,10 @@ protected:
   int  parWaveStdDev_;
   int  parWaveMean_;
   int  parWaveDutyCycle_;
-  
+
+  int  cmdOutput_;
+  int  cmdOutputLoad_;
+  int  cmdOutputPolarity_;
   int  cmdSetWaveType_;
   int  cmdPhaseInvert_;
   int  cmdScreenSave_;
@@ -124,11 +130,13 @@ private:
   //asynStatus usbTmcRead(double timeout=TIMEOUT);
   //asynStatus usbTmcWrite(double timeout=TIMEOUT);
 
-  asynStatus write_read    (std::string cmd);
-  asynStatus SetClockSource(epicsInt32 value);
-  asynStatus SetPhaseInvert(epicsInt32 value);
-  asynStatus SetScreenSave (epicsInt32 value);
+  asynStatus write_read     (std::string cmd);
+  asynStatus SetClockSource (epicsInt32 value);
+  asynStatus SetPhaseInvert (epicsInt32 value);
+  asynStatus SetScreenSave  (epicsInt32 value);
   asynStatus SetWaveTypeCmds(epicsInt32 value);
+  asynStatus SetOutput      (epicsInt32 value, EOutputParameter_t id);
+
   
   asynInterface *pasynInterface;
   drvPvt        *pasynDrvPvt;
