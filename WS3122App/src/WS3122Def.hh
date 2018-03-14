@@ -56,6 +56,7 @@ public:
   
 
   void    setHeaderPath(EHeaderPath_t id)        {  headerPathID = id; };
+  
   void    setWaveTypeID(EBasicWaveType_t id) ;   
   
   void    setFrequencyVal(double val)          { frequencyVal = val; };
@@ -68,14 +69,14 @@ public:
 
   void    setWidthVal(double val)              { widthVal     = val; };
   void    setRiseVal(double val)               { riseVal      = val; };
-  void    setFallVal(double val)              { fallVal      = val; };
+  void    setFallVal(double val)               { fallVal      = val; };
   void    setDelayVal(double val)              { delayVal     = val; };
  
   void    setSymmetryVal(double val)           { symmetryVal  = val; };
   
   void    setDutyCycleVal(double val)          { dutyCycleVal = val; };
 
-  
+  void    setCarrierFlag(bool in)              { carrier_flag = in; };
   
   bool    IsFrequency()          const {return frequency_flag;};
   bool    IsAmplifier()          const {return amplifier_flag;};
@@ -93,6 +94,7 @@ public:
   bool    IsStdDev()             const {return std_dev_flag;};
   bool    IsMean()               const {return mean_flag;};
 
+  bool    IsCarrier()            const {return carrier_flag;};
   
 private:
 
@@ -107,6 +109,8 @@ private:
   EHeaderPath_t          headerPathID;
   HeaderPathMap          headerPathMap;
 
+  // ECmdSymbol_t           cmdSymbolID;
+  // CmdSymbolMap           cmdSymbolMap;
 
   double              frequencyVal;   
   double              amplifierVal;   
@@ -141,6 +145,8 @@ private:
   
   bool                duty_cycle_flag;
 
+  bool                carrier_flag;
+
 
   std::string         waveTypeString;
   std::string         frequencyUnit;  // Hz, [1e-6, depends on the model]
@@ -150,8 +156,9 @@ private:
   //  char standardDeviationUnit [maxUnitStringLength]; // V [0.5m, 1.599] valid only when WVTP NOISE
   
   std::ostringstream fullCommandStream;
-  
-  const std::string  getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool front_prefix);
+
+  const std::string getBasicWaveCmdSnip(bool carr_flag);
+  const std::string getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool front_prefix);
   void set_flags(EBasicWaveType_t id);
    
 };

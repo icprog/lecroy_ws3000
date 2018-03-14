@@ -100,6 +100,7 @@ BasicWave::Init()
   waveTypeMap     = CreateBasicWaveMap();
   waveParamterMap = CreateWaveParameterMap();
   headerPathMap   = CreateHeaderPathMap();
+  //  cmdSymbolMap    = CreateCmdSymbolMap();
   
 };
 
@@ -335,9 +336,8 @@ BasicWave::buildCommand()
 
   bool front_comma = true;
   
-  fullCommandStream << headerPathMap[headerPathID];
-  fullCommandStream << ":BSWV WVTP,";
-  fullCommandStream << waveTypeMap[waveTypeID];
+  if ( ! carrier_flag ) fullCommandStream << headerPathMap[headerPathID];
+  fullCommandStream << getBasicWaveCmdSnip( carrier_flag );
   fullCommandStream << getWaveCmdSnip(frequency_flag,  kWaveFreq,    frequencyVal, front_comma);
   fullCommandStream << getWaveCmdSnip(amplifier_flag,  kWaveAmpl,    amplifierVal, front_comma);
   fullCommandStream << getWaveCmdSnip(offset_flag,     kWaveOffset,  offsetVal,    front_comma);
@@ -364,15 +364,40 @@ BasicWave::clearCommand()
 }
 
 const std::string
+BasicWave::getBasicWaveCmdSnip(bool carr_flag)
+{
+  std::string result;  result.clear();
+  result = "";
+  
+  if ( carr_flag ) {
+    result += GetCmdSymbol(kCmdSymbolComma);
+    result += "CARR";
+    result += GetCmdSymbol(kCmdSymbolComma);
+    result += "WVTP";
+  }
+  else {
+    result += GetCmdSymbol(kCmdSymbolColon);
+    result += GetHeaderType(kHeaderBSWV);
+    result += GetCmdSymbol(kCmdSymbolBlank);
+    result += "WVTP";
+  }
+  result += GetCmdSymbol(kCmdSymbolComma);
+  result += waveTypeMap[waveTypeID];
+  
+  return result;
+  
+};
+
+const std::string
 BasicWave::getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool front_prefix)
 {
   std::ostringstream result;
   std::string        unit;
 
   if(cmd_flag) {
-    if (front_prefix) result << ",";
+    if (front_prefix) result << GetCmdSymbol(kCmdSymbolComma);
     result << waveParamterMap[id];
-    result << ",";
+    result << GetCmdSymbol(kCmdSymbolComma);
     result << value;
     switch (id)
       {

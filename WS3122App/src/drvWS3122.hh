@@ -45,7 +45,9 @@
 
 
 #define ParBasicWaveTypeSelecString  "BASIC_WAVE_TYPE_SELECT"
-#define ParHeaderPathString          "PAR_HEADER_PATH"
+#define ParHeaderPathString          "PAR_HEADER_PATH"              // asynParamInt32
+#define ParHeaderString              "PAR_HEADER"                   // asynParamInt32
+
 #define ParWaveFrequencyString       "PAR_WAVE_FREQUENCY"           //asynFloat64
 #define ParWaveAmplifierString       "PAR_WAVE_AMPLIFIER"           //asynFloat64
 #define ParWaveOffsetString          "PAR_WAVE_OFFSET"              //asynFloat64
@@ -93,6 +95,8 @@ protected:
   
   int  parBasicWaveTypeSelect_;
   int  parHeaderPath_;
+  int  parHeader_;
+  
   int  parWaveFrequency_;
   int  parWaveAmplifier_;
   int  parWaveOffset_;

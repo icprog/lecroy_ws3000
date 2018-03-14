@@ -122,13 +122,16 @@ drvWS3122::Init()
   
   asynStatus status = asynSuccess;
   
-  createParam(DevIDNString,            asynParamOctet,  &devIdentification_);
-  createParam(DevManufacturerString,   asynParamOctet,  &devManufacturer_  );
-  createParam(DevModelString,          asynParamOctet,  &devModel_         );
-  createParam(DevSerialNumberString,   asynParamOctet,  &devSerialNumber_  );
+  createParam(DevIDNString,                asynParamOctet,   &devIdentification_);
+  createParam(DevManufacturerString,       asynParamOctet,   &devManufacturer_  );
+  createParam(DevModelString,              asynParamOctet,   &devModel_         );
+  createParam(DevSerialNumberString,       asynParamOctet,   &devSerialNumber_  );
 
+  createParam(ParHeaderString,             asynParamInt32,   &parHeader_    );
   createParam(ParBasicWaveTypeSelecString, asynParamInt32,   &parBasicWaveTypeSelect_);
   createParam(ParHeaderPathString,         asynParamInt32,   &parHeaderPath_    );
+ 
+   
   createParam(ParWaveFrequencyString,      asynParamFloat64, &parWaveFrequency_);
   createParam(ParWaveAmplifierString,      asynParamFloat64, &parWaveAmplifier_);
   createParam(ParWaveOffsetString,         asynParamFloat64, &parWaveOffset_);
@@ -175,13 +178,9 @@ drvWS3122::report_device_information(FILE *fp)
   
 
   fprintf(fp, "\nReport Device Information : %s\n", __func__ );
-  fprintf(fp,"        %s pinterface %p drvPvt %p\n",
-	  pasynInterface->interfaceType, pasynInterface->pinterface,
-	  pasynInterface->drvPvt);
+  fprintf(fp,"        %s pinterface %p drvPvt %p\n", pasynInterface->interfaceType, pasynInterface->pinterface, pasynInterface->drvPvt);
   
-  fprintf(fp, "%20sonnected, Interrupt handler thread %sactive\n",
-	  pasynDrvPvt->isConnected ? "C" : "Disc",
-	  pasynDrvPvt->interruptTid ? "" : "in");
+  fprintf(fp, "%20sonnected, Interrupt handler thread %sactive\n", pasynDrvPvt->isConnected ? "C" : "Disc", pasynDrvPvt->interruptTid ? "" : "in");
   
   showHexval(fp, "Vendor",  pasynDrvPvt->deviceVendorId,  0, pasynDrvPvt->deviceVendorString);
   showHexval(fp, "Product", pasynDrvPvt->deviceProductId, 0, pasynDrvPvt->deviceProductString);
@@ -191,71 +190,55 @@ drvWS3122::report_device_information(FILE *fp)
   }
   
   fprintf(fp, "          Interface Protocol: %x",  pasynDrvPvt->bInterfaceProtocol);
-
+  
   switch ( pasynDrvPvt->bInterfaceProtocol)
     {
-    case 0: fprintf(fp, " -- USBTMC\n");                break;
-    case 1: fprintf(fp, " -- USBTMC USB488\n");         break;
-    default: fprintf(fp, "\n");                         break;
+    case  0 : fprintf(fp, " -- USBTMC\n");        break;
+    case  1 : fprintf(fp, " -- USBTMC USB488\n"); break;
+    default : fprintf(fp, "\n");                  break;
     }
-  
   
   if (pasynDrvPvt->termChar >= 0) {
     fprintf(fp, "%28s: %x\n", "Terminator",  pasynDrvPvt->termChar);
   }
-
   
-  showHexval(fp, "TMC Interface Capabilities",
-	     pasynDrvPvt->tmcInterfaceCapabilities,
-	     0x4, "Accepts INDICATOR_PULSE",
-	     0x2, "Talk-only",
-	     0x1, "Listen-only",
-	     -0x3, "Talk/Listen",
-	     0);
-  showHexval(fp, "TMC Device Capabilities",
-	     pasynDrvPvt->tmcDeviceCapabilities,
-	     0x1, "Supports termChar",
-	     0);
+  
+  showHexval(fp, "TMC Interface Capabilities", pasynDrvPvt->tmcInterfaceCapabilities,
+	     0x4, "Accepts INDICATOR_PULSE", 0x2, "Talk-only", 0x1, "Listen-only", -0x3, "Talk/Listen", 0);
+  
+  showHexval(fp, "TMC Device Capabilities",    pasynDrvPvt->tmcDeviceCapabilities,
+	     0x1, "Supports termChar", 0);
   
   if (pasynDrvPvt->bInterfaceProtocol == 1) {
+    showHexval(fp, "488 Interface Capabilities", pasynDrvPvt->usb488InterfaceCapabilities,
+	       0x4, "488.2", 0x2, "REN/GTL/LLO", 0x1, "TRG", 0);
     
-    showHexval(fp, "488 Interface Capabilities",
-	       pasynDrvPvt->usb488InterfaceCapabilities,
-	       0x4, "488.2",
-	       0x2, "REN/GTL/LLO",
-	       0x1, "TRG",
-	       0);
-    showHexval(fp, "488 Device Capabilities",
-	       pasynDrvPvt->usb488DeviceCapabilities,
-	       0x8, "SCPI",
-	       0x4, "SR1",
-	       -0x4, "SR0",
-	       0x2, "RL1",
-	       -0x2, "RL0",
-	       0x1, "DT1",
-	       -0x1, "DT0",
-	       0);
+    showHexval(fp, "488 Device Capabilities", pasynDrvPvt->usb488DeviceCapabilities,
+	       0x8, "SCPI", 0x4, "SR1", -0x4, "SR0", 0x2, "RL1", -0x2, "RL0", 0x1, "DT1", -0x1, "DT0", 0);
   }
   
   showCount(fp, "Connection", pasynDrvPvt->connectionCount);
   showCount(fp, "Interrupt",  pasynDrvPvt->interruptCount);
   showCount(fp, "Send",       pasynDrvPvt->bytesSentCount);
   showCount(fp, "Receive",    pasynDrvPvt->bytesReceivedCount);
-
+  
   fprintf(fp, "\n");
   return status;
-};
   
+};
+
+
 asynStatus drvWS3122::set_device_information()
 {
   asynStatus status = asynSuccess;
+
   setStringParam(devManufacturer_, pasynDrvPvt->deviceVendorString);
   setStringParam(devModel_,        pasynDrvPvt->deviceProductString);
   
   if (pasynDrvPvt->deviceSerialString[0]) {
     setStringParam(devSerialNumber_, pasynDrvPvt->deviceSerialString);
   }
-   
+  
   return status;
   
 };
@@ -266,37 +249,69 @@ asynStatus
 drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fValue, std::string value_s)
 {
   asynStatus status = asynSuccess;
-  int par    = 0;
-  double val = 0.0;
-  double val_reset = -0.1;
+  int    par        = 0;
+  double val        = 0.0;
+  double val_reset  = -0.1;
 
-  if ( function == parBasicWaveTypeSelect_ ) {
-    getIntegerParam(parHeaderPath_,           &par);
-    basicWave -> setHeaderPath((EHeaderPath_t) par);
-    setIntegerParam(parHeaderPath_,            par);
+  if (function ==  parHeader_ ) {
+    
     par = 0;
-    getIntegerParam(parBasicWaveTypeSelect_,  &par);
-    basicWave -> setWaveTypeID((EBasicWaveType_t) par);
-    setIntegerParam(parBasicWaveTypeSelect_,   par);
+    getIntegerParam(parHeader_, &par);
+    switch ((EHeaderType_t)  par)
+      {
+      case kHeaderBSWV :
+	basicWave-> setCarrierFlag(false);
+	break;
+	// case kHeaderARWV :
+	//   basicWave-> setCarrierFlag(true);
+	//   break;
+	// case kHeaderBTWV :
+	//   basicWave-> setCarrierFlag(true);
+	//   break;
+	// case kHeaderMDWV :
+	//   basicWave-> setCarrierFlag(true);
+	//   break;
+	// case kHeaderSWWV :
+	//   basicWave-> setCarrierFlag(true);
+	//   break;
+      default:
+	basicWave-> setCarrierFlag(true);
+	break;
+      }
+    
+    setIntegerParam(parHeader_, par);
+    
+  }
+  else if ( function == parBasicWaveTypeSelect_ ) {
+    par = 0;
+    getIntegerParam(parHeaderPath_,            &par);
+    basicWave -> setHeaderPath((EHeaderPath_t)  par);
+    setIntegerParam(parHeaderPath_,             par);
+    
+    par = 0;
+    getIntegerParam(parBasicWaveTypeSelect_,      &par);
+    basicWave -> setWaveTypeID((EBasicWaveType_t)  par);
+    setIntegerParam(parBasicWaveTypeSelect_,       par);
   }
   else if (function ==  parWaveFrequency_ ) {
     val = 0.0;
-    getDoubleParam(parWaveFrequency_,        &val);
+    getDoubleParam(parWaveFrequency_, &val);
     if( basicWave->IsFrequency() ) basicWave -> setFrequencyVal(val);
     else val = val_reset; // Ignore user input
-    setDoubleParam(parWaveFrequency_,         val);
-  } else if (function ==  parWaveAmplifier_ ) {
+    setDoubleParam(parWaveFrequency_, val);
+  }
+  else if (function ==  parWaveAmplifier_ ) {
     val = 0.0;
-    getDoubleParam(parWaveAmplifier_,        &val);
+    getDoubleParam(parWaveAmplifier_, &val);
     if( basicWave->IsAmplifier() ) basicWave -> setAmplifierVal(val);
-    else val = val_reset; // Ignore user input
-    setDoubleParam(parWaveAmplifier_,         val);
+    else val = val_reset; 
+    setDoubleParam(parWaveAmplifier_, val);
   }
   else if (function ==  parWaveOffset_ ) {
     val = 0.0;
     getDoubleParam(parWaveOffset_, &val);
     if( basicWave->IsOffset() ) basicWave -> setOffsetVal(val);
-    else val = val_reset;    // Ignore user input
+    else val = val_reset; 
     setDoubleParam(parWaveOffset_, val);
   }
   else if (function ==  parWavePhase_ ) {
@@ -363,8 +378,6 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
     setDoubleParam(parWaveDutyCycle_, val);
   }
 
-
-  
   // basicWave -> Print( value_s );
   
   return status;
@@ -490,7 +503,7 @@ drvWS3122::writeInt32(asynUser *pasynUser, epicsInt32 value)
     status = this-> SetOutput(value, kOutputPolarity);
   }
       
-  status = this->set_wave_parameters( function, value, 0.0, functionName);
+  status = this->set_wave_parameters(function, value, 0.0, functionName);
   
   callParamCallbacks();
   
@@ -646,15 +659,13 @@ asynStatus
 drvWS3122::SetClockSource(epicsInt32 value)
 {
   asynStatus status = asynSuccess;
-  std::string value_s;
-  value_s.clear();
-  // 0     : INTERNAL CLOCK
-  // Other : EXTERNAL CLOCK
-  if (value == 0) {
-    value_s = "ROSC INT";
-  } else {
-    value_s = "ROSC EXT";
-  }
+  
+  std::string value_s; value_s.clear();
+  value_s  = "ROSC";
+  value_s += GetCmdSymbol(kCmdSymbolBlank);
+
+  if (value == 0)  value_s += "INT"; // Internal Clock
+  else             value_s += "EXT"; // External Clock
 
   status = this->usbTmcWrite(value_s);
 
@@ -666,15 +677,14 @@ asynStatus
 drvWS3122::SetPhaseInvert(epicsInt32 value)
 {
   asynStatus status = asynSuccess;
-  std::string value_s;
-  value_s.clear();
-  // 0     : INVERT OFF
-  // Other : INVERT ON
-  if (value == 0) {
-    value_s = "INVT OFF";
-  } else {
-    value_s = "INVT ON";
-  }
+  
+  std::string value_s; value_s.clear();
+  
+  value_s  = "INVT";
+  value_s += GetCmdSymbol(kCmdSymbolBlank);
+  
+  if (value == 0) value_s += "OFF";
+  else            value_s += "ON";
 
   status = this->usbTmcWrite(value_s);
 
@@ -691,13 +701,12 @@ drvWS3122::SetOutput(epicsInt32 value, EOutputParameter_t id)
 
   OutputParameterMap outputMap = CreateOutputParameterMap();
   
-  std::string value_s;
-  
-  value_s.clear();
+  std::string value_s;  value_s.clear();
 
-  value_s = basicWave->getHeaderPath();
-  value_s += ":OUTPUT";
-  value_s += " ";
+  value_s  = basicWave->getHeaderPath();
+  value_s += GetCmdSymbol(kCmdSymbolColon);
+  value_s += "OUTPUT";
+  value_s += GetCmdSymbol(kCmdSymbolBlank);
 
   
   switch (id)
@@ -709,13 +718,13 @@ drvWS3122::SetOutput(epicsInt32 value, EOutputParameter_t id)
       break;
     case kOutputLoad:
       value_s += outputMap[id];
-      value_s += ",";
+      value_s += GetCmdSymbol(kCmdSymbolComma);
       if(value == 0) value_s += "50";
       else           value_s += "HZ";
       break;
     case kOutputPolarity:
       value_s += outputMap[id];
-      value_s += ",";
+      value_s += GetCmdSymbol(kCmdSymbolComma);
       if(value == 0) value_s += "NOR";
       else           value_s += "INVT";
       break;
@@ -726,7 +735,7 @@ drvWS3122::SetOutput(epicsInt32 value, EOutputParameter_t id)
       
     }
 
-  std::cout << __func__ << "output " << value_s << std::endl;
+  // std::cout << __func__ << "output " << value_s << std::endl;
   status = this->usbTmcWrite(value_s);
 
   return status;
@@ -737,18 +746,14 @@ asynStatus
 drvWS3122::SetScreenSave(epicsInt32 value)
 {
   asynStatus  status = asynSuccess;
-  std::string value_s;
-  std::ostringstream toString;   // stream used for the conversion
+  std::ostringstream value_oss;   // stream used for the conversion
+  value_oss.str(""); value_oss.clear();
 
-  toString << value;
-  
-  value_s += "SCSV";
-  value_s += " ";
-  value_s += toString.str();
-    
-  //  std::cout << "0 " << __func__ << " value: " << value << " value_s : " << value_s << std::endl;
+  value_oss << "SCSV";
+  value_oss << GetCmdSymbol(kCmdSymbolBlank);
+  value_oss << value;
 
-  status = this->usbTmcWrite(value_s);
+  status = this->usbTmcWrite(value_oss.str());
 
   return status;
 };

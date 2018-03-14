@@ -66,3 +66,29 @@ GetWaveParameter(EWaveParameter_t type)
   return result;
 };
 
+std::string
+GetHeaderType   (EHeaderType_t type)
+{
+  std::string result;
+  if      (type==kHeaderARWV) result = "ARWV";
+  else if (type==kHeaderBSWV) result = "BSWV";
+  else if (type==kHeaderBTWV) result = "BTWV";
+  else if (type==kHeaderMDWV) result = "MDWV";
+  else if (type==kHeaderSWWV) result = "SWWV";
+  //  else if (type==kHeaderOUTP) result = "OUTP";
+  //  else if (type==kHeaderSYNC) result = "SYNC";
+  else                        result = "UNKNOWN";
+  
+  return result;
+};
+
+std::string
+GetCmdSymbol (ECmdSymbol_t type)
+{
+  std::string result;
+  if      (type==kCmdSymbolColon)    result = ":";
+  else if (type==kCmdSymbolQuestion) result = "?";
+  else if (type==kCmdSymbolBlank)    result = " ";
+  else if (type==kCmdSymbolComma)    result = ",";
+  return result;
+}
