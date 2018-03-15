@@ -2,9 +2,22 @@ EPICS IOC for WaveStation 3122
 ---
 [![Build Status](https://travis-ci.org/jeonghanlee/lecroy_ws3122.svg?branch=master)](https://travis-ci.org/jeonghanlee/lecroy_ws3122)
 
+
+# Limitations
+
+* No Status reading from WaveStation 3122, the current implementation is *write* commands to the device.
+
+
+# Support Waves
+
+* BSWV (SINE, SQUARE, RAMP, PULSE, NOISE, ARB, DC) : all parameters can be defined, however, according to the wave type, invalid parameters will be disabled automatically. The all parameters should be defined first, before send the command to the wave station. If one would like to use, please look command orders at cmds file.
+
+* BTWV (work in progress)
+
+
 # Warning
 
-Heavily working repository, so not working at all
+
 
 # Requirements
 
@@ -33,23 +46,11 @@ $ lsusb
 Bus 001 Device 072: ID 05ff:0a21 LeCroy Corp.
 ```
 
-# Strange behaviors
-* a user cannot access the /dev/usbtmc1 even if the proper udev rules are in /etc/udev/rules.d
-* sudo ./st.cmd trigger the following events
-```
-$ sudo udevadm monitor
-...
-KERNEL[3639135.343536] remove   /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.0/usbmisc/usbtmc1 (usbmisc)
-UDEV  [3639135.343899] remove   /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.0/usbmisc/usbtmc1 (usbmisc)
+## UDEV
 
-```
-And the following device will be disappreared.
-```
-ls: cannot access /dev/usbtmc1: No such file or directory
-```
+[UDEV configuration](tools/README.md)
 
-However, IOC is running, can access through epics IOC. 
 
 # References
 * https://epics.anl.gov/modules/soft/asyn/R4-33/asynDriver.html#testUsbtmcApp
-* StringUtils.{cpp,h} from https://github.com/keenanlang/epics-usb
+
