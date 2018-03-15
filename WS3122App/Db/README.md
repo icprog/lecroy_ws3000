@@ -1,5 +1,5 @@
 
-# Parameter Validation
+# Wave Type Parameter Validation
 ```
 Type	SINE	SQUARE	RAMP	ARB	DC	PULSE	NOISE
 							
@@ -16,3 +16,5 @@ STDEV	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE
 MEAN	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	TRUE
 DUTY		0.2 - 0.8				0.1 to 0.99
 ```
+
+# Burst Wave Parameter Validiation

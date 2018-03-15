@@ -417,3 +417,103 @@ BasicWave::getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool
 
   return result.str();
 };
+
+
+
+
+
+BurstWave::BurstWave()
+{
+  Init();
+};
+
+
+
+BurstWave::~BurstWave()
+{
+  if(carrierWave) delete carrierWave; carrierWave = NULL;
+};
+
+
+void
+BurstWave::Init()
+{
+  peroidVal     = 0.0;
+  startPhaseVal = 0.0;
+  delayVal      = 0.0;
+  timeVal       = 0.0;
+
+  carrierWave = new BasicWave;
+  
+};
+
+
+void
+BurstWave::clearCommand()
+{
+  fullCommandStream.str("");
+  fullCommandStream.clear();
+  return;
+};
+
+
+
+void
+BurstWave::buildCommand()
+{
+
+  // bool front_comma = true;
+  
+  // if ( ! carrier_flag ) fullCommandStream << headerPathMap[headerPathID];
+  // fullCommandStream << getBasicWaveCmdSnip( carrier_flag );
+  // fullCommandStream << getWaveCmdSnip(frequency_flag,  kWaveFreq,    frequencyVal, front_comma);
+  // fullCommandStream << getWaveCmdSnip(amplifier_flag,  kWaveAmpl,    amplifierVal, front_comma);
+  // fullCommandStream << getWaveCmdSnip(offset_flag,     kWaveOffset,  offsetVal,    front_comma);
+  // fullCommandStream << getWaveCmdSnip(phase_flag,      kWavePhase,   phaseVal,     front_comma);
+  // fullCommandStream << getWaveCmdSnip(duty_cycle_flag, kWaveDuty,    dutyCycleVal, front_comma);
+  // fullCommandStream << getWaveCmdSnip(width_flag,      kWaveWidth,   widthVal,     front_comma);
+  // fullCommandStream << getWaveCmdSnip(rise_flag,       kWaveRise,    riseVal,      front_comma);
+  // fullCommandStream << getWaveCmdSnip(fall_flag,       kWaveFall,    fallVal,      front_comma);
+  // fullCommandStream << getWaveCmdSnip(delay_flag,      kWaveDelay,   delayVal,     front_comma);
+  // fullCommandStream << getWaveCmdSnip(symmetry_flag,   kWaveSymm,    symmetryVal,  front_comma);
+  // fullCommandStream << getWaveCmdSnip(std_dev_flag,    kWaveStdDev,  stdDevVal,    front_comma);
+  // fullCommandStream << getWaveCmdSnip(mean_flag,       kWaveMean,    meanVal,      front_comma);
+  
+  return;
+};
+
+
+
+
+void
+BurstWave::Print(std::string in)
+{
+  std::cout << " >>> " << in << std::endl;
+  int width = 40;
+  std::cout
+    <<
+    std::setiosflags(std::ios::right) <<
+    // "\n HeaderPath    : " <<
+    // std::setw(width) << headerPath <<
+    // "\n WaveTypeID    : " <<
+    // std::setw(width) << waveTypeID <<
+    // "\n WaveTypeString: " <<
+    // std::setw(width) << waveTypeString <<
+    "\n peroidVal : " << 
+    std::setw(width) << peroidVal <<
+    "\n startPhaseVal : " << 
+    std::setw(width) << startPhaseVal <<
+    "\n delayVal      : " << 
+    std::setw(width) << delayVal <<
+    "\n timeVal       : " << 
+    std::setw(width) << timeVal <<
+    "\n Full Cmd      : " <<
+    std::setw(width) << fullCommandStream.str() <<
+    std::endl;
+
+  carrierWave-> Print(in);
+  
+  
+  return;
+  
+}

@@ -92,3 +92,27 @@ GetCmdSymbol (ECmdSymbol_t type)
   else if (type==kCmdSymbolComma)    result = ",";
   return result;
 }
+
+std::string
+GetBurstMode (EBurstMode_t type)
+{
+  std::string result;
+  if      (type==kBurstModeGate)   result = "GATE";
+  else if (type==kBurstModeNCycle) result = "NCYC";
+  else                             result = "";
+  return result;
+};
+
+
+
+std::string
+GetTriggerSrc (ETriggerSrc_t type)
+{
+  std::string result;
+  if      (type==kTriggerSrcExternal) result = "EXT";
+  else if (type==kTriggerSrcInternal) result = "INT";
+  else if (type==kTriggerSrcManual)   result = "MAN";
+  else                                result = "";
+  return result;
+};
+

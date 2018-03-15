@@ -95,6 +95,20 @@ typedef enum {
 } ECmdSymbol_t;
 
 
+typedef enum {
+	      kBurstModeGate,
+	      kBurstModeNCycle
+} EBurstMode_t;
+
+
+typedef enum {
+	      kTriggerSrcExternal,
+	      kTriggerSrcInternal,
+	      kTriggerSrcManual
+} ETriggerSrc_t;
+
+
+
 
 typedef std::map < EHeaderPath_t,      std::string > HeaderPathMap;
 typedef std::map < EHeaderType_t,      std::string > HeaderTypeMap; 
@@ -102,6 +116,8 @@ typedef std::map < EBasicWaveType_t,   std::string > BasicWaveMap;
 typedef std::map < EWaveParameter_t,   std::string > WaveParameterMap;
 typedef std::map < EOutputParameter_t, std::string > OutputParameterMap;
 typedef std::map < ECmdSymbol_t,       std::string > CmdSymbolMap;
+typedef std::map < EBurstMode_t,       std::string > BurstModeMap;
+typedef std::map < ETriggerSrc_t,      std::string > TriggerSrcMap;
 
 
 inline HeaderPathMap CreateHeaderPathMap()
@@ -198,11 +214,35 @@ inline CmdSymbolMap CreateCmdSymbolMap()
 };
 
 
+inline BurstModeMap CreateBurstModeMap()
+{
+  BurstModeMap map;
+  map[kBurstModeGate]   = "GATE";
+  map[kBurstModeNCycle] = "NCYC";
+  return map;
+};
+
+
+// BTWV, SWWV
+inline TriggerSrcMap CreateTriggerSrcMap()
+{
+  TriggerSrcMap map;
+  map[kTriggerSrcExternal] = "EXT";
+  map[kTriggerSrcInternal] = "INT";
+  map[kTriggerSrcManual]   = "MAN";
+  return map;
+};
+
+
 
 EBasicWaveType_t GetBasicWaveType(std::string name);
+EWaveParameter_t GetWaveParmeter (std::string name);
+
 std::string      GetBasicWaveType(EBasicWaveType_t type);
-EWaveParameter_t GetWaveParmeter(std::string name);
 std::string      GetWaveParameter(EWaveParameter_t type);
 std::string      GetHeaderType   (EHeaderType_t type);
 std::string      GetCmdSymbol    (ECmdSymbol_t type);
+std::string      GetBurstMode    (EBurstMode_t type);
+std::string      GetTriggerSrc   (ETriggerSrc_t type);
+
 #endif
