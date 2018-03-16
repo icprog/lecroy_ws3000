@@ -90,6 +90,7 @@ GetCmdSymbol (ECmdSymbol_t type)
   else if (type==kCmdSymbolQuestion) result = "?";
   else if (type==kCmdSymbolBlank)    result = " ";
   else if (type==kCmdSymbolComma)    result = ",";
+  else                               result = "";
   return result;
 }
 
@@ -116,3 +117,22 @@ GetTriggerSrc (ETriggerSrc_t type)
   return result;
 };
 
+
+
+std::string
+GetBurstParameter(EBurstParameter_t type)
+{
+  std::string result;
+  if      (type==kBurstParPeriod)      result = "PRD";
+  else if (type==kBurstParStartPhase)  result = "STPS";
+  else if (type==kBurstParGateNcyc)    result = "GATE_NCYC";
+  else if (type==kBurstParTriggerSrc)  result = "TRSR";
+  else if (type==kBurstParDelay)       result = "DLAY";
+  else if (type==kBurstParPolarity)    result = "PLRT";
+  else if (type==kBurstParTriggerMode) result = "TRMD";
+  else if (type==kBurstParEdge)        result = "EDGE";
+  else if (type==kBurstParTime)        result = "TIME";
+  else if (type==kBurstParMtrig)       result = "MTRIG";
+  else                                 result = "";
+  return result;
+};

@@ -26,12 +26,12 @@ usbtmcConfigure("$(USBTMCPORT)", "0x$(vendorNum)", "0x$(productNum)")
 drvWS3122Configure("$(WS3122PORT)", "$(USBTMCPORT)")
 
 dbLoadRecords("${TOP}/db/asynRecord.db", "P=$(P), R=$(R),  PORT=$(USBTMCPORT), ADDR=0, OMAX=100,IMAX=100")
-#dbLoadRecords("${TOP}/db/WS3122Base.db", "P=$(P):,R=$(R):, PORT=$(WS3122PORT)")
-#dbLoadRecords("${TOP}/db/ws3122.db", "P=$(P):,R=$(R):, PORT=$(WS3122PORT)")
 
 dbLoadRecords("${TOP}/db/WS3122Base.db", "P=$(P):,R=$(R):, PORT=$(WS3122PORT)")
 dbLoadRecords("${TOP}/db/BasicWave.db",  "P=$(P):,R=$(R):, PORT=$(WS3122PORT)")
+dbLoadRecords("${TOP}/db/BurstWave.db",  "P=$(P):,R=$(R):, PORT=$(WS3122PORT)")
 dbLoadRecords("${TOP}/db/WS3122Cmds.db", "P=$(P):,R=$(R):, PORT=$(WS3122PORT)")
+
 cd "${TOP}/iocBoot/${IOC}"
 
 iocInit

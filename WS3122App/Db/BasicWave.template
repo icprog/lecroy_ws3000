@@ -150,17 +150,12 @@ record(ao, "$(P)$(R)WavePhase")
     field(DRVL, 0)
     field(DRVH, 360)
     field( VAL, 0)
-    field( EGU, "V")
 }
 
-record(ai, "$(P)$(R)WaveOffset_RBV")
+record(ai, "$(P)$(R)WavePhase_RBV")
 {
     field(DTYP, "asynFloat64")
     field( INP, "@asyn($(PORT),0,0) PAR_WAVE_PHASE")
-    field(EGUL, 0)
-    field(EGUF, 360)
-    field(LOPR, 0)
-    field(HOPR, 360)
     field(SCAN, "I/O Intr")
 }
 
@@ -197,7 +192,7 @@ record(ao, "$(P)$(R)WaveRise")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_RISE")
 }
 
-record(ai, "$(P)$(R)WaveWidth_RBV")
+record(ai, "$(P)$(R)WaveRise_RBV")
 {
     field(DTYP, "asynFloat64")
     field( INP, "@asyn($(PORT),0,0) PAR_WAVE_RISE")

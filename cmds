@@ -1,5 +1,6 @@
 #caput usbtmc:icslab:HeaderPath C2
-caput usbtmc:icslab:BasicWaveTypeSelect Sine
+caput usbtmc:icslab:Header SWWV
+caput usbtmc:icslab:BasicWaveTypeSelect Square
 caput usbtmc:icslab:WaveFrequency    150
 caput usbtmc:icslab:WaveAmplifier    10
 caput usbtmc:icslab:WaveOffset       10
@@ -11,5 +12,5 @@ caput usbtmc:icslab:WaveDelay        10
 caput usbtmc:icslab:WaveSymmetry     2
 caput usbtmc:icslab:WaveStdDev       0.5
 caput usbtmc:icslab:WaveMean         1
-caput usbtmc:icslab:WaveDutyCycle    0.19
+caput usbtmc:icslab:WaveDutyCycle    0.21
 caput usbtmc:icslab:SetWaveType 1

@@ -7,6 +7,7 @@ include $(TOP)/configure/CONFIG
 #DB += ws3122.db
 DB += WS3122Base.db
 DB += BasicWave.db
+DB += BurstWave.db
 DB += WS3122Cmds.db
 
 

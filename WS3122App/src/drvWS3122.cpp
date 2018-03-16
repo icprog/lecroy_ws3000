@@ -112,13 +112,15 @@ drvWS3122::drvWS3122(const char *portName, const char *asynUSBTMCPortName)
 drvWS3122::~drvWS3122()
 {
   pasynOctetSyncIO->disconnect(usbTmcAsynUser);
-  delete basicWave; basicWave = NULL;
+  if(basicWave) delete basicWave; basicWave = NULL;
+  if(burstWave) delete burstWave; burstWave = NULL;
 };
 
 asynStatus
 drvWS3122::Init()
 {
   basicWave = new BasicWave();
+  burstWave = new BurstWave();
   
   asynStatus status = asynSuccess;
   
@@ -127,11 +129,11 @@ drvWS3122::Init()
   createParam(DevModelString,              asynParamOctet,   &devModel_         );
   createParam(DevSerialNumberString,       asynParamOctet,   &devSerialNumber_  );
 
+  createParam(ParHeaderPathString,         asynParamInt32,   &parHeaderPath_    );
   createParam(ParHeaderString,             asynParamInt32,   &parHeader_    );
   createParam(ParBasicWaveTypeSelecString, asynParamInt32,   &parBasicWaveTypeSelect_);
-  createParam(ParHeaderPathString,         asynParamInt32,   &parHeaderPath_    );
  
-   
+    
   createParam(ParWaveFrequencyString,      asynParamFloat64, &parWaveFrequency_);
   createParam(ParWaveAmplifierString,      asynParamFloat64, &parWaveAmplifier_);
   createParam(ParWaveOffsetString,         asynParamFloat64, &parWaveOffset_);
@@ -144,6 +146,12 @@ drvWS3122::Init()
   createParam(ParWaveStdDevString,         asynParamFloat64, &parWaveStdDev_);
   createParam(ParWaveMeanString,           asynParamFloat64, &parWaveMean_);
   createParam(ParWaveDutyCycleString,      asynParamFloat64, &parWaveDutyCycle_);
+
+
+  createParam(ParBurstPeriodString,        asynParamFloat64, &parBurstPeriod_);
+  createParam(ParBurstStartPhaseString,    asynParamFloat64, &parBurstStartPhase_);
+  createParam(ParBurstDelayString,         asynParamFloat64, &parBurstDelay_);
+  createParam(ParBurstCycleTimeString,     asynParamFloat64, &parBurstCycleTime_);
   
 
   createParam(CmdOutputString,             asynParamInt32,   &cmdOutput_      );
@@ -246,137 +254,147 @@ asynStatus drvWS3122::set_device_information()
 
 
 asynStatus
-drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fValue, std::string value_s)
+drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fValue, std::string value_s, asynParamType paramType)
 {
   asynStatus status = asynSuccess;
   int    par        = 0;
   double val        = 0.0;
   double val_reset  = -0.1;
 
-  if (function ==  parHeader_ ) {
-    
+  int    wave_type  = 0;
+
+  // std::cout << "function " << function
+  // 	    << " iValue "   << iValue
+  // 	    << " fValue "   << fValue
+  // 	    << " value_s"   << value_s
+  // 	    << std::endl;
+
+  
+  
+  if (paramType ==  asynParamInt32) {
+
     par = 0;
-    getIntegerParam(parHeader_, &par);
-    switch ((EHeaderType_t)  par)
-      {
-      case kHeaderBSWV :
-	basicWave-> setCarrierFlag(false);
-	break;
-	// case kHeaderARWV :
-	//   basicWave-> setCarrierFlag(true);
-	//   break;
-	// case kHeaderBTWV :
-	//   basicWave-> setCarrierFlag(true);
-	//   break;
-	// case kHeaderMDWV :
-	//   basicWave-> setCarrierFlag(true);
-	//   break;
-	// case kHeaderSWWV :
-	//   basicWave-> setCarrierFlag(true);
-	//   break;
-      default:
-	basicWave-> setCarrierFlag(true);
-	break;
-      }
+    getIntegerParam(function, &par);
     
-    setIntegerParam(parHeader_, par);
+    if (function ==  parHeader_ ) {
+      switch ((EHeaderType_t) par)
+	{
+	case kHeaderBSWV:
+	  {
+	    wave_type = 0;
+	    basicWave -> setCarrierFlag(false);
+	    getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
+	    basicWave -> setWaveTypeID((EBasicWaveType_t) wave_type);
+	    setIntegerParam(parBasicWaveTypeSelect_, wave_type);
+	  }
+	  break;
+	case kHeaderBTWV:
+	  {
+	    basicWave -> setCarrierFlag(true);
+	    getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
+	    basicWave -> setWaveTypeID((EBasicWaveType_t) wave_type);
+	    setIntegerParam(parBasicWaveTypeSelect_, wave_type);
+	    burstWave -> setEnable(true);
+	    burstWave -> setCarrierWaveTypeID((EBasicWaveType_t) wave_type);
+	  }
+	  break;
+	case kHeaderARWV:	// not yet implemented
+	  basicWave -> setCarrierFlag(true);
+	  break;
+	case kHeaderMDWV: // not yet implemented
+	  basicWave -> setCarrierFlag(true);
+	  break;
+	case kHeaderSWWV:	// not yet implemented
+	  basicWave -> setCarrierFlag(true);
+	  break;
+	default:
+	  basicWave-> setCarrierFlag(true);
+	  break;
+	}
+    }
+    else if (function == parHeaderPath_ ) {
+      basicWave -> setHeaderPath((EHeaderPath_t) par);
+    }
+    else if ( function == parBasicWaveTypeSelect_ ){
+      basicWave -> setWaveTypeID((EBasicWaveType_t)  par);
+    }
+    setIntegerParam(function, par);
+  }; // if (fValue == 0.0)
+
+  
+  if (paramType== asynParamFloat64) {
+
+    val = 0.0;
+    getDoubleParam(function, &val);
+
+    if (function == parWaveFrequency_ ) {
+      if( basicWave->IsFrequency() ) basicWave -> setFrequencyVal(val);
+      else val = val_reset;
+    }
+    else if (function ==  parWaveAmplifier_ ) {
+      if( basicWave->IsAmplifier() ) basicWave -> setAmplifierVal(val);
+      else val = val_reset;
+    }
+    else if (function ==  parWaveOffset_ ) {
+      if( basicWave->IsOffset() ) basicWave -> setOffsetVal(val);
+      else val = val_reset;
+    }
+    else if (function ==  parWavePhase_ ) {
+      if( basicWave->IsPhase() ) basicWave -> setPhaseVal(val);
+      else val = val_reset;
+    }
+    else if (function ==  parWaveWidth_ ) {
+      if( basicWave->IsWidth() ) basicWave -> setWidthVal(val);
+      else val = val_reset;
+    }
+    else if (function ==  parWaveRise_ ) {
+      if( basicWave->IsRise() ) basicWave -> setRiseVal(val);
+      else  val = val_reset;
+    }
+    else if (function ==  parWaveFall_ ) {
+      if( basicWave->IsFall() ) basicWave -> setFallVal(val);
+      else val = val_reset;
+    }
+    else if (function ==  parWaveDelay_ ) {
+      if( basicWave->IsDelay() ) basicWave -> setDelayVal(val);
+      else val = val_reset;
+    }
+    else if (function ==  parWaveSymmetry_ ) {
+      if( basicWave->IsSymmetry() ) basicWave -> setSymmetryVal(val);
+      else val = val_reset;
+    }    
+    else if (function ==  parWaveStdDev_ ) {
+      if( basicWave->IsStdDev() ) basicWave -> setStdDevVal(val);
+      else val = val_reset;
+    }
+    else if (function ==  parWaveMean_ ) {
+      if( basicWave->IsMean() ) basicWave -> setMeanVal(val);
+      else val = val_reset;
+    }
+    else if (function ==  parWaveDutyCycle_ ) {
+      if( basicWave->IsDutyCycle() ) basicWave -> setDutyCycleVal(val);
+      else val=val_reset;
+    }
+    else if (function ==  parBurstPeriod_ ) {
+      if( burstWave -> IsPeriod() ) burstWave -> setPeriodVal(val);
+      else val=val_reset;
+    }
+    else if (function ==  parBurstStartPhase_ ) {
+      if( burstWave -> IsStartPhase() ) burstWave -> setStartPhaseVal(val);
+      else val=val_reset;
+    }
+    else if (function ==  parBurstDelay_ ) {
+      if( burstWave -> IsDelay() ) burstWave -> setDelayVal(val);
+      else val=val_reset;
+    }
+    else if (function ==  parBurstCycleTime_ ) {
+      if( burstWave -> IsCycleTime() ) burstWave -> setCycleTimeVal(val);
+      else val=val_reset;
+    }
     
-  }
-  else if ( function == parBasicWaveTypeSelect_ ) {
-    par = 0;
-    getIntegerParam(parHeaderPath_,            &par);
-    basicWave -> setHeaderPath((EHeaderPath_t)  par);
-    setIntegerParam(parHeaderPath_,             par);
-    
-    par = 0;
-    getIntegerParam(parBasicWaveTypeSelect_,      &par);
-    basicWave -> setWaveTypeID((EBasicWaveType_t)  par);
-    setIntegerParam(parBasicWaveTypeSelect_,       par);
-  }
-  else if (function ==  parWaveFrequency_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveFrequency_, &val);
-    if( basicWave->IsFrequency() ) basicWave -> setFrequencyVal(val);
-    else val = val_reset; // Ignore user input
-    setDoubleParam(parWaveFrequency_, val);
-  }
-  else if (function ==  parWaveAmplifier_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveAmplifier_, &val);
-    if( basicWave->IsAmplifier() ) basicWave -> setAmplifierVal(val);
-    else val = val_reset; 
-    setDoubleParam(parWaveAmplifier_, val);
-  }
-  else if (function ==  parWaveOffset_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveOffset_, &val);
-    if( basicWave->IsOffset() ) basicWave -> setOffsetVal(val);
-    else val = val_reset; 
-    setDoubleParam(parWaveOffset_, val);
-  }
-  else if (function ==  parWavePhase_ ) {
-    val = 0.0;
-    getDoubleParam(parWavePhase_, &val);
-    if( basicWave->IsPhase() ) basicWave -> setPhaseVal(val);
-    else val = val_reset;
-    setDoubleParam(parWavePhase_, val);
-  }
-  else if (function ==  parWaveWidth_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveWidth_, &val);
-    if( basicWave->IsWidth() ) basicWave -> setWidthVal(val);
-    else val = val_reset;
-    setDoubleParam(parWaveWidth_, val);
-  }
-  else if (function ==  parWaveRise_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveRise_, &val);
-    if( basicWave->IsRise() ) basicWave -> setRiseVal(val);
-    else  val = val_reset;
-    setDoubleParam(parWaveRise_, val);
-  }
-  else if (function ==  parWaveFall_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveFall_, &val);
-    if( basicWave->IsFall() ) basicWave -> setFallVal(val);
-    else val = val_reset;
-    setDoubleParam(parWaveFall_, val);
-  }
-  else if (function ==   parWaveDelay_) {
-    val = 0.0;
-    getDoubleParam(parWaveDelay_, &val);
-    if( basicWave->IsDelay() ) basicWave -> setDelayVal(val);
-    else val = val_reset;
-    setDoubleParam(parWaveDelay_, val);
-  }
-  else if (function ==  parWaveSymmetry_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveSymmetry_, &val);
-    if( basicWave->IsSymmetry() ) basicWave -> setSymmetryVal(val);
-    else val = val_reset;
-    setDoubleParam(parWaveSymmetry_, val);
-  }
-  else if (function ==  parWaveStdDev_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveStdDev_, &val);
-    if( basicWave->IsStdDev() ) basicWave -> setStdDevVal(val);
-    else val = val_reset;
-    setDoubleParam(parWaveStdDev_, val);
-  }
-  else if (function ==  parWaveMean_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveMean_, &val);
-    if( basicWave->IsMean() ) basicWave -> setMeanVal(val);
-    else val = val_reset;
-    setDoubleParam(parWaveMean_, val);
-  }
-  else if (function == parWaveDutyCycle_ ) {
-    val = 0.0;
-    getDoubleParam(parWaveDutyCycle_, &val);
-    if( basicWave->IsDutyCycle() ) basicWave -> setDutyCycleVal(val);
-    else val=val_reset;
-    setDoubleParam(parWaveDutyCycle_, val);
-  }
+    setDoubleParam(function, val);
+  } // if fValue == 0
+  
 
   // basicWave -> Print( value_s );
   
@@ -501,9 +519,9 @@ drvWS3122::writeInt32(asynUser *pasynUser, epicsInt32 value)
     status = this-> SetOutput(value, kOutputLoad);
   } else if  (function == cmdOutputPolarity_ ) {
     status = this-> SetOutput(value, kOutputPolarity);
+  } else {
+    status = this->set_wave_parameters(function, value, 0, functionName, asynParamInt32);
   }
-      
-  status = this->set_wave_parameters(function, value, 0.0, functionName);
   
   callParamCallbacks();
   
@@ -535,8 +553,8 @@ drvWS3122::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
     /* Fetch the parameter string name for possible use in debugging */
     getParamName(function, &paramName);
 
-    status = this->set_wave_parameters( function, 0, value, functionName);
-
+    status = this->set_wave_parameters( function, 0, value, functionName, asynParamFloat64);
+    
     /* Do callbacks so higher layers see any changes */
     status = (asynStatus) callParamCallbacks();
     
@@ -639,14 +657,39 @@ drvWS3122::SetWaveTypeCmds(epicsInt32 value)
   asynStatus status = asynSuccess;
   std::string value_s;
   value_s.clear();
-  basicWave -> buildCommand();
-  value_s = basicWave-> getFullCommand();
 
-  std::cout << value_s << std::endl;
-  // if (value == 1) {
+  int par = 0;
+  getIntegerParam(parHeader_, &par);
+  switch ((EHeaderType_t)  par)
+    {
+    case kHeaderBSWV:
+      basicWave -> buildCommand();
+      value_s = basicWave-> getFullCommand();
+      basicWave -> clearCommand();
+      break;
+    case kHeaderBTWV:
+      basicWave -> buildCommand();
+      burstWave -> setCarrierCmd( basicWave->getFullCommand());
+      burstWave -> buildCommand();
+      value_s = burstWave-> getFullCommand();
+      basicWave -> clearCommand();
+      burstWave -> clearCommand();
+      break;
+    case kHeaderARWV:	// not yet implemented
+      break;
+    case kHeaderMDWV: // not yet implemented
+      break;
+    case kHeaderSWWV:	// not yet implemented
+      break;
+    default:
+      break;
+    }
+  
+  std::cout << "SetWaveTypeCmds " << value_s << std::endl;
+ 
   status = this->usbTmcWrite(value_s);
 
-  basicWave -> clearCommand();
+  
   return status;
 };
 

@@ -1,0 +1,93 @@
+
+
+
+
+
+
+## Burst Period 1 uS to 1000S
+
+record(ao, "$(P)$(R)BurstPeriod")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_BURST_PERIOD")
+    field(DRVL, 1E-6)
+    field(DRVH, 1000)
+    field( VAL, 1)
+    field( EGU, "S")
+}
+
+record(ai, "$(P)$(R)BurstPeriod_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_BURST_PERIOD")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+
+## Burst Start Phase
+## [0,360]
+record(ao, "$(P)$(R)BurstStartPhase")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_BURST_START_PHASE")
+    field(DRVL, 0)
+    field(DRVH, 360)
+    field( VAL, 0)
+}
+
+record(ai, "$(P)$(R)BurstStartPhase_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_BURST_START_PHASE")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+
+## BTWV : Delay
+## 
+record(ao, "$(P)$(R)BurstDelay")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_BURST_DELAY")
+    field(DRVL, 0)
+    field( EGU, "S")
+}
+
+record(ai, "$(P)$(R)BurstDelay_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_BURST_DELAY")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+
+## BTWV : Cycle Time
+## 
+record(ao, "$(P)$(R)BurstCycleTime")
+{
+    field(PINI, "YES")
+    field(DTYP, "asynFloat64")
+    field( OUT, "@asyn($(PORT),0,0) PAR_BURST_CYCLE_TIME")
+    field(DRVL, 1)
+    field(DRVH, 50000)
+    field( EGU, "Hz")
+}
+
+record(ai, "$(P)$(R)BurstCycleTime_RBV")
+{
+    field(DTYP, "asynFloat64")
+    field( INP, "@asyn($(PORT),0,0) PAR_BURST_CYCLE_TIME")
+    field(SCAN, "I/O Intr")
+}
+
+
+

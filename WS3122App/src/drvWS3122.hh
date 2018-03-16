@@ -44,9 +44,10 @@
 #define DevSerialNumberString        "DEV_SERIAL_NUMBER"         // asynOctet,    r/o serial number 
 
 
-#define ParBasicWaveTypeSelecString  "BASIC_WAVE_TYPE_SELECT"
+
 #define ParHeaderPathString          "PAR_HEADER_PATH"              // asynParamInt32
 #define ParHeaderString              "PAR_HEADER"                   // asynParamInt32
+#define ParBasicWaveTypeSelecString  "BASIC_WAVE_TYPE_SELECT"
 
 #define ParWaveFrequencyString       "PAR_WAVE_FREQUENCY"           //asynFloat64
 #define ParWaveAmplifierString       "PAR_WAVE_AMPLIFIER"           //asynFloat64
@@ -60,6 +61,11 @@
 #define ParWaveStdDevString          "PAR_WAVE_STDDEV"              //asynFloat64
 #define ParWaveMeanString            "PAR_WAVE_MEAN"                //asynFloat64
 #define ParWaveDutyCycleString       "PAR_WAVE_DUTYCYCLE"           //asynFloat64
+
+#define ParBurstPeriodString         "PAR_BURST_PERIOD"             //asynFloat64
+#define ParBurstStartPhaseString     "PAR_BURST_START_PHASE"        //asynFloat64
+#define ParBurstDelayString          "PAR_BURST_DELAY"              //asynFloat64
+#define ParBurstCycleTimeString      "PAR_BURST_CYCLE_TIME"         //asynFloat64
 
 #define CmdOutputString              "CMD_OUTPUT"
 #define CmdOutputLoadString          "CMD_OUTPUT_LOAD"
@@ -87,36 +93,41 @@ public:
 protected:
 
   /** Values used for pasynUser->reason, and indexes into the parameter library. */
-  int  devIdentification_;
+  int devIdentification_;
 #define FIRST_PARAM devIdentification_
-  int  devManufacturer_;
-  int  devModel_;
-  int  devSerialNumber_;
-  
-  int  parBasicWaveTypeSelect_;
-  int  parHeaderPath_;
-  int  parHeader_;
-  
-  int  parWaveFrequency_;
-  int  parWaveAmplifier_;
-  int  parWaveOffset_;
-  int  parWavePhase_;
-  int  parWaveWidth_;
-  int  parWaveRise_;
-  int  parWaveFall_;
-  int  parWaveDelay_;
-  int  parWaveSymmetry_;
-  int  parWaveStdDev_;
-  int  parWaveMean_;
-  int  parWaveDutyCycle_;
+  int devManufacturer_;
+  int devModel_;
+  int devSerialNumber_;
 
-  int  cmdOutput_;
-  int  cmdOutputLoad_;
-  int  cmdOutputPolarity_;
-  int  cmdSetWaveType_;
-  int  cmdPhaseInvert_;
-  int  cmdScreenSave_;
-  int  cmdClockSource_;
+  int parHeaderPath_;
+  int parHeader_;
+  int parBasicWaveTypeSelect_;
+  
+  int parWaveFrequency_;
+  int parWaveAmplifier_;
+  int parWaveOffset_;
+  int parWavePhase_;
+  int parWaveWidth_;
+  int parWaveRise_;
+  int parWaveFall_;
+  int parWaveDelay_;
+  int parWaveSymmetry_;
+  int parWaveStdDev_;
+  int parWaveMean_;
+  int parWaveDutyCycle_;
+
+  int parBurstPeriod_;
+  int parBurstStartPhase_;
+  int parBurstDelay_;
+  int parBurstCycleTime_;
+  
+  int cmdOutput_;
+  int cmdOutputLoad_;
+  int cmdOutputPolarity_;
+  int cmdSetWaveType_;
+  int cmdPhaseInvert_;
+  int cmdScreenSave_;
+  int cmdClockSource_;
 #define LAST_PARAM cmdClockSource_
 
   
@@ -146,10 +157,11 @@ private:
   drvPvt        *pasynDrvPvt;
 
   BasicWave  *basicWave;
+  BurstWave  *burstWave;
   
   asynStatus report_device_information(FILE *fp);
   asynStatus set_device_information();
-  asynStatus set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fValue, std::string value_s);
+  asynStatus set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fValue, std::string value_s, asynParamType paramType);
   
 };
 
