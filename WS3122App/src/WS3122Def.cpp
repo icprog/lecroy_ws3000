@@ -90,11 +90,6 @@ BasicWave::Init()
   offsetUnit    = "V";
   dutyCycleUnit = "percent";
 
-  // frequencyUnit.clear();
-  // amplifierUnit.clear();
-  // offsetUnit.clear();
-  // dutyCycleUnit.clear();
-
   clearCommand();
 
   waveTypeMap     = CreateBasicWaveMap();
@@ -110,8 +105,6 @@ BasicWave::setWaveTypeID(EBasicWaveType_t id)
   waveTypeID = id;
   waveTypeString = waveTypeMap[id];
   this -> set_flags(id);
-
-  return;
 };
 
 void
@@ -193,8 +186,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
       
     }
-  
-  return;
+
 };
 
 // BasicWave & BasicWave::operator=(const BasicWave &bwobj)
@@ -324,8 +316,6 @@ BasicWave::Print(std::string in)
     std::setw(width) << dutyCycleUnit <<
     "\n Full Cmd      : " <<
     std::setw(width) << fullCommandStream.str() <<std::endl;
-  return;
-  
 }
 
 
@@ -350,8 +340,7 @@ BasicWave::buildCommand()
   fullCommandStream << getWaveCmdSnip(symmetry_flag,   kWaveSymm,    symmetryVal,  front_comma);
   fullCommandStream << getWaveCmdSnip(std_dev_flag,    kWaveStdDev,  stdDevVal,    front_comma);
   fullCommandStream << getWaveCmdSnip(mean_flag,       kWaveMean,    meanVal,      front_comma);
-  
-  return;
+ 
 };
 
 void
@@ -360,7 +349,6 @@ BasicWave::clearCommand()
   fullCommandStream.str("");
   fullCommandStream.clear();
   //  std::cout << "Is it clean? " << fullCommandStream.str() << std::endl;
-  return;
 }
 
 const std::string
@@ -439,21 +427,21 @@ BurstWave::Init()
 {
   enable_flag      = false;
 
-  period_flag      = false;
-  period_flag      = false;
-  delay_flag       = false;
-  cycleTime_flag   = false;
+  period_flag      = true;
+  period_flag      = true;
+  delay_flag       = true;
+  cycleTime_flag   = true;
 
-  period_flag      = false; // PRD
-  startPhase_flag  = false; // STPS
-  gateNcyc_flag    = false; // GATE_NSCYC
-  triggerSrc_flag  = false; // TRSR
-  delay_flag       = false; // DLAY
-  polarity_flag    = false; // PLRT
-  triggerMode_flag = false; // TRMD
-  edge_flag        = false; // EDGE
-  cycleTime_flag   = false; // TIME
-  mtrig_flag       = false; // MAN
+  period_flag      = true; // PRD
+  startPhase_flag  = true; // STPS
+  gateNcyc_flag    = true; // GATE_NSCYC
+  triggerSrc_flag  = true; // TRSR
+  delay_flag       = true; // DLAY
+  polarity_flag    = true; // PLRT // Always vaild
+  triggerMode_flag = true; // TRMD
+  edge_flag        = true; // EDGE
+  cycleTime_flag   = true; // TIME
+  mtrig_flag       = true; // MAN
   
   
   periodVal      = 0.0;
@@ -465,13 +453,14 @@ BurstWave::Init()
 
   headerPathID       = kHeaderPathUnknown;
   carrierWaveTypeID  = kWaveTypeUnknown;
-  burstMode          = kBurstModeUnknown;
-  triggerSrc         = kTriggerSrcUnknown;
+  //burstMode          = kBurstModeUnknown;
+  // triggerSrc         = kTriggerSrcUnknown;
   
   headerPathMap      = CreateHeaderPathMap();
   carrierWaveTypeMap = CreateBasicWaveMap();
-  burstModeMap       = CreateBurstModeMap();
-  triggerSrcMap      = CreateTriggerSrcMap();
+  // burstModeMap       = CreateBurstModeMap();
+  //  triggerSrcMap      = CreateTriggerSrcMap();
+
   burstParameterMap  = CreateBurstParameterMap();
   
 };
@@ -487,7 +476,6 @@ BurstWave::clearCommand()
   fullCmdStream_flag = false;
   carrierCmd_flag    = false;
   
-  return;
 };
 
 
@@ -496,23 +484,56 @@ void
 BurstWave::buildCommand()
 {
 
+      //   period_flag      = true;   // PRD
+      // startPhase_flag  = true;   // STPS
+      // gateNcyc_flag    = true;   // GATE_NSCYC
+      // triggerSrc_flag  = true;   // TRSR
+      // delay_flag       = true;   // DLAY
+      // polarity_flag    = true;   // PLRT
+      // triggerMode_flag = true;   // TRMD
+      // edge_flag        = true;   // EDGE
+      // cycleTime_flag   = true;   // TIME
+      // mtrig_flag       = true;   // MAN
+  
+       
+	      // kBurstParStartPhase,
+  	      // kBurstParDelay,
+  	      // kBurstParTime,
+
+  
+	      // kBurstParGateNcyc,
+	      // kBurstParTriggerSrc,
+
+	      // kBurstParPolarity,
+	      // kBurstParTriggerMode,
+	      // kBurstParEdge,
+
+	      // kBurstParMtrig
+
+		
   bool front_comma = true;
   
-  fullCmdStream << headerPathMap[headerPathID];
-  		
-  fullCmdStream << this->getCmdSnip(period_flag,     kBurstParPeriod,     periodVal,     front_comma);
-  fullCmdStream << this->getCmdSnip(startPhase_flag, kBurstParStartPhase, startPhaseVal, front_comma);
-  fullCmdStream << this->getCmdSnip(delay_flag,      kBurstParDelay,      delayVal,      front_comma);
-  fullCmdStream << this->getCmdSnip(cycleTime_flag,  kBurstParTime,       cycleTimeVal,  front_comma);
+  fullCmdStream << this->getBurstCmdSnip();
+
+  
+  fullCmdStream << this->getCmdSnip(gateNcyc_flag,      kBurstParGateNcyc,    front_comma);
+  fullCmdStream << this->getCmdSnip(triggerSrc_flag,    kBurstParTriggerSrc,  front_comma);
+  fullCmdStream << this->getCmdSnip(triggerMode_flag,   kBurstParTriggerMode, front_comma);
+  fullCmdStream << this->getCmdSnip(edge_flag,          kBurstParEdge,        front_comma);
+  fullCmdStream << this->getCmdSnip(polarity_flag,      kBurstParPolarity,    front_comma);
+  
+
+  
+  fullCmdStream << this->getCmdSnip(period_flag,        kBurstParPeriod,      front_comma, periodVal);
+  fullCmdStream << this->getCmdSnip(startPhase_flag,    kBurstParStartPhase,  front_comma, startPhaseVal);
+  fullCmdStream << this->getCmdSnip(delay_flag,         kBurstParDelay,       front_comma, delayVal);
+  fullCmdStream << this->getCmdSnip(cycleTime_flag,     kBurstParTime,        front_comma, cycleTimeVal);
   
   fullCmdStream << this->getCarrierCmd();
 
   fullCmdStream_flag = true;
-  
-  return;
+
 };
-
-
 
 
 void
@@ -540,49 +561,79 @@ BurstWave::Print(std::string in)
     "\n Full Cmd      : " <<
     std::setw(width) << fullCmdStream.str() <<
     std::endl;
-
-   return;
-  
-}
+};
 
 
 
 void
 BurstWave::setCarrierWaveTypeID(EBasicWaveType_t id)
 {
-  carrierWaveTypeID = id;
+  carrierWaveTypeID     = id;
   carrierWaveTypeString = carrierWaveTypeMap[id];
-  //  this -> set_flags(id);
-  return;
-
+  
+ 
 };
+
 
 void
 BurstWave::setBurstMode(EBurstMode_t id)
 {
-  burstMode = id;
-  burstModeString = burstModeMap[id];
-  //  this -> set_flags(id);
-  return;
+  burstModeID     = id;
+  burstModeString = GetBurstMode(id);
+ 
 };
+
 
 void
 BurstWave::setTriggerSrc(ETriggerSrc_t id)
 {
-  triggerSrc = id;
-  triggerSrcString = triggerSrcMap[id];
-  return;
+  triggerSrcID = id;
+  triggerSrcString = GetTriggerSrc(id);
 };
 
 
+void
+BurstWave::setTriggerMode(ETriggerMode_t id)
+{
+  triggerModeID = id;
+  triggerModeString = GetTriggerMode(id);
+};
+
+void
+BurstWave::setEdge(EEdgeModeMap_t id)
+{
+  edgeModeID = id;
+  edgeModeString = GetEdgeMode(id);
+  
+};
+
+
+void
+BurstWave::setPolarity(EPolarityMap_t id)
+{
+  polarityID = id;
+  polarityString = GetPolarity(id);
+};
+  
+
+void
+BurstWave::set_flags(EBasicWaveType_t wt_id, EBurstMode_t gn_id, ETriggerSrc_t tg_id)
+{
+  std::cout
+  << "WaveType  : " << GetBasicWaveType (wt_id)
+  << "\tBurstMode : " << GetBurstMode (gn_id)
+  << "\tTriggerSrc : " << GetTriggerSrc (tg_id)
+  << std::endl;
+}
 
 
 const std::string
-BurstWave::getCmdSnip(bool cmd_flag, EBurstParameter_t id, double value, bool front_prefix)
+BurstWave::getCmdSnip(bool cmd_flag, EBurstParameter_t id, bool front_prefix, double value)
 {
-  std::ostringstream result;
-  std::string        unit;
-
+  std::ostringstream  result; 
+  std::string  unit; unit.clear();
+  
+  
   if(cmd_flag) {
     if (front_prefix) result << GetCmdSymbol(kCmdSymbolComma);
     result << burstParameterMap[id];
@@ -599,8 +650,71 @@ BurstWave::getCmdSnip(bool cmd_flag, EBurstParameter_t id, double value, bool fr
     result.str("");
     result.clear();
   }
+  
 
   return result.str();
 };
 
+
+	      // kBurstParTriggerSrc,
+	      // kBurstParPolarity,
+	      // kBurstParTriggerMode,
+	      // kBurstParEdge,
+	      // kBurstParMtrig
+	      // kBurstParGateNcyc,
+
+
+const std::string
+BurstWave::getCmdSnip(bool cmd_flag, EBurstParameter_t id, bool front_prefix)
+{
+  std::ostringstream  result; 
+  
+  
+  if(cmd_flag) {
+    if (front_prefix) result << GetCmdSymbol(kCmdSymbolComma);
+    result << burstParameterMap[id];
+    result << GetCmdSymbol(kCmdSymbolComma);
+    switch (id)
+      {
+      case kBurstParGateNcyc:
+	result << burstModeString;
+	break;
+      case kBurstParTriggerSrc:
+	result << triggerSrcString;
+	break;
+      case kBurstParTriggerMode:
+	result << triggerModeString;
+	break;
+      case kBurstParEdge:
+	result << edgeModeString;
+	break;
+      case kBurstParPolarity:
+	result << polarityString;
+	break;
+      default:
+	result.str("");
+	break;
+      }
+  }
+  else {
+    result.str("");
+  }
+  
+
+  return result.str();
+};
+
+
+
+const std::string
+BurstWave::getBurstCmdSnip()
+{
+  std::string result; result.clear();
+  result = "";
+  result += headerPathMap[headerPathID];
+  result += GetCmdSymbol(kCmdSymbolColon);
+  result += GetHeaderType(kHeaderBTWV);
+  result += GetCmdSymbol(kCmdSymbolBlank);
+  return result;
+};
 

@@ -1,6 +1,200 @@
 
 
+## GATE_NCYC
 
+record(bo, "$(P)$(R)BurstGateNcyc")
+{
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) PAR_BURST_GATE_NCYC")
+    field(ZNAM, "GATE")
+    field(ONAM, "NCYC")
+}
+
+record(bi, "$(P)$(R)BurstGateNcyc_RBV")
+{
+    field(DTYP, "asynInt32")
+    field( INP, "@asyn($(PORT),0,0) PAR_BURST_GATE_NCYC")
+    field(ZNAM, "GATE")
+    field(ONAM, "NCYC")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+## MTRIG
+
+record(bo, "$(P)$(R)BurstManualTrigger")
+{
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) PAR_BURST_MTRIG")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field( VAL, 0)
+}
+
+record(bi, "$(P)$(R)BurstManualTrigger_RBV")
+{
+    field(DTYP, "asynInt32")
+    field( INP, "@asyn($(PORT),0,0) PAR_BURST_MTRIG")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+record(mbbo, "$(P)$(R)BurstTriggerSrc")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field( OUT, "@asyn($(PORT),0,0) PAR_BURST_TRSR")
+   field(ZRST, "EXT")
+   field(ZRVL, "0")
+   field(ONST, "INT")
+   field(ONVL, "1")
+   field(TWST, "MAN")
+   field(TWVL, "2")
+   field(THSV, "INVALID")
+   field(FRSV, "INVALID")
+   field(FVSV, "INVALID")
+   field(SXSV, "INVALID")
+   field(SVSV, "INVALID")
+   field(EISV, "INVALID")
+   field(NISV, "INVALID")
+   field(TESV, "INVALID")
+   field(ELSV, "INVALID")
+   field(TVSV, "INVALID")
+   field(TTSV, "INVALID")
+   field(FTSV, "INVALID")
+   field(FFSV, "INVALID")
+   field(UNSV, "INVALID")
+   field( VAL, "0")
+}
+
+record(mbbi, "$(P)$(R)BurstTriggerSrc_RBV")
+{
+   field(DTYP, "asynInt32")
+   field( INP, "@asyn($(PORT),0,0)PAR_BURST_TRSR")
+   field(ZRST, "EXT")
+   field(ZRVL, "0")
+   field(ONST, "INT")
+   field(ONVL, "1")
+   field(TWST, "MAN")
+   field(TWVL, "2")
+   field(THSV, "INVALID")
+   field(FRSV, "INVALID")
+   field(FVSV, "INVALID")
+   field(SXSV, "INVALID")
+   field(SVSV, "INVALID")
+   field(EISV, "INVALID")
+   field(NISV, "INVALID")
+   field(TESV, "INVALID")
+   field(ELSV, "INVALID")
+   field(TVSV, "INVALID")
+   field(TTSV, "INVALID")
+   field(FTSV, "INVALID")
+   field(FFSV, "INVALID")
+   field(UNSV, "INVALID")
+   field(SCAN, "I/O Intr")
+}
+
+
+record(mbbo, "$(P)$(R)BurstTriggerMode")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field( OUT, "@asyn($(PORT),0,0) PAR_BURST_TRMD")
+   field(ZRST, "RISE")
+   field(ZRVL, "0")
+   field(ONST, "FALL")
+   field(ONVL, "1")
+   field(TWST, "OFF")
+   field(TWVL, "2")
+   field(THSV, "INVALID")
+   field(FRSV, "INVALID")
+   field(FVSV, "INVALID")
+   field(SXSV, "INVALID")
+   field(SVSV, "INVALID")
+   field(EISV, "INVALID")
+   field(NISV, "INVALID")
+   field(TESV, "INVALID")
+   field(ELSV, "INVALID")
+   field(TVSV, "INVALID")
+   field(TTSV, "INVALID")
+   field(FTSV, "INVALID")
+   field(FFSV, "INVALID")
+   field(UNSV, "INVALID")
+   field( VAL, "0")
+}
+
+record(mbbi, "$(P)$(R)BurstTriggerMode_RBV")
+{
+   field(DTYP, "asynInt32")
+   field( INP, "@asyn($(PORT),0,0) PAR_BURST_TRMD")
+   field(ZRST, "RISE")
+   field(ZRVL, "0")
+   field(ONST, "FALL")
+   field(ONVL, "1")
+   field(TWST, "OFF")
+   field(TWVL, "2")
+   field(THSV, "INVALID")
+   field(FRSV, "INVALID")
+   field(FVSV, "INVALID")
+   field(SXSV, "INVALID")
+   field(SVSV, "INVALID")
+   field(EISV, "INVALID")
+   field(NISV, "INVALID")
+   field(TESV, "INVALID")
+   field(ELSV, "INVALID")
+   field(TVSV, "INVALID")
+   field(TTSV, "INVALID")
+   field(FTSV, "INVALID")
+   field(FFSV, "INVALID")
+   field(UNSV, "INVALID")
+   field(SCAN, "I/O Intr")
+}
+
+
+
+## PLRT 
+
+record(bo, "$(P)$(R)BurstPolarity")
+{
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) PAR_BURST_PLRT")
+    field(ZNAM, "NEG")
+    field(ONAM, "POS")
+}
+
+record(bi, "$(P)$(R)BurstPolarity_RBV")
+{
+    field(DTYP, "asynInt32")
+    field( INP, "@asyn($(PORT),0,0) PAR_BURST_PLRT")
+    field(ZNAM, "NEG")
+    field(ONAM, "POS")
+    field(SCAN, "I/O Intr")
+}
+
+
+
+## EDGE 
+
+record(bo, "$(P)$(R)BurstEdge")
+{
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) PAR_BURST_EDGE")
+    field(ZNAM, "RISE")
+    field(ONAM, "FALL")
+}
+
+record(bi, "$(P)$(R)BurstEdge_RBV")
+{
+    field(DTYP, "asynInt32")
+    field( INP, "@asyn($(PORT),0,0) PAR_BURST_EDGE")
+    field(ZNAM, "RISE")
+    field(ONAM, "FALL")
+    field(SCAN, "I/O Intr")
+}
 
 
 
@@ -88,6 +282,4 @@ record(ai, "$(P)$(R)BurstCycleTime_RBV")
     field( INP, "@asyn($(PORT),0,0) PAR_BURST_CYCLE_TIME")
     field(SCAN, "I/O Intr")
 }
-
-
 

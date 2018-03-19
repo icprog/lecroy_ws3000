@@ -148,12 +148,21 @@ drvWS3122::Init()
   createParam(ParWaveDutyCycleString,      asynParamFloat64, &parWaveDutyCycle_);
 
 
+  createParam(ParBurstGateNcycString,      asynParamInt32,   &parBurstGateNcyc_);
+
+  createParam(ParBurstTriggerSrcString,    asynParamInt32,   &parBurstTriggerSrc_);
+  createParam(ParBurstTriggerModeString,   asynParamInt32,   &parBurstTriggerMode_);
+  createParam(ParBurstEdgeString,          asynParamInt32,   &parBurstEdge_);
+  createParam(ParBurstPolarityString,      asynParamInt32,   &parBurstPolatiry_);
+  createParam(ParBurstManualTriggerString, asynParamInt32,   &parBurstManualTrigger_);
+    
   createParam(ParBurstPeriodString,        asynParamFloat64, &parBurstPeriod_);
   createParam(ParBurstStartPhaseString,    asynParamFloat64, &parBurstStartPhase_);
   createParam(ParBurstDelayString,         asynParamFloat64, &parBurstDelay_);
   createParam(ParBurstCycleTimeString,     asynParamFloat64, &parBurstCycleTime_);
   
 
+  createParam(CmdWaveStateString,          asynParamInt32,   &cmdWaveState_   );
   createParam(CmdOutputString,             asynParamInt32,   &cmdOutput_      );
   createParam(CmdOutputLoadString,         asynParamInt32,   &cmdOutputLoad_  );
   createParam(CmdOutputPolarityString,     asynParamInt32,   &cmdOutputPolarity_);
@@ -262,6 +271,8 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
   double val_reset  = -0.1;
 
   int    wave_type  = 0;
+  int    burst_mode = 0;
+  int    trig_src   = 0;
 
   // std::cout << "function " << function
   // 	    << " iValue "   << iValue
@@ -296,6 +307,10 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
 	    setIntegerParam(parBasicWaveTypeSelect_, wave_type);
 	    burstWave -> setEnable(true);
 	    burstWave -> setCarrierWaveTypeID((EBasicWaveType_t) wave_type);
+	    getIntegerParam(parBurstGateNcyc_, &burst_mode);
+	    getIntegerParam(parBurstTriggerSrc_, &trig_src);
+	    burstWave -> set_flags((EBasicWaveType_t) wave_type, (EBurstMode_t) burst_mode , (ETriggerSrc_t) trig_src);
+	    
 	  }
 	  break;
 	case kHeaderARWV:	// not yet implemented
@@ -314,10 +329,27 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
     }
     else if (function == parHeaderPath_ ) {
       basicWave -> setHeaderPath((EHeaderPath_t) par);
+      burstWave -> setHeaderPath((EHeaderPath_t) par);
     }
     else if ( function == parBasicWaveTypeSelect_ ){
       basicWave -> setWaveTypeID((EBasicWaveType_t)  par);
     }
+    else if ( function == parBurstGateNcyc_ ) {
+      burstWave -> setBurstMode((EBurstMode_t) par);
+      getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
+      getIntegerParam(parBurstTriggerSrc_,     &trig_src);
+      burstWave -> set_flags((EBasicWaveType_t) wave_type, (EBurstMode_t) par , (ETriggerSrc_t) trig_src);
+      
+    }
+    else if ( function == parBurstTriggerSrc_ ) {
+      burstWave -> setTriggerSrc((ETriggerSrc_t) par);
+      getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
+      getIntegerParam(parBurstGateNcyc_, &burst_mode);
+      burstWave -> set_flags((EBasicWaveType_t) wave_type, (EBurstMode_t) par , (ETriggerSrc_t) par);
+      
+    }
+
+    
     setIntegerParam(function, par);
   }; // if (fValue == 0.0)
 
@@ -376,20 +408,17 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
       else val=val_reset;
     }
     else if (function ==  parBurstPeriod_ ) {
-      if( burstWave -> IsPeriod() ) burstWave -> setPeriodVal(val);
-      else val=val_reset;
+      // here we put value into the class first. 
+      burstWave -> setPeriodVal(val);
     }
     else if (function ==  parBurstStartPhase_ ) {
-      if( burstWave -> IsStartPhase() ) burstWave -> setStartPhaseVal(val);
-      else val=val_reset;
+      burstWave -> setStartPhaseVal(val);
     }
     else if (function ==  parBurstDelay_ ) {
-      if( burstWave -> IsDelay() ) burstWave -> setDelayVal(val);
-      else val=val_reset;
+      burstWave -> setDelayVal(val);
     }
     else if (function ==  parBurstCycleTime_ ) {
-      if( burstWave -> IsCycleTime() ) burstWave -> setCycleTimeVal(val);
-      else val=val_reset;
+      burstWave -> setCycleTimeVal(val);
     }
     
     setDoubleParam(function, val);
@@ -670,9 +699,10 @@ drvWS3122::SetWaveTypeCmds(epicsInt32 value)
     case kHeaderBTWV:
       basicWave -> buildCommand();
       burstWave -> setCarrierCmd( basicWave->getFullCommand());
+      basicWave -> clearCommand();
+      
       burstWave -> buildCommand();
       value_s = burstWave-> getFullCommand();
-      basicWave -> clearCommand();
       burstWave -> clearCommand();
       break;
     case kHeaderARWV:	// not yet implemented

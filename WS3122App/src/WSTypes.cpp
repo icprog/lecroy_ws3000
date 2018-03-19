@@ -19,23 +19,6 @@ GetBasicWaveType(std::string name)
   return result;
 };
 
-std::string
-GetBasicWaveType(EBasicWaveType_t type)
-{
-  std::string result;
-  if      (type==kWaveTypeSine)   result = "SINE";
-  else if (type==kWaveTypeSquare) result = "SQUARE";
-  else if (type==kWaveTypeRamp)   result = "RAMP";
-  else if (type==kWaveTypePulse)  result = "PULSE";
-  else if (type==kWaveTypeNoise)  result = "NOISE";
-  else if (type==kWaveTypeArb)    result = "ARB";
-  else if (type==kWaveTypeDc)     result = "DC";
-  else                            result = "UNKNOWN";
-
-  return result;
-};
-
-
 
 EWaveParameter_t
 GetWaveParmeter(std::string name)
@@ -58,13 +41,6 @@ GetWaveParmeter(std::string name)
   return result;
 };
 
-std::string
-GetWaveParameter(EWaveParameter_t type)
-{
-  std::string result;
-
-  return result;
-};
 
 std::string
 GetHeaderType   (EHeaderType_t type)
@@ -82,6 +58,26 @@ GetHeaderType   (EHeaderType_t type)
   return result;
 };
 
+
+
+
+std::string
+GetBasicWaveType(EBasicWaveType_t type)
+{
+  std::string result;
+  if      (type==kWaveTypeSine)   result = "SINE";
+  else if (type==kWaveTypeSquare) result = "SQUARE";
+  else if (type==kWaveTypeRamp)   result = "RAMP";
+  else if (type==kWaveTypePulse)  result = "PULSE";
+  else if (type==kWaveTypeNoise)  result = "NOISE";
+  else if (type==kWaveTypeArb)    result = "ARB";
+  else if (type==kWaveTypeDc)     result = "DC";
+  else                            result = "UNKNOWN";
+
+  return result;
+};
+
+
 std::string
 GetCmdSymbol (ECmdSymbol_t type)
 {
@@ -93,6 +89,20 @@ GetCmdSymbol (ECmdSymbol_t type)
   else                               result = "";
   return result;
 }
+
+
+std::string
+GetWaveState (EWaveState_t type)
+{
+  std::string result;
+  if      (type==kWaveStateOn)  result = "ON";
+  else if (type==kWaveStateOff) result = "OFF";
+  else                          result = "";
+  return result;
+};
+
+
+
 
 std::string
 GetBurstMode (EBurstMode_t type)
@@ -118,6 +128,44 @@ GetTriggerSrc (ETriggerSrc_t type)
 };
 
 
+std::string
+GetTriggerMode   (ETriggerMode_t    type)
+{
+  std::string result;
+  if      (type==kTriggerModeRise) result = "RISE";
+  else if (type==kTriggerModeFall) result = "FALL";
+  else if (type==kTriggerModeOff)  result = "OFF";
+  else                             result = "";
+  
+  return result;
+};
+
+std::string
+GetEdgeMode (EEdgeModeMap_t    type)
+{
+  std::string result;
+  if      (type==kEdgeModeRise) result = "RISE";
+  else if (type==kEdgeModeFall) result = "FALL";
+  else                          result = "";
+
+  return result;
+};
+
+
+std::string
+GetPolarity      (EPolarityMap_t    type)
+{
+  std::string result;
+  if      (type==kPolarityNegative) result = "NEG";
+  else if (type==kPolarityPositive) result = "POS";
+  else                              result = "";
+
+  return result;
+};
+
+
+
+
 
 std::string
 GetBurstParameter(EBurstParameter_t type)
@@ -136,3 +184,4 @@ GetBurstParameter(EBurstParameter_t type)
   else                                 result = "";
   return result;
 };
+

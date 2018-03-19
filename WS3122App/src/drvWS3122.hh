@@ -62,11 +62,24 @@
 #define ParWaveMeanString            "PAR_WAVE_MEAN"                //asynFloat64
 #define ParWaveDutyCycleString       "PAR_WAVE_DUTYCYCLE"           //asynFloat64
 
+
+#define ParBurstGateNcycString       "PAR_BURST_GATE_NCYC"          // asynParamInt32
+#define ParBurstTriggerSrcString     "PAR_BURST_TRSR"               // asynParamInt32
+#define ParBurstTriggerModeString    "PAR_BURST_TRMD"               // asynParamInt32
+#define ParBurstPolarityString       "PAR_BURST_PLRT"               // asynParamInt32
+#define ParBurstEdgeString           "PAR_BURST_EDGE"               // asynParamInt32
+
+#define ParBurstManualTriggerString  "PAR_BURST_MTRIG"              // asynParamInt32
+
 #define ParBurstPeriodString         "PAR_BURST_PERIOD"             //asynFloat64
 #define ParBurstStartPhaseString     "PAR_BURST_START_PHASE"        //asynFloat64
 #define ParBurstDelayString          "PAR_BURST_DELAY"              //asynFloat64
 #define ParBurstCycleTimeString      "PAR_BURST_CYCLE_TIME"         //asynFloat64
 
+
+
+
+#define CmdWaveStateString           "CMD_WAVE_STATE"               // asynParamInt32
 #define CmdOutputString              "CMD_OUTPUT"
 #define CmdOutputLoadString          "CMD_OUTPUT_LOAD"
 #define CmdOutputPolarityString      "CMD_OUTPUT_POLARITY"
@@ -116,11 +129,22 @@ protected:
   int parWaveMean_;
   int parWaveDutyCycle_;
 
+
+  int parBurstGateNcyc_;
+
+  int parBurstTriggerSrc_;
+  int parBurstTriggerMode_;
+  int parBurstEdge_;
+  int parBurstPolatiry_;
+  
+  
+  int parBurstManualTrigger_;
   int parBurstPeriod_;
   int parBurstStartPhase_;
   int parBurstDelay_;
   int parBurstCycleTime_;
-  
+
+  int cmdWaveState_;
   int cmdOutput_;
   int cmdOutputLoad_;
   int cmdOutputPolarity_;

@@ -79,6 +79,15 @@ typedef enum {
 
 
 typedef enum {
+	      kCmdSymbolColon,
+	      kCmdSymbolQuestion,
+	      kCmdSymbolBlank,
+	      kCmdSymbolComma
+} ECmdSymbol_t;
+
+
+
+typedef enum {
 	      kOutputOnOff,
 	      kOutputLoad,
 	      kOutputPolarity,
@@ -87,12 +96,11 @@ typedef enum {
 
 
 
+
 typedef enum {
-	      kCmdSymbolColon,
-	      kCmdSymbolQuestion,
-	      kCmdSymbolBlank,
-	      kCmdSymbolComma
-} ECmdSymbol_t;
+	      kWaveStateOn,
+	      kWaveStateOff
+} EWaveState_t;
 
 
 typedef enum {
@@ -108,6 +116,14 @@ typedef enum {
 	      kTriggerSrcManual,
 	      kTriggerSrcUnknown
 } ETriggerSrc_t;
+
+
+typedef enum {
+	      kTriggerModeRise,
+	      kTriggerModeFall,
+	      kTriggerModeOff
+} ETriggerMode_t;
+
 
 
 typedef enum {
@@ -140,10 +156,14 @@ typedef std::map < EHeaderPath_t,      std::string > HeaderPathMap;
 typedef std::map < EHeaderType_t,      std::string > HeaderTypeMap; 
 typedef std::map < EBasicWaveType_t,   std::string > BasicWaveMap;
 typedef std::map < EWaveParameter_t,   std::string > WaveParameterMap;
-typedef std::map < EOutputParameter_t, std::string > OutputParameterMap;
 typedef std::map < ECmdSymbol_t,       std::string > CmdSymbolMap;
+typedef std::map < EOutputParameter_t, std::string > OutputParameterMap;
+
+typedef std::map < EWaveState_t,       std::string > WaveStateMap;
+
 typedef std::map < EBurstMode_t,       std::string > BurstModeMap;
 typedef std::map < ETriggerSrc_t,      std::string > TriggerSrcMap;
+typedef std::map < ETriggerMode_t,     std::string > TriggerModeMap;
 typedef std::map < EEdgeModeMap_t,     std::string > EdgeModeMap;
 typedef std::map < EPolarityMap_t,     std::string > PolarityMap;
 typedef std::map < EBurstParameter_t,  std::string > BurstParameterMap;
@@ -179,7 +199,6 @@ inline HeaderTypeMap CreateHeaderMap()
   return map;
   
 };
-
 
 
 inline BasicWaveMap CreateBasicWaveMap()
@@ -218,6 +237,21 @@ inline WaveParameterMap CreateWaveParameterMap()
 };
 
 
+
+inline CmdSymbolMap CreateCmdSymbolMap()
+{
+  
+  CmdSymbolMap map;
+  map[kCmdSymbolColon]    = ":";
+  map[kCmdSymbolQuestion] = "?";
+  map[kCmdSymbolBlank]    = " ";
+  map[kCmdSymbolComma]    = ",";
+  return map;
+  
+};
+
+
+
 inline OutputParameterMap CreateOutputParameterMap()
 {
   
@@ -231,17 +265,15 @@ inline OutputParameterMap CreateOutputParameterMap()
 };
 
 
-inline CmdSymbolMap CreateCmdSymbolMap()
+
+inline WaveStateMap CreateWaveStateMap()
 {
-  
-  CmdSymbolMap map;
-  map[kCmdSymbolColon]    = ":";
-  map[kCmdSymbolQuestion] = "?";
-  map[kCmdSymbolBlank]    = " ";
-  map[kCmdSymbolComma]    = ",";
+  WaveStateMap map;
+  map[kWaveStateOn]  = "ON";
+  map[kWaveStateOff] = "OFF";
   return map;
-  
 };
+
 
 
 inline BurstModeMap CreateBurstModeMap()
@@ -266,6 +298,17 @@ inline TriggerSrcMap CreateTriggerSrcMap()
   map[kTriggerSrcUnknown]  = "UNKNOWN";
   return map;
 };
+
+
+inline TriggerModeMap CreateTriggerModeMap()
+{
+  TriggerModeMap map;
+  map[kTriggerModeRise] = "RISE";
+  map[kTriggerModeFall] = "FALL";
+  map[kTriggerModeOff]  = "OFF";
+  return map;
+};
+
 
 
 inline EdgeModeMap CreateEdgeModeMap()
@@ -302,18 +345,21 @@ inline BurstParameterMap CreateBurstParameterMap()
 };
 
 
-EBasicWaveType_t GetBasicWaveType (std::string      name);
-EWaveParameter_t GetWaveParmeter  (std::string      name);
+EBasicWaveType_t GetBasicWaveType (std::string       name);
+EWaveParameter_t GetWaveParmeter  (std::string       name);
 
-std::string      GetBasicWaveType (EBasicWaveType_t type);
-std::string      GetWaveParameter (EWaveParameter_t type);
-std::string      GetHeaderType    (EHeaderType_t    type);
-std::string      GetCmdSymbol     (ECmdSymbol_t     type);
-std::string      GetBurstMode     (EBurstMode_t     type);
+std::string      GetHeaderType    (EHeaderType_t     type);
+std::string      GetBasicWaveType (EBasicWaveType_t  type);
+//std::string      GetWaveParameter (EWaveParameter_t  type);
+std::string      GetCmdSymbol     (ECmdSymbol_t      type);
 
-std::string      GetTriggerSrc    (ETriggerSrc_t    type);
-std::string      GetEdgeType      (EEdgeModeMap_t   type);
-std::string      GetPolarity      (EPolarityMap_t   type);
+std::string      GetWaveState     (EWaveState_t      type);
+
+std::string      GetBurstMode     (EBurstMode_t      type);
+std::string      GetTriggerSrc    (ETriggerSrc_t     type);
+std::string      GetTriggerMode   (ETriggerMode_t    type);
+std::string      GetEdgeMode      (EEdgeModeMap_t    type);
+std::string      GetPolarity      (EPolarityMap_t    type);
 std::string      GetBurstParameter(EBurstParameter_t type);
 
 #endif

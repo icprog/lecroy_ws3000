@@ -34,7 +34,7 @@ record(mbbo, "$(P)$(R)HeaderPath")
 record(mbbi, "$(P)$(R)HeaderPath_RBV")
 {
    field(DTYP, "asynInt32")
-   field( INP,  "@asyn($(PORT),0,0) PAR_HEADER_PATH")
+   field( INP, "@asyn($(PORT),0,0) PAR_HEADER_PATH")
    field(ZRST, "C1")
    field(ZRVL, "0")
    field(ONST, "C2")
@@ -225,3 +225,21 @@ record(bi, "$(P)$(R)OutputPolarity_RBV")
     field(SCAN, "I/O Intr")
 }
 
+## STATE - 
+
+record(bo, "$(P)$(R)WaveState")
+{
+    field(DTYP, "asynInt32")
+    field( OUT, "@asyn($(PORT),0,0) CMD_WAVE_STATE")
+    field(ZNAM, "ON")
+    field(ONAM, "OFF")
+}
+
+record(bi, "$(P)$(R)State_RBV")
+{
+    field(DTYP, "asynInt32")
+    field( INP, "@asyn($(PORT),0,0) CMD_WAVE_STATE")
+    field(ZNAM, "ON")
+    field(ONAM, "OFF")
+    field(SCAN, "I/O Intr")
+}

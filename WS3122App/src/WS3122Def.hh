@@ -197,8 +197,13 @@ public:
   
   void setHeaderPath(EHeaderPath_t id)           { headerPathID      = id; };
   void setCarrierWaveTypeID(EBasicWaveType_t id);
-  void setBurstMode(EBurstMode_t   id)          ;
-  void setTriggerSrc(ETriggerSrc_t id)          ;
+  
+  void setBurstMode(EBurstMode_t   id);
+  void setTriggerSrc(ETriggerSrc_t id);
+  
+  void setTriggerMode(ETriggerMode_t id);
+  void setEdge(EEdgeModeMap_t id);
+  void setPolarity(EPolarityMap_t id);
   
   void setPeriodVal(double val)                  { periodVal     = val; };
   void setStartPhaseVal(double val)              { startPhaseVal = val; };
@@ -208,14 +213,15 @@ public:
   void setEnable(bool in)                        { enable_flag   = in;  };
  
   bool IsEnable()       const {return enable_flag;};
-  bool IsCarrierCmds()  const {return carrierCmd_flag; };
-  
+  bool IsCarrierCmds()  const {return carrierCmd_flag;};
+
+  bool IsBurstMode()    const {return gateNcyc_flag;}
   bool IsPeriod()       const {return period_flag;};
   bool IsStartPhase()   const {return startPhase_flag;};
   bool IsDelay()        const {return delay_flag;};
   bool IsCycleTime()    const {return cycleTime_flag;};
   
-  
+  void set_flags(EBasicWaveType_t wt_id, EBurstMode_t gn_id, ETriggerSrc_t tg_id);
   
 private:
 
@@ -225,12 +231,31 @@ private:
   
   EBasicWaveType_t    carrierWaveTypeID;
   BasicWaveMap        carrierWaveTypeMap;
+  std::string         carrierWaveTypeString;
+  
+  EBurstMode_t        burstModeID;
+  std::string         burstModeString;
+  
+  ETriggerSrc_t       triggerSrcID;
+  std::string         triggerSrcString;
+   
 
-  EBurstMode_t        burstMode;
-  BurstModeMap        burstModeMap;
+  ETriggerMode_t      triggerModeID;
+  std::string         triggerModeString;
 
-  ETriggerSrc_t       triggerSrc;
-  TriggerSrcMap       triggerSrcMap;
+  EEdgeModeMap_t      edgeModeID;
+  std::string         edgeModeString;
+
+  EPolarityMap_t      polarityID;
+  std::string         polarityString;
+
+  
+
+
+
+
+  
+  
   
   ECmdSymbol_t        cmdSymbolID;
   CmdSymbolMap        cmdSymbolMap;
@@ -244,13 +269,16 @@ private:
   
   bool                period_flag;      // PRD
   bool                startPhase_flag;  // STPS
+  bool                delay_flag;       // DLAY
+  bool                cycleTime_flag;   // TIME
+  
   bool                gateNcyc_flag;    // GATE_NSCYC
   bool                triggerSrc_flag;  // TRSR
-  bool                delay_flag;       // DLAY
-  bool                polarity_flag;    // PLRT
   bool                triggerMode_flag; // TRMD
   bool                edge_flag;        // EDGE
-  bool                cycleTime_flag;   // TIME
+  bool                polarity_flag;    // PLRT
+
+  
   bool                mtrig_flag;       // MAN
   
   
@@ -259,12 +287,6 @@ private:
   double              startPhaseVal;   
   double              delayVal;
   double              cycleTimeVal;
-
-  //bool                carrier_flag;
-  
-  std::string         carrierWaveTypeString;
-  std::string         burstModeString;
-  std::string         triggerSrcString;
 
 
   std::string         periodUnit;
@@ -278,12 +300,14 @@ private:
   std::ostringstream fullCmdStream;
 
   std::string        carrierCmdString;
-
-  const std::string getCmdSnip(bool cmd_flag, EBurstParameter_t id, double value, bool front_prefix);
+  
+  const std::string getBurstCmdSnip();
+  const std::string getCmdSnip(bool cmd_flag, EBurstParameter_t id,  bool front_prefix, double value);
+  const std::string getCmdSnip(bool cmd_flag, EBurstParameter_t id,  bool front_prefix);
+  
   // const std::string getBasicWaveCmdSnip(bool carr_flag);
   // const std::string getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool front_prefix);
   // void set_flags(EBasicWaveType_t id);
-
   // void set_flags(EBurstMode_t burst_mode_id, ETriggerSrc_t trigger_src_id);
 };
 

@@ -1,6 +1,6 @@
-#caput usbtmc:icslab:HeaderPath C2
-caput usbtmc:icslab:Header SWWV
-caput usbtmc:icslab:BasicWaveTypeSelect Square
+caput usbtmc:icslab:HeaderPath C1
+caput usbtmc:icslab:Header BTWV
+caput usbtmc:icslab:BasicWaveTypeSelect Noise
 caput usbtmc:icslab:WaveFrequency    150
 caput usbtmc:icslab:WaveAmplifier    10
 caput usbtmc:icslab:WaveOffset       10
@@ -13,4 +13,17 @@ caput usbtmc:icslab:WaveSymmetry     2
 caput usbtmc:icslab:WaveStdDev       0.5
 caput usbtmc:icslab:WaveMean         1
 caput usbtmc:icslab:WaveDutyCycle    0.21
+
+
+caput usbtmc:icslab:WaveState        ON
+caput usbtmc:icslab:BurstPeriod      1
+caput usbtmc:icslab:BurstStartPhase  0
+caput usbtmc:icslab:BurstGateNcyc    GATE
+caput usbtmc:icslab:BurstManualTrigger EXT
+caput usbtmc:icslab:BurstPolarity    NEG
+caput usbtmc:icslab:BurstEdge        RISE
+caput usbtmc:icslab:BurstDelay       0
+caput usbtmc:icslab:BurstCycleTime   1
+
+
 caput usbtmc:icslab:SetWaveType 1
