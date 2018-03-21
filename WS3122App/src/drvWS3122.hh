@@ -186,6 +186,8 @@ private:
   asynStatus report_device_information(FILE *fp);
   asynStatus set_device_information();
   asynStatus set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fValue, std::string value_s, asynParamType paramType);
+
+  void  set_burst_wave_flags();
   
 };
 

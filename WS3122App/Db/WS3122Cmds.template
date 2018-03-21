@@ -229,10 +229,12 @@ record(bi, "$(P)$(R)OutputPolarity_RBV")
 
 record(bo, "$(P)$(R)WaveState")
 {
+    field(PINI, "YES")
     field(DTYP, "asynInt32")
     field( OUT, "@asyn($(PORT),0,0) CMD_WAVE_STATE")
     field(ZNAM, "ON")
     field(ONAM, "OFF")
+    field( VAL, 1)
 }
 
 record(bi, "$(P)$(R)State_RBV")

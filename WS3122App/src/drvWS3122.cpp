@@ -261,6 +261,20 @@ asynStatus drvWS3122::set_device_information()
 };
 
 
+void
+drvWS3122::set_burst_wave_flags()
+{
+  int    wave_type  = 0;
+  int    burst_mode = 0;
+  int    trig_src   = 0;
+  
+  getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
+  getIntegerParam(parBurstGateNcyc_,       &burst_mode);
+  getIntegerParam(parBurstTriggerSrc_,     &trig_src);
+  burstWave -> set_flags((EBasicWaveType_t) wave_type, (EBurstMode_t) burst_mode , (ETriggerSrc_t) trig_src);
+
+  
+};
 
 asynStatus
 drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fValue, std::string value_s, asynParamType paramType)
@@ -271,8 +285,8 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
   double val_reset  = -0.1;
 
   int    wave_type  = 0;
-  int    burst_mode = 0;
-  int    trig_src   = 0;
+  int    par_header = 0;
+  // int    trig_src   = 0;
 
   // std::cout << "function " << function
   // 	    << " iValue "   << iValue
@@ -291,27 +305,30 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
       switch ((EHeaderType_t) par)
 	{
 	case kHeaderBSWV:
-	  {
-	    wave_type = 0;
-	    basicWave -> setCarrierFlag(false);
-	    getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
-	    basicWave -> setWaveTypeID((EBasicWaveType_t) wave_type);
-	    setIntegerParam(parBasicWaveTypeSelect_, wave_type);
-	  }
+	  
+	  basicWave -> setCarrierFlag(false);
+	  getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
+	  basicWave -> setWaveTypeID((EBasicWaveType_t) wave_type);
+	  setIntegerParam(parBasicWaveTypeSelect_, wave_type);
+	  
 	  break;
 	case kHeaderBTWV:
-	  {
+	  getIntegerParam(parBasicWaveTypeSelect_,      &wave_type);
+	  basicWave -> setWaveTypeID((EBasicWaveType_t) wave_type);
+	  setIntegerParam(parBasicWaveTypeSelect_, wave_type);
+	  if( (EBasicWaveType_t) wave_type == kWaveTypeDc) {
+	    basicWave -> setCarrierFlag(false);
+	    burstWave -> setEnable(false);
+	  }
+	  else {
+
 	    basicWave -> setCarrierFlag(true);
-	    getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
-	    basicWave -> setWaveTypeID((EBasicWaveType_t) wave_type);
-	    setIntegerParam(parBasicWaveTypeSelect_, wave_type);
 	    burstWave -> setEnable(true);
 	    burstWave -> setCarrierWaveTypeID((EBasicWaveType_t) wave_type);
-	    getIntegerParam(parBurstGateNcyc_, &burst_mode);
-	    getIntegerParam(parBurstTriggerSrc_, &trig_src);
-	    burstWave -> set_flags((EBasicWaveType_t) wave_type, (EBurstMode_t) burst_mode , (ETriggerSrc_t) trig_src);
-	    
+	    std::cout << GetBasicWaveType((EBasicWaveType_t) wave_type) << std::endl;
+	    std::cout << burstWave -> getCarrierWaveTypeString() << std::endl;
 	  }
+	  this -> set_burst_wave_flags();
 	  break;
 	case kHeaderARWV:	// not yet implemented
 	  basicWave -> setCarrierFlag(true);
@@ -326,29 +343,77 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
 	  basicWave-> setCarrierFlag(true);
 	  break;
 	}
+
     }
-    else if (function == parHeaderPath_ ) {
+    else if ( function == parHeaderPath_ ) {
       basicWave -> setHeaderPath((EHeaderPath_t) par);
       burstWave -> setHeaderPath((EHeaderPath_t) par);
     }
     else if ( function == parBasicWaveTypeSelect_ ){
-      basicWave -> setWaveTypeID((EBasicWaveType_t)  par);
+
+      getIntegerParam(parHeader_, & par_header);
+      
+      switch ((EHeaderType_t) par_header)
+	{
+	case kHeaderBSWV:
+	  basicWave -> setCarrierFlag(false);
+	  basicWave -> setWaveTypeID((EBasicWaveType_t) par);
+	  break;
+	case kHeaderBTWV:
+	  basicWave -> setWaveTypeID((EBasicWaveType_t) par);
+	  if( (EBasicWaveType_t) wave_type == kWaveTypeDc) {
+	    basicWave -> setCarrierFlag(false);
+	    burstWave -> setEnable(false);
+	  }
+	  else {
+	    basicWave -> setCarrierFlag(true);
+	    burstWave -> setEnable(true);
+	    burstWave -> setCarrierWaveTypeID((EBasicWaveType_t) par);
+	  }
+	  this -> set_burst_wave_flags();
+	  
+	  break;
+	case kHeaderARWV:	// not yet implemented
+	  basicWave -> setCarrierFlag(true);
+	  break;
+	case kHeaderMDWV: // not yet implemented
+	  basicWave -> setCarrierFlag(true);
+	  break;
+	case kHeaderSWWV:	// not yet implemented
+	  basicWave -> setCarrierFlag(true);
+	  break;
+	default:
+	  basicWave-> setCarrierFlag(true);
+	  break;
+	}
+      
     }
     else if ( function == parBurstGateNcyc_ ) {
       burstWave -> setBurstMode((EBurstMode_t) par);
-      getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
-      getIntegerParam(parBurstTriggerSrc_,     &trig_src);
-      burstWave -> set_flags((EBasicWaveType_t) wave_type, (EBurstMode_t) par , (ETriggerSrc_t) trig_src);
-      
+      this -> set_burst_wave_flags();
     }
     else if ( function == parBurstTriggerSrc_ ) {
       burstWave -> setTriggerSrc((ETriggerSrc_t) par);
-      getIntegerParam(parBasicWaveTypeSelect_, &wave_type);
-      getIntegerParam(parBurstGateNcyc_, &burst_mode);
-      burstWave -> set_flags((EBasicWaveType_t) wave_type, (EBurstMode_t) par , (ETriggerSrc_t) par);
+      this -> set_burst_wave_flags();
+    }
+    else if ( function == parBurstTriggerMode_ ) {
+      burstWave -> setTriggerMode((ETriggerMode_t) par);
+      this -> set_burst_wave_flags();
+    }
+    else if ( function == parBurstPolatiry_ ) {
+      burstWave -> setPolarity((EPolarityMap_t) par);
+      this -> set_burst_wave_flags();
+    }
+    else if ( function == parBurstEdge_ ) {
+      burstWave -> setEdge((EEdgeModeMap_t) par);
+      this -> set_burst_wave_flags();
+    }
+    else if ( function == cmdWaveState_ ) {
+      burstWave -> setWaveState((EWaveState_t) par);
+    }
+    else if ( function == parBurstManualTrigger_) {
       
     }
-
     
     setIntegerParam(function, par);
   }; // if (fValue == 0.0)
@@ -410,15 +475,19 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
     else if (function ==  parBurstPeriod_ ) {
       // here we put value into the class first. 
       burstWave -> setPeriodVal(val);
+      this -> set_burst_wave_flags();
     }
     else if (function ==  parBurstStartPhase_ ) {
       burstWave -> setStartPhaseVal(val);
+      this -> set_burst_wave_flags();
     }
     else if (function ==  parBurstDelay_ ) {
       burstWave -> setDelayVal(val);
+      this -> set_burst_wave_flags();
     }
     else if (function ==  parBurstCycleTime_ ) {
       burstWave -> setCycleTimeVal(val);
+      this -> set_burst_wave_flags();
     }
     
     setDoubleParam(function, val);
@@ -715,10 +784,52 @@ drvWS3122::SetWaveTypeCmds(epicsInt32 value)
       break;
     }
   
-  std::cout << "SetWaveTypeCmds " << value_s << std::endl;
- 
-  status = this->usbTmcWrite(value_s);
+  std::cout << "0 : value " << value << "\tdrvWS3122::SetWaveTypeCmds : " << value_s.length()
+	    << "\t cmd " << value_s << std::endl;
 
+  
+  // status = this->usbTmcWrite(value_s);
+  char output[512];
+
+  if(value == 1) {
+    status = this->usbTmcWrite(value_s);
+    return status;
+  }
+  else if(value == 0) {
+    sprintf(output, "C1:BSWV WVTP,SQUARE,FRQ,14HZ,AMP,1V,OFST,0V,PHSE,0,DUTY,0.1percent");
+  }
+  else if (value == 2) {
+    sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,FRQ,14HZ,AMP,1V,OFST,1V,PHSE,10,DUTY,21");
+  }
+  else if (value == 3) {
+    sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SINE,FRQ,14HZ,AMP,1V,OFST,0V,PHSE,0,DUTY,21");
+  }
+  else if (value == 4) {
+    sprintf(output, "C1:BTWV STATE,OFF");
+  }
+  else if (value == 5) {
+    sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,CARR,FRQ,14HZ,CARR,AMP,1V,CARR,OFST,1V,CARR,PHSE,10,CARR,DUTY,30");
+  }
+  
+  
+  // std::string test1="C1:BTWV STATE,ON,CARR,WVTP,SQUARE,FRQ,14HZ,AMP,1V,OFST,1V,PHSE,10,DUTY,0.21percent";
+  // std::string test2="C1:BTWV STATE,ON,CARR,WVTP,SINE,FRQ,14HZ,AMP,1V,OFST,1V,PHSE,10,DUTY,0.21percent";
+
+  // if(value == 1) {
+  //   std::cout << test1 << std::endl;
+  //   status = this->usbTmcWrite(test1);
+  // }
+  // else {
+  //   std::cout << test2 << std::endl;
+  //   status = this->usbTmcWrite(test2);
+  // }
+
+  value_s = output;  
+  std::cout << "1 : value " << value << "\tdrvWS3122::SetWaveTypeCmds : " << value_s.length()
+	    << "\t cmd " << value_s << std::endl;
+
+  
+  status = this->usbTmcWrite(value_s);
   
   return status;
 };

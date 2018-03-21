@@ -153,11 +153,12 @@ private:
   std::string         amplifierUnit;  // V   [2mVpp, 20Vpp] for WS3000
   std::string         offsetUnit;     // V   [, depends on the model]
   std::string         dutyCycleUnit;  // percent if WVTP SQUARE, [20,80], if WVTP PULSE [0.1,99.9]
+  std::string         delayUnit;
   //  char standardDeviationUnit [maxUnitStringLength]; // V [0.5m, 1.599] valid only when WVTP NOISE
   
   std::ostringstream fullCommandStream;
 
-  const std::string getBasicWaveCmdSnip(bool carr_flag);
+  const std::string getBasicWaveCmdSnip();
   const std::string getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool front_prefix);
   void set_flags(EBasicWaveType_t id);
    
@@ -178,39 +179,38 @@ public:
   void buildCommand();
   void clearCommand();
   
-  const std::string getFullCommand()             { return fullCmdStream.str(); };
-  const std::string getHeaderPath()              { return headerPathMap[headerPathID]; };
+  const std::string getFullCommand()   { return fullCmdStream.str(); };
+  const std::string getHeaderPath()    { return headerPathMap[headerPathID]; };
   
   const EBasicWaveType_t  getCarrierWaveTypeID() { return carrierWaveTypeID; };
   const std::string   getCarrierWaveTypeString() { return carrierWaveTypeString;};
  
 
-  const double  getPeriodVal()                   { return periodVal; };
-  const double  getStartPhaseVal()               { return startPhaseVal; };
-  const double  getDelayVal()                    { return delayVal;};
-  const double  getCycleTimeVal()                { return cycleTimeVal; };
+  const double  getPeriodVal()       { return periodVal; };
+  const double  getStartPhaseVal()   { return startPhaseVal; };
+  const double  getDelayVal()        { return delayVal; };
+  const double  getCycleTimeVal()    { return cycleTimeVal; };
+  const std::string getCarrierCmd()  { return carrierCmdString; };
 
   
-  const std::string getCarrierCmd()              { return carrierCmdString; };
+  void setCarrierCmd        (std::string in);
+  void setHeaderPath        (EHeaderPath_t id)  { headerPathID = id; };
   
-  void setCarrierCmd(std::string in)             { carrierCmdString = in; carrierCmd_flag = true; };
-  
-  void setHeaderPath(EHeaderPath_t id)           { headerPathID      = id; };
-  void setCarrierWaveTypeID(EBasicWaveType_t id);
-  
-  void setBurstMode(EBurstMode_t   id);
-  void setTriggerSrc(ETriggerSrc_t id);
-  
-  void setTriggerMode(ETriggerMode_t id);
-  void setEdge(EEdgeModeMap_t id);
-  void setPolarity(EPolarityMap_t id);
-  
-  void setPeriodVal(double val)                  { periodVal     = val; };
-  void setStartPhaseVal(double val)              { startPhaseVal = val; };
-  void setDelayVal(double val)                   { delayVal      = val; };
-  void setCycleTimeVal(double val)               { cycleTimeVal  = val; };
+  void setCarrierWaveTypeID (EBasicWaveType_t id);
+  void setWaveState         (EWaveState_t     id);
+  void setBurstMode         (EBurstMode_t     id);
+  void setTriggerSrc        (ETriggerSrc_t    id);
+  void setTriggerMode       (ETriggerMode_t   id);
+  void setPolarity          (EPolarityMap_t   id);
+  void setEdge              (EEdgeModeMap_t   id);
 
-  void setEnable(bool in)                        { enable_flag   = in;  };
+  
+  void setPeriodVal     (double val)   { periodVal     = val; };
+  void setStartPhaseVal (double val)   { startPhaseVal = val; };
+  void setDelayVal      (double val)   { delayVal      = val; };
+  void setCycleTimeVal  (double val)   { cycleTimeVal  = val; };
+
+  void setEnable(bool in) ;
  
   bool IsEnable()       const {return enable_flag;};
   bool IsCarrierCmds()  const {return carrierCmd_flag;};
@@ -221,7 +221,7 @@ public:
   bool IsDelay()        const {return delay_flag;};
   bool IsCycleTime()    const {return cycleTime_flag;};
   
-  void set_flags(EBasicWaveType_t wt_id, EBurstMode_t gn_id, ETriggerSrc_t tg_id);
+  int set_flags(EBasicWaveType_t wave_type_id, EBurstMode_t gate_ncyc_id, ETriggerSrc_t trigger_src_id);
   
 private:
 
@@ -248,10 +248,10 @@ private:
 
   EPolarityMap_t      polarityID;
   std::string         polarityString;
-
   
 
-
+  EWaveState_t        waveStateID;
+  std::string         waveStateString;
 
 
   
@@ -290,13 +290,8 @@ private:
 
 
   std::string         periodUnit;
-  // std::string         waveTypeString;
-  // std::string         frequencyUnit;  // Hz, [1e-6, depends on the model]
-  // std::string         amplifierUnit;  // V   [2mVpp, 20Vpp] for WS3000
-  // std::string         offsetUnit;     // V   [, depends on the model]
-  // std::string         dutyCycleUnit;  // percent if WVTP SQUARE, [20,80], if WVTP PULSE [0.1,99.9]
-  // //  char standardDeviationUnit [maxUnitStringLength]; // V [0.5m, 1.599] valid only when WVTP NOISE
-  
+  std::string         delayUnit;
+   
   std::ostringstream fullCmdStream;
 
   std::string        carrierCmdString;
@@ -305,10 +300,6 @@ private:
   const std::string getCmdSnip(bool cmd_flag, EBurstParameter_t id,  bool front_prefix, double value);
   const std::string getCmdSnip(bool cmd_flag, EBurstParameter_t id,  bool front_prefix);
   
-  // const std::string getBasicWaveCmdSnip(bool carr_flag);
-  // const std::string getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool front_prefix);
-  // void set_flags(EBasicWaveType_t id);
-  // void set_flags(EBurstMode_t burst_mode_id, ETriggerSrc_t trigger_src_id);
 };
 
 

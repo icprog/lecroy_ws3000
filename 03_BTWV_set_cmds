@@ -1,14 +1,17 @@
 
 caput usbtmc:icslab:Header BTWV
+
 caput usbtmc:icslab:WaveState        ON
 
+
+
 caput usbtmc:icslab:BurstPeriod      14
-caput usbtmc:icslab:BurstStartPhase  130
-caput usbtmc:icslab:BurstGateNcyc    NCYC
+caput usbtmc:icslab:BurstStartPhase  160
+caput usbtmc:icslab:BurstGateNcyc    GATE
 caput usbtmc:icslab:BurstTriggerSrc  INT
 caput usbtmc:icslab:BurstTriggerMode RISE
-caput usbtmc:icslab:BurstPolarity    NEG
-caput usbtmc:icslab:BurstEdge        FALL
+caput usbtmc:icslab:BurstPolarity    POS
+caput usbtmc:icslab:BurstEdge        RISE
 caput usbtmc:icslab:BurstDelay       10
 caput usbtmc:icslab:BurstCycleTime   1
 

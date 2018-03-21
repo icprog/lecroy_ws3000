@@ -1,6 +1,14 @@
 
+
 caput usbtmc:icslab:Header BTWV
+caput usbtmc:icslab:WaveState        OFF
+caput usbtmc:icslab:SetWaveType 1
+
+sleep 5
+
 caput usbtmc:icslab:WaveState        ON
+
+
 
 caput usbtmc:icslab:BurstPeriod      14
 caput usbtmc:icslab:BurstStartPhase  130

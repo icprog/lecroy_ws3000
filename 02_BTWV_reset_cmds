@@ -1,0 +1,5 @@
+
+
+
+caput usbtmc:icslab:WaveState        OFF
+caput usbtmc:icslab:SetWaveType 1

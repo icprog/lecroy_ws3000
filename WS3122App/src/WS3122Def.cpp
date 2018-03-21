@@ -88,8 +88,9 @@ BasicWave::Init()
   frequencyUnit = "HZ";
   amplifierUnit = "V";
   offsetUnit    = "V";
-  dutyCycleUnit = "percent";
-
+  dutyCycleUnit = "";
+  delayUnit     = "S";
+  
   clearCommand();
 
   waveTypeMap     = CreateBasicWaveMap();
@@ -314,6 +315,8 @@ BasicWave::Print(std::string in)
     std::setw(width) << offsetUnit <<
     "\n dutyCycleUnit : " <<
     std::setw(width) << dutyCycleUnit <<
+    "\n delayUnit     : " <<
+    std::setw(width) << delayUnit <<
     "\n Full Cmd      : " <<
     std::setw(width) << fullCommandStream.str() <<std::endl;
 }
@@ -327,7 +330,7 @@ BasicWave::buildCommand()
   bool front_comma = true;
   
   if ( ! carrier_flag ) fullCommandStream << headerPathMap[headerPathID];
-  fullCommandStream << getBasicWaveCmdSnip( carrier_flag );
+  fullCommandStream << getBasicWaveCmdSnip();
   fullCommandStream << getWaveCmdSnip(frequency_flag,  kWaveFreq,    frequencyVal, front_comma);
   fullCommandStream << getWaveCmdSnip(amplifier_flag,  kWaveAmpl,    amplifierVal, front_comma);
   fullCommandStream << getWaveCmdSnip(offset_flag,     kWaveOffset,  offsetVal,    front_comma);
@@ -352,12 +355,12 @@ BasicWave::clearCommand()
 }
 
 const std::string
-BasicWave::getBasicWaveCmdSnip(bool carr_flag)
+BasicWave::getBasicWaveCmdSnip()
 {
   std::string result;  result.clear();
   result = "";
   
-  if ( carr_flag ) {
+  if ( IsCarrier() ) {
     result += GetCmdSymbol(kCmdSymbolComma);
     result += "CARR";
     result += GetCmdSymbol(kCmdSymbolComma);
@@ -384,6 +387,10 @@ BasicWave::getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool
 
   if(cmd_flag) {
     if (front_prefix) result << GetCmdSymbol(kCmdSymbolComma);
+    // if ( IsCarrier() ) {
+    //   result << "CARR";
+    //   result << GetCmdSymbol(kCmdSymbolComma);
+    // }
     result << waveParamterMap[id];
     result << GetCmdSymbol(kCmdSymbolComma);
     result << value;
@@ -393,6 +400,7 @@ BasicWave::getWaveCmdSnip(bool cmd_flag, EWaveParameter_t id, double value, bool
       case kWaveAmpl:   unit=amplifierUnit; break;
       case kWaveOffset: unit=offsetUnit;    break;
       case kWaveDuty:   unit=dutyCycleUnit; break;
+      case kWaveDelay:  unit=delayUnit;     break;
       default: unit.clear(); break;
 	
       }
@@ -449,6 +457,9 @@ BurstWave::Init()
   delayVal       = 0.0;
   cycleTimeVal   = 0.0;
 
+  periodUnit     = "S";
+  delayUnit      = "S";
+  
   clearCommand();
 
   headerPathID       = kHeaderPathUnknown;
@@ -484,53 +495,36 @@ void
 BurstWave::buildCommand()
 {
 
-      //   period_flag      = true;   // PRD
-      // startPhase_flag  = true;   // STPS
-      // gateNcyc_flag    = true;   // GATE_NSCYC
-      // triggerSrc_flag  = true;   // TRSR
-      // delay_flag       = true;   // DLAY
-      // polarity_flag    = true;   // PLRT
-      // triggerMode_flag = true;   // TRMD
-      // edge_flag        = true;   // EDGE
-      // cycleTime_flag   = true;   // TIME
-      // mtrig_flag       = true;   // MAN
   
-       
-	      // kBurstParStartPhase,
-  	      // kBurstParDelay,
-  	      // kBurstParTime,
-
-  
-	      // kBurstParGateNcyc,
-	      // kBurstParTriggerSrc,
-
-	      // kBurstParPolarity,
-	      // kBurstParTriggerMode,
-	      // kBurstParEdge,
-
-	      // kBurstParMtrig
-
-		
   bool front_comma = true;
-  
-  fullCmdStream << this->getBurstCmdSnip();
 
-  
-  fullCmdStream << this->getCmdSnip(gateNcyc_flag,      kBurstParGateNcyc,    front_comma);
-  fullCmdStream << this->getCmdSnip(triggerSrc_flag,    kBurstParTriggerSrc,  front_comma);
-  fullCmdStream << this->getCmdSnip(triggerMode_flag,   kBurstParTriggerMode, front_comma);
-  fullCmdStream << this->getCmdSnip(edge_flag,          kBurstParEdge,        front_comma);
-  fullCmdStream << this->getCmdSnip(polarity_flag,      kBurstParPolarity,    front_comma);
-  
+  if ( IsEnable() ) {
+    fullCmdStream << this->getBurstCmdSnip();
 
-  
-  fullCmdStream << this->getCmdSnip(period_flag,        kBurstParPeriod,      front_comma, periodVal);
-  fullCmdStream << this->getCmdSnip(startPhase_flag,    kBurstParStartPhase,  front_comma, startPhaseVal);
-  fullCmdStream << this->getCmdSnip(delay_flag,         kBurstParDelay,       front_comma, delayVal);
-  fullCmdStream << this->getCmdSnip(cycleTime_flag,     kBurstParTime,        front_comma, cycleTimeVal);
+    // GATE_NCYC
+    fullCmdStream << this->getCmdSnip(gateNcyc_flag,      kBurstParGateNcyc,    front_comma);
+    // TRSR
+    fullCmdStream << this->getCmdSnip(triggerSrc_flag,    kBurstParTriggerSrc,  front_comma);
+    // TRMD
+    fullCmdStream << this->getCmdSnip(triggerMode_flag,   kBurstParTriggerMode, front_comma);
+    // EDGE
+    fullCmdStream << this->getCmdSnip(edge_flag,          kBurstParEdge,        front_comma);
+    // PLRT
+    fullCmdStream << this->getCmdSnip(polarity_flag,      kBurstParPolarity,    front_comma);
+    
+    
+    // PRD
+    fullCmdStream << this->getCmdSnip(period_flag,        kBurstParPeriod,      front_comma, periodVal);
+    // STPS
+    fullCmdStream << this->getCmdSnip(startPhase_flag,    kBurstParStartPhase,  front_comma, startPhaseVal);
+    // DLAY
+    fullCmdStream << this->getCmdSnip(delay_flag,         kBurstParDelay,       front_comma, delayVal);
+    // TIME
+    fullCmdStream << this->getCmdSnip(cycleTime_flag,     kBurstParTime,        front_comma, cycleTimeVal);
+  }
   
   fullCmdStream << this->getCarrierCmd();
-
+  
   fullCmdStream_flag = true;
 
 };
@@ -570,10 +564,15 @@ BurstWave::setCarrierWaveTypeID(EBasicWaveType_t id)
 {
   carrierWaveTypeID     = id;
   carrierWaveTypeString = carrierWaveTypeMap[id];
-  
- 
+   
 };
 
+void
+BurstWave::setCarrierCmd(std::string in)
+{
+  carrierCmdString = in;
+  carrierCmd_flag = true; 
+};
 
 void
 BurstWave::setBurstMode(EBurstMode_t id)
@@ -614,16 +613,131 @@ BurstWave::setPolarity(EPolarityMap_t id)
   polarityID = id;
   polarityString = GetPolarity(id);
 };
-  
+
 
 void
-BurstWave::set_flags(EBasicWaveType_t wt_id, EBurstMode_t gn_id, ETriggerSrc_t tg_id)
+BurstWave::setWaveState(EWaveState_t id)
+{
+  waveStateID = id;
+  waveStateString = GetWaveState(id);
+};
+
+
+
+
+
+//  WS3122           , Commands    , Screen
+//  period_flag      , PRD         , Burst Period
+//  startPhase_flag  , STPS        , Start Phase
+//  gateNcyc_flag    , GATE_NSCYC  , NCycle / Gated
+//  triggerSrc_flag  , TRSR        , Source (Internal, External, Manual, Cancel)
+//  delay_flag       , DLAY        , Delay
+//  polarity_flag    , PLRT        , 
+//  triggerMode_flag , TRMD        , Trig Out (Down, Up, Off)
+//  edge_flag        , EDGE        , Edge  (Down, Up)
+//  cycleTime_flag   , TIME        , Cycles / Infinites
+//  mtrig_flag       , MAN
+
+int 
+BurstWave::set_flags(EBasicWaveType_t wave_type_id, EBurstMode_t gate_ncyc_id, ETriggerSrc_t trigger_src_id)
 {
   std::cout
-  << "WaveType  : " << GetBasicWaveType (wt_id)
-  << "\tBurstMode : " << GetBurstMode (gn_id)
-  << "\tTriggerSrc : " << GetTriggerSrc (tg_id)
+  << "WaveType     : " << GetBasicWaveType (wave_type_id)
+  << "\tBurstMode  : " << GetBurstMode (gate_ncyc_id)
+  << "\tTriggerSrc : " << GetTriggerSrc (trigger_src_id)
   << std::endl;
+
+  if (wave_type_id == kWaveTypeDc || wave_type_id == kWaveTypeUnknown) {
+    // DC cannot be used BURST mode
+    this -> setEnable(false);
+    return 0;
+  }
+  
+  gateNcyc_flag    = true;    // GATE_NSCYC
+  
+  if (gate_ncyc_id == kBurstModeGate) {
+    
+    polarity_flag    = true;    // PLRT
+    period_flag      = false;   // PRD
+    triggerSrc_flag  = false;   // TRSR
+    delay_flag       = false;   // DLAY
+    triggerMode_flag = false;   // TRMD
+    edge_flag        = false;   // EDGE
+    cycleTime_flag   = false;   // TIME
+    mtrig_flag       = false;   // MAN
+    
+    if( wave_type_id == kWaveTypeNoise || wave_type_id == kWaveTypePulse ) {
+      startPhase_flag  = false;   // STPS
+    }
+    else {
+      startPhase_flag  = true;    // STPS
+    }
+  }
+  else if (gate_ncyc_id == kBurstModeNCycle ) {
+
+    polarity_flag = false;
+    
+    if      ( wave_type_id == kWaveTypeNoise ) {
+      this-> setEnable(false);
+    }
+
+    else if ( wave_type_id == kWaveTypePulse ) {
+      
+      startPhase_flag  = false;     // STPS
+      delay_flag       = true;      // DLAY
+      cycleTime_flag   = true;      // TIME
+      triggerSrc_flag  = true;      // TRSR
+      
+      if      ( trigger_src_id == kTriggerSrcExternal ) {
+	edge_flag        = true;    // EDG
+	period_flag      = false;   // PRD
+	triggerMode_flag = false;   // TRMD
+	mtrig_flag       = false;   // MAN
+      }
+      else if ( trigger_src_id == kTriggerSrcInternal ) {
+	edge_flag        = false;   // EDG
+	period_flag      = true;    // PRD
+	triggerMode_flag = true;    // TRMD
+	mtrig_flag       = false;   // MAN
+      }
+      else if ( trigger_src_id == kTriggerSrcManual ) {
+	edge_flag        = false;   // EDG
+	period_flag      = false;   // PRD
+	triggerMode_flag = true;    // TRMD
+	mtrig_flag       = true;    // MAN
+      }
+      
+    } // kWaveTypePulse
+    else { // kWaveTypeSine, kWaveTypeSquare, kWaveTypeSquare, kWaveTypeArb
+      startPhase_flag  = true;      // STPS
+      delay_flag       = true;      // DLAY
+      cycleTime_flag   = true;      // TIME
+      triggerSrc_flag  = true;      // TRSR
+      
+      if      ( trigger_src_id == kTriggerSrcExternal ) {
+	edge_flag        = true;    // EDG
+	period_flag      = false;   // PRD
+	triggerMode_flag = false;   // TRMD
+	mtrig_flag       = false;   // MAN
+      }
+      else if ( trigger_src_id == kTriggerSrcInternal ) {
+	edge_flag        = false;   // EDG
+	period_flag      = true;    // PRD
+	triggerMode_flag = true;    // TRMD
+	mtrig_flag       = false;   // MAN
+      }
+      else if ( trigger_src_id == kTriggerSrcManual ) {
+	edge_flag        = false;   // EDG
+	period_flag      = false;   // PRD
+	triggerMode_flag = true;    // TRMD
+	mtrig_flag       = true;    // MAN
+      }
+      
+    }  // kWaveTypeSine, kWaveTypeSquare, kWaveTypeSquare, kWaveTypeArb
+  } // kBurstModeNcycle
+
+  return 0;
+    
 }
 
 
@@ -642,6 +756,7 @@ BurstWave::getCmdSnip(bool cmd_flag, EBurstParameter_t id, bool front_prefix, do
     switch (id)
       {
       case kBurstParPeriod:   unit=periodUnit; break;
+      case kBurstParDelay:    unit=delayUnit;  break;
       default: unit.clear(); break;
       }
     result << unit;
@@ -654,15 +769,6 @@ BurstWave::getCmdSnip(bool cmd_flag, EBurstParameter_t id, bool front_prefix, do
 
   return result.str();
 };
-
-
-	      // kBurstParTriggerSrc,
-	      // kBurstParPolarity,
-	      // kBurstParTriggerMode,
-	      // kBurstParEdge,
-	      // kBurstParMtrig
-	      // kBurstParGateNcyc,
-
 
 const std::string
 BurstWave::getCmdSnip(bool cmd_flag, EBurstParameter_t id, bool front_prefix)
@@ -715,6 +821,43 @@ BurstWave::getBurstCmdSnip()
   result += GetCmdSymbol(kCmdSymbolColon);
   result += GetHeaderType(kHeaderBTWV);
   result += GetCmdSymbol(kCmdSymbolBlank);
+  result += "STATE";
+  result += GetCmdSymbol(kCmdSymbolComma);
+  result += waveStateString;
   return result;
 };
 
+
+
+void
+BurstWave::setEnable(bool in)
+{
+  if (in) {
+    // true, is it safe to set all true?
+    enable_flag      = true;
+    // period_flag      = true;   // PRD
+    // startPhase_flag  = true;   // STPS
+    // gateNcyc_flag    = true;   // GATE_NSCYC
+    // triggerSrc_flag  = true;   // TRSR
+    // delay_flag       = true;   // DLAY
+    // polarity_flag    = true;   // PLRT
+    // triggerMode_flag = true;   // TRMD
+    // edge_flag        = true;   // EDGE
+    // cycleTime_flag   = true;   // TIME
+    // mtrig_flag       = true;   // MAN
+  }
+  else {
+    // false, all other have no meanings
+    enable_flag      = false;
+    period_flag      = false;   // PRD
+    startPhase_flag  = false;   // STPS
+    gateNcyc_flag    = false;   // GATE_NSCYC
+    triggerSrc_flag  = false;   // TRSR
+    delay_flag       = false;   // DLAY
+    polarity_flag    = false;   // PLRT
+    triggerMode_flag = false;   // TRMD
+    edge_flag        = false;   // EDGE
+    cycleTime_flag   = false;   // TIME
+    mtrig_flag       = false;   // MAN
+  }
+}
