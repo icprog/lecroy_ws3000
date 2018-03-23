@@ -174,6 +174,7 @@ private:
   asynStatus SetPhaseInvert (epicsInt32 value);
   asynStatus SetScreenSave  (epicsInt32 value);
   asynStatus SetWaveTypeCmds(epicsInt32 value);
+  asynStatus SetWaveState   (epicsInt32 value);
   asynStatus SetOutput      (epicsInt32 value, EOutputParameter_t id);
 
   

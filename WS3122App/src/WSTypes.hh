@@ -98,8 +98,8 @@ typedef enum {
 
 
 typedef enum {
-	      kWaveStateOn,
-	      kWaveStateOff
+	      kWaveStateOff,
+	      kWaveStateOn
 } EWaveState_t;
 
 
@@ -348,6 +348,7 @@ inline BurstParameterMap CreateBurstParameterMap()
 EBasicWaveType_t GetBasicWaveType (std::string       name);
 EWaveParameter_t GetWaveParmeter  (std::string       name);
 
+std::string      GetHeaderPath    (EHeaderPath_t     type);
 std::string      GetHeaderType    (EHeaderType_t     type);
 std::string      GetBasicWaveType (EBasicWaveType_t  type);
 //std::string      GetWaveParameter (EWaveParameter_t  type);

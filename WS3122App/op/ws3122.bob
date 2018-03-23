@@ -1,0 +1,1242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Display</name>
+  <widget type="digital_clock" version="2.0.0">
+    <name>Digital Clock_1</name>
+    <lcd_design>17</lcd_design>
+    <lcd_font>3</lcd_font>
+    <y>10</y>
+    <width>126</width>
+    <height>40</height>
+    <date_visible>true</date_visible>
+    <shadows_enabled>false</shadows_enabled>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_15</name>
+    <text>WaveStation 3122 Control Screen</text>
+    <x>126</x>
+    <y>10</y>
+    <width>390</width>
+    <height>50</height>
+    <font>
+      <font family="Droid Serif" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <vertical_alignment>1</vertical_alignment>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_16</name>
+    <text>Channel</text>
+    <x>30</x>
+    <y>86</y>
+    <width>56</width>
+    <font>
+      <font family="Droid Serif" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <vertical_alignment>1</vertical_alignment>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_2</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>usbtmc:icslab:SetWaveType</pv_name>
+        <value>1</value>
+        <description>Set WaveStation</description>
+      </action>
+    </actions>
+    <pv_name>usbtmc:icslab:SetWaveType</pv_name>
+    <x>560</x>
+    <y>20</y>
+    <width>210</width>
+    <height>40</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_20</name>
+    <text>Wave Type</text>
+    <x>180</x>
+    <y>86</y>
+    <width>75</width>
+    <font>
+      <font family="Droid Serif" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <vertical_alignment>1</vertical_alignment>
+    <auto_size>true</auto_size>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo Box</name>
+    <pv_name>usbtmc:icslab:HeaderPath</pv_name>
+    <x>100</x>
+    <y>67</y>
+    <width>70</width>
+    <height>43</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_21</name>
+    <text>Output</text>
+    <x>560</x>
+    <y>67</y>
+    <width>92</width>
+    <height>38</height>
+    <font>
+      <font family="Droid Serif" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+  </widget>
+  <widget type="radio" version="2.0.0">
+    <name>Combo Box_3</name>
+    <pv_name>usbtmc:icslab:Header</pv_name>
+    <x>314</x>
+    <y>83</y>
+    <width>202</width>
+    <height>33</height>
+    <actions>
+    </actions>
+    <items>
+      <item>BSWV</item>
+      <item>BTWV</item>
+    </items>
+  </widget>
+  <widget type="tabs" version="2.0.0">
+    <name>Tabs</name>
+    <tabs>
+      <tab>
+        <name>BSWV</name>
+        <children>
+          <widget type="group" version="2.0.0">
+            <name>Basic / Carrier Wave Parameters</name>
+            <x>40</x>
+            <y>10</y>
+            <width>700</width>
+            <height>400</height>
+            <transparent>true</transparent>
+            <rules>
+              <rule name="New Rule" prop_id="transparent" out_exp="false">
+                <exp bool_exp="pv0==0">
+                  <value>true</value>
+                </exp>
+                <exp bool_exp="pv0==1">
+                  <value>false</value>
+                </exp>
+                <pv_name>usbtmc:icslab:Header</pv_name>
+              </rule>
+            </rules>
+            <widget type="label" version="2.0.0">
+              <name>Label_76</name>
+              <class>HEADER2</class>
+              <text>Wave Type</text>
+              <x>13</x>
+              <y>27</y>
+              <width>112</width>
+              <height>30</height>
+              <font use_class="true">
+                <font name="Header 2" family="Source Sans Pro" style="BOLD_ITALIC" size="21.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_62</name>
+              <pv_name>usbtmc:icslab:WaveFrequency</pv_name>
+              <x>167</x>
+              <y>81</y>
+              <width>105</width>
+              <height>28</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="New Rule" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>true</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_77</name>
+              <text>Frequency</text>
+              <x>36</x>
+              <y>81</y>
+              <width>101</width>
+              <height>28</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_78</name>
+              <text>Amplifier</text>
+              <x>36</x>
+              <y>115</y>
+              <width>101</width>
+              <height>28</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_63</name>
+              <pv_name>usbtmc:icslab:WaveAmplifier</pv_name>
+              <x>167</x>
+              <y>115</y>
+              <width>105</width>
+              <height>28</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>true</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_79</name>
+              <text>Offset</text>
+              <x>300</x>
+              <y>115</y>
+              <width>101</width>
+              <height>30</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_64</name>
+              <pv_name>usbtmc:icslab:WaveOffset</pv_name>
+              <x>431</x>
+              <y>115</y>
+              <width>105</width>
+              <height>30</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>true</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_80</name>
+              <text>Phase</text>
+              <x>300</x>
+              <y>81</y>
+              <width>101</width>
+              <height>28</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_65</name>
+              <pv_name>usbtmc:icslab:WavePhase</pv_name>
+              <x>431</x>
+              <y>81</y>
+              <width>105</width>
+              <height>28</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>true</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_81</name>
+              <text>Std Dev</text>
+              <x>36</x>
+              <y>234</y>
+              <width>101</width>
+              <height>30</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_66</name>
+              <pv_name>usbtmc:icslab:WaveStdDev</pv_name>
+              <x>167</x>
+              <y>234</y>
+              <width>105</width>
+              <height>30</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>false</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_82</name>
+              <text>Fall</text>
+              <x>300</x>
+              <y>189</y>
+              <width>101</width>
+              <height>30</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_67</name>
+              <pv_name>usbtmc:icslab:WaveFall</pv_name>
+              <x>431</x>
+              <y>189</y>
+              <width>105</width>
+              <height>30</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>false</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_83</name>
+              <text>Rise</text>
+              <x>300</x>
+              <y>153</y>
+              <width>101</width>
+              <height>30</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_68</name>
+              <pv_name>usbtmc:icslab:WaveRise</pv_name>
+              <x>431</x>
+              <y>153</y>
+              <width>105</width>
+              <height>30</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Select" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>false</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_84</name>
+              <text>Width</text>
+              <x>36</x>
+              <y>153</y>
+              <width>101</width>
+              <height>30</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_69</name>
+              <pv_name>usbtmc:icslab:WaveWidth</pv_name>
+              <x>167</x>
+              <y>153</y>
+              <width>105</width>
+              <height>30</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Select" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>false</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_85</name>
+              <text>Mean</text>
+              <x>300</x>
+              <y>234</y>
+              <width>101</width>
+              <height>30</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_70</name>
+              <pv_name>usbtmc:icslab:WaveMean</pv_name>
+              <x>431</x>
+              <y>234</y>
+              <width>105</width>
+              <height>30</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Select" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>false</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_86</name>
+              <text>Delay</text>
+              <x>36</x>
+              <y>189</y>
+              <width>101</width>
+              <height>30</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_71</name>
+              <pv_name>usbtmc:icslab:WaveDelay</pv_name>
+              <x>167</x>
+              <y>189</y>
+              <width>105</width>
+              <height>30</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>false</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="combo" version="2.0.0">
+              <name>Combo Box_2</name>
+              <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+              <x>133</x>
+              <y>27</y>
+              <width>116</width>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_87</name>
+              <text>Symmetry</text>
+              <x>36</x>
+              <y>274</y>
+              <width>101</width>
+              <height>30</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="spinner" version="2.0.0">
+              <name>Text Entry_72</name>
+              <pv_name>usbtmc:icslab:WaveSymmetry</pv_name>
+              <x>167</x>
+              <y>274</y>
+              <width>105</width>
+              <height>30</height>
+              <format>0</format>
+              <show_units>true</show_units>
+              <rules>
+                <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>false</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>false</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_88</name>
+              <text>Duty Cycle</text>
+              <x>300</x>
+              <y>274</y>
+              <width>101</width>
+              <height>30</height>
+              <font>
+                <font family="Droid Serif" style="REGULAR" size="14.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Entry_73</name>
+              <pv_name>usbtmc:icslab:WaveDutyCycle</pv_name>
+              <x>431</x>
+              <y>274</y>
+              <width>105</width>
+              <height>30</height>
+              <wrap_words>true</wrap_words>
+              <rules>
+                <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                  <exp bool_exp="pv0==0">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==1">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==2">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==3">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==4">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==5">
+                    <value>true</value>
+                  </exp>
+                  <exp bool_exp="pv0==6">
+                    <value>true</value>
+                  </exp>
+                  <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                </rule>
+              </rules>
+            </widget>
+          </widget>
+        </children>
+      </tab>
+      <tab>
+        <name>BTWV</name>
+        <children>
+          <widget type="group" version="2.0.0">
+            <name>Burst Parameters</name>
+            <x>40</x>
+            <y>10</y>
+            <width>700</width>
+            <height>400</height>
+            <widget type="group" version="2.0.0">
+              <name>Group_3</name>
+              <x>23</x>
+              <y>39</y>
+              <width>611</width>
+              <height>244</height>
+              <style>3</style>
+              <transparent>true</transparent>
+              <widget type="label" version="2.0.0">
+                <name>Label_53</name>
+                <text>Burst Period</text>
+                <x>38</x>
+                <y>98</y>
+                <width>101</width>
+                <height>28</height>
+                <font>
+                  <font family="Droid Serif" style="REGULAR" size="14.0">
+                  </font>
+                </font>
+                <vertical_alignment>1</vertical_alignment>
+              </widget>
+              <widget type="textentry" version="3.0.0">
+                <name>Text Entry_39</name>
+                <pv_name>usbtmc:icslab:BurstPeriod</pv_name>
+                <x>169</x>
+                <y>98</y>
+                <width>117</width>
+                <height>28</height>
+                <wrap_words>true</wrap_words>
+                <rules>
+                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==2">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==3">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==4">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==5">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==6">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </rule>
+                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                  </rule>
+                </rules>
+              </widget>
+              <widget type="label" version="2.0.0">
+                <name>Label_54</name>
+                <text>Start Phase</text>
+                <x>38</x>
+                <y>141</y>
+                <width>101</width>
+                <height>28</height>
+                <font>
+                  <font family="Droid Serif" style="REGULAR" size="14.0">
+                  </font>
+                </font>
+                <vertical_alignment>1</vertical_alignment>
+              </widget>
+              <widget type="textentry" version="3.0.0">
+                <name>Text Entry_40</name>
+                <pv_name>usbtmc:icslab:BurstStartPhase</pv_name>
+                <x>169</x>
+                <y>141</y>
+                <width>117</width>
+                <height>28</height>
+                <wrap_words>true</wrap_words>
+                <rules>
+                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="(pv0==0) &amp;&amp; (pv1==3 || pv1==4)">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="(pv0==0) &amp;&amp; (pv1==0 || pv1==1 || pv1=2 || pv1==5 || pv1==6)">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="(pv0==1)&amp;&amp; (pv1==4)">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="(pv0==1)&amp;&amp; (pv1==3)">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="(pv0==1) &amp;&amp; (pv1==0 || pv1==1 || pv1=2 || pv1==5 || pv1==6)">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </rule>
+                </rules>
+              </widget>
+              <widget type="label" version="2.0.0">
+                <name>Label_59</name>
+                <text>Delay</text>
+                <x>349</x>
+                <y>94</y>
+                <width>101</width>
+                <height>28</height>
+                <font>
+                  <font family="Droid Serif" style="REGULAR" size="14.0">
+                  </font>
+                </font>
+                <vertical_alignment>1</vertical_alignment>
+              </widget>
+              <widget type="textentry" version="3.0.0">
+                <name>Text Entry_42</name>
+                <pv_name>usbtmc:icslab:BurstDelay</pv_name>
+                <x>458</x>
+                <y>93</y>
+                <width>105</width>
+                <height>28</height>
+                <wrap_words>true</wrap_words>
+                <rules>
+                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==2">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==3">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==4">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==5">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==6">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </rule>
+                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                  </rule>
+                </rules>
+              </widget>
+              <widget type="textentry" version="3.0.0">
+                <name>Text Entry_43</name>
+                <pv_name>usbtmc:icslab:BurstCycleTime</pv_name>
+                <x>458</x>
+                <y>136</y>
+                <width>105</width>
+                <height>28</height>
+                <wrap_words>true</wrap_words>
+                <rules>
+                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==2">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==3">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==4">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==5">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==6">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                  </rule>
+                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                  </rule>
+                </rules>
+              </widget>
+              <widget type="label" version="2.0.0">
+                <name>Label_62</name>
+                <class>HEADER2</class>
+                <text>Burst Mode</text>
+                <width>210</width>
+                <height>30</height>
+                <font use_class="true">
+                  <font name="Header 2" family="Source Sans Pro" style="BOLD_ITALIC" size="21.0">
+                  </font>
+                </font>
+                <vertical_alignment>1</vertical_alignment>
+              </widget>
+              <widget type="label" version="2.0.0">
+                <name>Label_90</name>
+                <class>HEADER2</class>
+                <text>Trigger Source </text>
+                <y>44</y>
+                <width>210</width>
+                <height>30</height>
+                <font use_class="true">
+                  <font name="Header 2" family="Source Sans Pro" style="BOLD_ITALIC" size="21.0">
+                  </font>
+                </font>
+                <vertical_alignment>1</vertical_alignment>
+              </widget>
+              <widget type="combo" version="2.0.0">
+                <name>Text Entry_48</name>
+                <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                <x>169</x>
+                <y>1</y>
+                <width>117</width>
+                <rules>
+                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==2">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==3">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==4">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==5">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==6">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </rule>
+                </rules>
+                <items>
+                  <item>'item' = 'GATE'</item>
+                  <item>'item' = 'NCycle'</item>
+                </items>
+              </widget>
+              <widget type="combo" version="2.0.0">
+                <name>Text Entry_49</name>
+                <pv_name>usbtmc:icslab:BurstTriggerSrc</pv_name>
+                <x>169</x>
+                <y>44</y>
+                <width>117</width>
+                <rules>
+                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==2">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==3">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==4">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==5">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==6">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </rule>
+                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                  </rule>
+                </rules>
+                <items>
+                  <item>'item' = 'External'</item>
+                  <item>'item' = 'Internal'</item>
+                  <item>'item' = 'Manual'</item>
+                </items>
+              </widget>
+              <widget type="label" version="2.0.0">
+                <name>Label_91</name>
+                <text>Trigger Mode</text>
+                <x>316</x>
+                <y>44</y>
+                <width>107</width>
+                <height>30</height>
+                <font>
+                  <font name="Header 3" family="Source Sans Pro" style="BOLD_ITALIC" size="16.0">
+                  </font>
+                </font>
+                <vertical_alignment>1</vertical_alignment>
+                <wrap_words>false</wrap_words>
+              </widget>
+              <widget type="combo" version="2.0.0">
+                <name>Text Entry_74</name>
+                <pv_name>usbtmc:icslab:BurstTriggerMode</pv_name>
+                <x>458</x>
+                <y>44</y>
+                <width>108</width>
+                <rules>
+                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==2">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==3">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==4">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==5">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==6">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </rule>
+                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                  </rule>
+                </rules>
+                <items>
+                  <item>'item' = 'External'</item>
+                  <item>'item' = 'Internal'</item>
+                  <item>'item' = 'Manual'</item>
+                </items>
+              </widget>
+              <widget type="label" version="2.0.0">
+                <name>Label_92</name>
+                <text>Cycle Time</text>
+                <x>349</x>
+                <y>137</y>
+                <width>101</width>
+                <height>28</height>
+                <font>
+                  <font family="Droid Serif" style="REGULAR" size="14.0">
+                  </font>
+                </font>
+                <vertical_alignment>1</vertical_alignment>
+              </widget>
+              <widget type="label" version="2.0.0">
+                <name>Label_95</name>
+                <text>Polarity</text>
+                <x>349</x>
+                <y>188</y>
+                <width>75</width>
+                <height>28</height>
+                <font>
+                  <font family="Droid Serif" style="REGULAR" size="14.0">
+                  </font>
+                </font>
+              </widget>
+              <widget type="label" version="2.0.0">
+                <name>Label_96</name>
+                <text>Edge</text>
+                <x>38</x>
+                <y>188</y>
+                <width>101</width>
+                <height>28</height>
+                <font>
+                  <font family="Droid Serif" style="REGULAR" size="14.0">
+                  </font>
+                </font>
+              </widget>
+              <widget type="combo" version="2.0.0">
+                <name>Text Entry_46</name>
+                <pv_name>usbtmc:icslab:BurstPolarity</pv_name>
+                <x>458</x>
+                <y>188</y>
+                <width>108</width>
+                <rules>
+                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>false</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                  </rule>
+                </rules>
+                <items>
+                  <item>'item' = 'NEG'</item>
+                </items>
+              </widget>
+              <widget type="combo" version="2.0.0">
+                <name>Text Entry_47</name>
+                <pv_name>usbtmc:icslab:BurstEdge</pv_name>
+                <x>169</x>
+                <y>188</y>
+                <width>115</width>
+                <rules>
+                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==2">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==3">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==4">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==5">
+                      <value>true</value>
+                    </exp>
+                    <exp bool_exp="pv0==6">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </rule>
+                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
+                    <exp bool_exp="pv0==0">
+                      <value>false</value>
+                    </exp>
+                    <exp bool_exp="pv0==1">
+                      <value>true</value>
+                    </exp>
+                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
+                  </rule>
+                </rules>
+                <items>
+                  <item>'item' = 'RISE'</item>
+                  <item>'item' = 'FALL'</item>
+                </items>
+              </widget>
+            </widget>
+          </widget>
+        </children>
+      </tab>
+    </tabs>
+    <y>140</y>
+    <width>790</width>
+    <height>450</height>
+    <active_tab>1</active_tab>
+    <rules>
+      <rule name="New Rule" prop_id="active_tab" out_exp="false">
+        <exp bool_exp="pv0==0">
+          <value>0</value>
+        </exp>
+        <exp bool_exp="pv0==1">
+          <value>1</value>
+        </exp>
+        <pv_name>usbtmc:icslab:Header</pv_name>
+      </rule>
+    </rules>
+  </widget>
+</display>

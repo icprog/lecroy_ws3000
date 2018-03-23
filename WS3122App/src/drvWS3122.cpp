@@ -410,6 +410,7 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
     }
     else if ( function == cmdWaveState_ ) {
       burstWave -> setWaveState((EWaveState_t) par);
+      this -> SetWaveState(iValue);
     }
     else if ( function == parBurstManualTrigger_) {
       
@@ -795,9 +796,6 @@ drvWS3122::SetWaveTypeCmds(epicsInt32 value)
     status = this->usbTmcWrite(value_s);
     return status;
   }
-  else if(value == 0) {
-    sprintf(output, "C1:BSWV WVTP,SQUARE,FRQ,14HZ,AMP,1V,OFST,0V,PHSE,0,DUTY,0.1percent");
-  }
   else if (value == 2) {
     sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,FRQ,14HZ,AMP,1V,OFST,1V,PHSE,10,DUTY,21");
   }
@@ -808,6 +806,9 @@ drvWS3122::SetWaveTypeCmds(epicsInt32 value)
     sprintf(output, "C1:BTWV STATE,OFF");
   }
   else if (value == 5) {
+    sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,CARR,FRQ,14HZ,CARR,AMP,1V,CARR,OFST,1V,CARR,PHSE,10,CARR,DUTY,30");
+  }
+   else if (value == 6) {
     sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,CARR,FRQ,14HZ,CARR,AMP,1V,CARR,OFST,1V,CARR,PHSE,10,CARR,DUTY,30");
   }
   
@@ -897,8 +898,8 @@ drvWS3122::SetOutput(epicsInt32 value, EOutputParameter_t id)
     {
     case kOutputOnOff:
       value_s += outputMap[id];
-      if(value == 0) value_s += "ON";
-      else           value_s += "OFF";
+      if(value == 0) value_s += "OFF";
+      else           value_s += "ON";
       break;
     case kOutputLoad:
       value_s += outputMap[id];
@@ -941,6 +942,47 @@ drvWS3122::SetScreenSave(epicsInt32 value)
 
   return status;
 };
+
+
+
+asynStatus
+drvWS3122::SetWaveState(epicsInt32 value)
+{
+  asynStatus  status = asynSuccess;
+  int    par_header_path = 0;
+  int    par_header = 0;
+  int    wave_type  = 0;
+  std::ostringstream value_oss;   // stream used for the conversion
+  value_oss.str(""); value_oss.clear();
+
+  
+  getIntegerParam(parHeaderPath_, &par_header_path); // Chanel
+  getIntegerParam(parHeader_,     &par_header);      // 
+  
+
+	  
+  value_oss << GetHeaderPath((EHeaderPath_t) par_header_path);
+  value_oss << GetCmdSymbol(kCmdSymbolColon);
+  value_oss << GetHeaderType((EHeaderType_t) par_header);
+  value_oss << GetCmdSymbol(kCmdSymbolBlank);
+  value_oss << "STATE";
+  value_oss << GetCmdSymbol(kCmdSymbolComma);
+  value_oss << GetWaveState((EWaveState_t) value);
+
+  //  std::cout << "SetWaveState " << value_oss.str() << std::endl;
+  // Only OFF is valid
+  if (value == 0) {
+    status = this->usbTmcWrite(value_oss.str());
+    setIntegerParam(parHeader_, (int)kHeaderBSWV);
+  }
+  else if (value == 1) {
+    setIntegerParam(parHeader_, (int) kHeaderBTWV);
+    
+  }
+  
+  return status;
+};
+
 
 
 

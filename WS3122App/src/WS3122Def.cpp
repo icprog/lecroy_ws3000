@@ -115,7 +115,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
     {
     case kWaveTypeSine:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = true;    phase_flag      = true;
+      offset_flag     = false;   phase_flag      = true;
       duty_cycle_flag = true;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
@@ -124,7 +124,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
     case kWaveTypeSquare:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = true;    phase_flag      = true;
+      offset_flag     = false;   phase_flag      = true;
       duty_cycle_flag = true;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
@@ -133,7 +133,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
     case kWaveTypeRamp:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = true;    phase_flag      = true;
+      offset_flag     = false;   phase_flag      = true;
       duty_cycle_flag = true;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
@@ -142,7 +142,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
     case kWaveTypePulse:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = true;    phase_flag      = true;
+      offset_flag     = false;   phase_flag      = true;
       duty_cycle_flag = true;
       width_flag      = true;    rise_flag       = true;
       fall_flag       = true;    delay_flag      = true;
@@ -160,7 +160,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
     case kWaveTypeArb:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = true;    phase_flag      = true;
+      offset_flag     = false;   phase_flag      = true;
       duty_cycle_flag = true;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
@@ -178,7 +178,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
     default:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = true;    phase_flag      = true;
+      offset_flag     = false;   phase_flag      = true;
       duty_cycle_flag = true;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;

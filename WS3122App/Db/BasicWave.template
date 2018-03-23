@@ -75,6 +75,7 @@ record(ao, "$(P)$(R)WaveFrequency")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_FREQUENCY")
     field(DRVL, 1E-6)
     field(DRVH, 120E+6)
+    field(PREC, 6)
     field( VAL, 14)
     field( EGU, "Hz")
 }
@@ -102,6 +103,7 @@ record(ao, "$(P)$(R)WaveAmplifier")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_AMPLIFIER")
     field(DRVL, 0.002)
     field(DRVH, 20)
+    field(PREC, 3)
     field( VAL, 1)
     field( EGU, "V")
 }
@@ -120,13 +122,17 @@ record(ai, "$(P)$(R)WaveAmplifier_RBV")
 
 
 ## Offset
-## SINE,SQUARE,RAMP,ARB,DC,PULSE
+## Manual : SINE,SQUARE,RAMP,ARB,DC,PULSE
+## But, Device doesn't allow to set any value except DC
+## Offset uppper limit 0.000 Vdc messages
+## 
 record(ao, "$(P)$(R)WaveOffset")
 {
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_OFFSET")
     field( VAL, 0)
+    field(PREC, 3)
     field( EGU, "V")
 }
 
@@ -171,7 +177,6 @@ record(ao, "$(P)$(R)WaveWidth")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_WIDTH")
     field( VAL, 0)
-    field( EGU, "V")
 }
 
 record(ai, "$(P)$(R)WaveWidth_RBV")
@@ -190,6 +195,7 @@ record(ao, "$(P)$(R)WaveRise")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_RISE")
+    field(PREC, 5)
 }
 
 record(ai, "$(P)$(R)WaveRise_RBV")
@@ -215,6 +221,7 @@ record(ai, "$(P)$(R)WaveFall_RBV")
     field(DTYP, "asynFloat64")
     field( INP, "@asyn($(PORT),0,0) PAR_WAVE_FALL")
     field(SCAN, "I/O Intr")
+    field(PREC, 5)
 }
 
 
@@ -226,6 +233,8 @@ record(ao, "$(P)$(R)WaveDelay")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_DELAY")
     field(DRVL, 0)
+    field(PREC, 5)
+    field( EGU, "Hz")
 }
 
 record(ai, "$(P)$(R)WaveDelay_RBV")
@@ -234,6 +243,7 @@ record(ai, "$(P)$(R)WaveDelay_RBV")
     field( INP, "@asyn($(PORT),0,0) PAR_WAVE_DELAY")
     field(EGUL, 0)
     field(LOPR, 0)
+    field( EGU, "Hz")
     field(SCAN, "I/O Intr")
 }
 
@@ -274,6 +284,7 @@ record(ao, "$(P)$(R)WaveStdDev")
     field(DRVL, 0.0005)
     field(DRVH, 1.5990)
     field( VAL, 0.0005)
+    field(PREC, 5)
     field( EGU, "V")
 }
 
@@ -297,6 +308,7 @@ record(ao, "$(P)$(R)WaveMean")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_MEAN")
+    field(PREC, 5)
     field( EGU, "V")
 }
 
@@ -318,6 +330,7 @@ record(ao, "$(P)$(R)WaveDutyCycle")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_DUTYCYCLE")
     field(DRVL, 0.1)
     field(DRVH, 99.9)
+    field(PREC, 2)
     field( EGU, "Percent")
 }
 

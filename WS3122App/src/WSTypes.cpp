@@ -41,6 +41,23 @@ GetWaveParmeter(std::string name)
   return result;
 };
 
+std::string
+GetHeaderPath    (EHeaderPath_t     type)
+{
+  std::string result;
+  if      (type==kHeaderPathC1) result = "C1";
+  else if (type==kHeaderPathC2) result = "C2";
+  else if (type==kHeaderPathM1) result = "M1";
+  else if (type==kHeaderPathM2) result = "M2";
+  else if (type==kHeaderPathM3) result = "M3";
+  else if (type==kHeaderPathM4) result = "M4";
+  else if (type==kHeaderPathM5) result = "M5";
+  else                          result = "";
+  
+  return result;
+}
+;
+
 
 std::string
 GetHeaderType   (EHeaderType_t type)

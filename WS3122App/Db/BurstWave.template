@@ -4,10 +4,12 @@
 
 record(bo, "$(P)$(R)BurstGateNcyc")
 {
+    field(PINI, "YES")
     field(DTYP, "asynInt32")
     field( OUT, "@asyn($(PORT),0,0) PAR_BURST_GATE_NCYC")
     field(ZNAM, "GATE")
     field(ONAM, "NCYC")
+    field( VAL, 1)
 }
 
 record(bi, "$(P)$(R)BurstGateNcyc_RBV")
@@ -25,6 +27,7 @@ record(bi, "$(P)$(R)BurstGateNcyc_RBV")
 
 record(bo, "$(P)$(R)BurstManualTrigger")
 {
+    field(PINI, "YES")
     field(DTYP, "asynInt32")
     field( OUT, "@asyn($(PORT),0,0) PAR_BURST_MTRIG")
     field(ZNAM, "OFF")
@@ -164,6 +167,7 @@ record(bo, "$(P)$(R)BurstPolarity")
     field( OUT, "@asyn($(PORT),0,0) PAR_BURST_PLRT")
     field(ZNAM, "NEG")
     field(ONAM, "POS")
+    field( VAL, 0)
 }
 
 record(bi, "$(P)$(R)BurstPolarity_RBV")
@@ -185,6 +189,7 @@ record(bo, "$(P)$(R)BurstEdge")
     field( OUT, "@asyn($(PORT),0,0) PAR_BURST_EDGE")
     field(ZNAM, "RISE")
     field(ONAM, "FALL")
+    field( VAL, "RISE")
 }
 
 record(bi, "$(P)$(R)BurstEdge_RBV")
