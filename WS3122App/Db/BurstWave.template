@@ -189,7 +189,7 @@ record(bo, "$(P)$(R)BurstEdge")
     field( OUT, "@asyn($(PORT),0,0) PAR_BURST_EDGE")
     field(ZNAM, "RISE")
     field(ONAM, "FALL")
-    field( VAL, "RISE")
+    field( VAL, 0)
 }
 
 record(bi, "$(P)$(R)BurstEdge_RBV")

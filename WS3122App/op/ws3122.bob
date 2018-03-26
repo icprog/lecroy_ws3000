@@ -764,41 +764,41 @@
                 <width>117</width>
                 <height>28</height>
                 <wrap_words>true</wrap_words>
-                <rules>
-                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==2">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==3">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==4">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==5">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==6">
-                      <value>true</value>
-                    </exp>
-                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
-                  </rule>
-                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
+                <scripts>
+                  <script file="EmbeddedPy">
+                    <text><![CDATA[# Embedded python script for DELAY widget 
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))
+
+# BurstGateNcyc 0:Gate 1:Ncyc
+pv0 = PVUtil.getDouble(pvs[0])
+# BasicWaveTypeSelect 
+pv1 = PVUtil.getDouble(pvs[1])
+# BurstTriggerSrc
+pv2 = PVUtil.getDouble(pvs[2])
+
+## Script Body
+if (pv0==0) :
+    widget.setPropertyValue('enabled', False)
+else:
+    # 4:Noise 
+    if (pv1==4):
+	widget.setPropertyValue('enabled', False)
+    else :
+	# 0:EXT, 1:INT, 2,MAN
+	if (pv2==1):
+	    widget.setPropertyValue('enabled', True)
+	# 
+	else:
+	    widget.setPropertyValue('enabled', False)
+
+
+]]></text>
                     <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
-                  </rule>
-                </rules>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                    <pv_name>usbtmc:icslab:BurstTriggerSrc</pv_name>
+                  </script>
+                </scripts>
               </widget>
               <widget type="label" version="2.0.0">
                 <name>Label_54</name>
@@ -821,27 +821,35 @@
                 <width>117</width>
                 <height>28</height>
                 <wrap_words>true</wrap_words>
-                <rules>
-                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="(pv0==0) &amp;&amp; (pv1==3 || pv1==4)">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="(pv0==0) &amp;&amp; (pv1==0 || pv1==1 || pv1=2 || pv1==5 || pv1==6)">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="(pv0==1)&amp;&amp; (pv1==4)">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="(pv0==1)&amp;&amp; (pv1==3)">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="(pv0==1) &amp;&amp; (pv1==0 || pv1==1 || pv1=2 || pv1==5 || pv1==6)">
-                      <value>true</value>
-                    </exp>
+                <scripts>
+                  <script file="EmbeddedPy">
+                    <text><![CDATA[# Embedded python script for START PHASE widget 
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))
+
+# BurstGateNcyc 0:Gate 1:Ncyc
+pv0 = PVUtil.getDouble(pvs[0])
+# BasicWaveTypeSelect 
+pv1 = PVUtil.getDouble(pvs[1])
+
+## Script Body
+if (pv0==0) :
+#      3:Pulse, 4:Noise 
+    if (pv1==3 or pv1==4) :
+	widget.setPropertyValue('enabled', False)
+    else :
+        widget.setPropertyValue('enabled', True)
+else:
+    # 3:Pulse, 4:Noise 
+    if (pv1==3 or pv1==4):
+	widget.setPropertyValue('enabled', False)
+    else :
+	widget.setPropertyValue('enabled', True)
+]]></text>
                     <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
                     <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
-                  </rule>
-                </rules>
+                  </script>
+                </scripts>
               </widget>
               <widget type="label" version="2.0.0">
                 <name>Label_59</name>
@@ -864,85 +872,65 @@
                 <width>105</width>
                 <height>28</height>
                 <wrap_words>true</wrap_words>
-                <rules>
-                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==2">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==3">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==4">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==5">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==6">
-                      <value>true</value>
-                    </exp>
-                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
-                  </rule>
-                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
+                <scripts>
+                  <script file="EmbeddedPy">
+                    <text><![CDATA[# Embedded python script for DELAY widget 
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))
+
+# BurstGateNcyc 0:Gate 1:Ncyc
+pv0 = PVUtil.getDouble(pvs[0])
+# BasicWaveTypeSelect 
+pv1 = PVUtil.getDouble(pvs[1])
+
+## Script Body
+if (pv0==0) :
+    widget.setPropertyValue('enabled', False)
+else:
+    # 3:Pulse, 4:Noise 
+    if (pv1==4):
+	widget.setPropertyValue('enabled', False)
+    else :
+	widget.setPropertyValue('enabled', True)
+]]></text>
                     <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
-                  </rule>
-                </rules>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </script>
+                </scripts>
               </widget>
               <widget type="textentry" version="3.0.0">
                 <name>Text Entry_43</name>
                 <pv_name>usbtmc:icslab:BurstCycleTime</pv_name>
-                <x>458</x>
-                <y>136</y>
+                <x>464</x>
+                <y>140</y>
                 <width>105</width>
                 <height>28</height>
                 <wrap_words>true</wrap_words>
-                <rules>
-                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==2">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==3">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==4">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==5">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==6">
-                      <value>true</value>
-                    </exp>
+                <scripts>
+                  <script file="EmbeddedPy">
+                    <text><![CDATA[# Embedded python script for Cycle Time widget 
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))
+
+# BurstGateNcyc 0:Gate 1:Ncyc
+pv0 = PVUtil.getDouble(pvs[0])
+# BasicWaveTypeSelect 
+pv1 = PVUtil.getDouble(pvs[1])
+
+## Script Body
+if (pv0==0) :
+    widget.setPropertyValue('enabled', False)
+else:
+    # 3:Pulse, 4:Noise 
+    if (pv1==4):
+	widget.setPropertyValue('enabled', False)
+    else :
+	widget.setPropertyValue('enabled', True)
+]]></text>
                     <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
-                  </rule>
-                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
-                    <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
-                  </rule>
-                </rules>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </script>
+                </scripts>
               </widget>
               <widget type="label" version="2.0.0">
                 <name>Label_62</name>
@@ -990,7 +978,7 @@
                       <value>true</value>
                     </exp>
                     <exp bool_exp="pv0==4">
-                      <value>true</value>
+                      <value>false</value>
                     </exp>
                     <exp bool_exp="pv0==5">
                       <value>true</value>
@@ -1012,41 +1000,33 @@
                 <x>169</x>
                 <y>44</y>
                 <width>117</width>
-                <rules>
-                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==2">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==3">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==4">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==5">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==6">
-                      <value>true</value>
-                    </exp>
-                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
-                  </rule>
-                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
+                <scripts>
+                  <script file="EmbeddedPy">
+                    <text><![CDATA[# Embedded python script for Trigger Source
+
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))
+
+# BurstGateNcyc 0:Gate 1:Ncyc
+pv0 = PVUtil.getDouble(pvs[0])
+# BasicWaveTypeSelect 
+pv1 = PVUtil.getDouble(pvs[1])
+
+## Script Body
+if (pv0==0) :
+    widget.setPropertyValue('enabled', False)
+else:
+    # 3:Pulse, 4:Noise 
+    if (pv1==4):
+	widget.setPropertyValue('enabled', False)
+    else :
+	widget.setPropertyValue('enabled', True)
+
+]]></text>
                     <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
-                  </rule>
-                </rules>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                  </script>
+                </scripts>
                 <items>
                   <item>'item' = 'External'</item>
                   <item>'item' = 'Internal'</item>
@@ -1073,45 +1053,44 @@
                 <x>458</x>
                 <y>44</y>
                 <width>108</width>
-                <rules>
-                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==2">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==3">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==4">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==5">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==6">
-                      <value>true</value>
-                    </exp>
-                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
-                  </rule>
-                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
+                <scripts>
+                  <script file="EmbeddedPy">
+                    <text><![CDATA[# Embedded python script for DELAY widget 
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))
+
+# BurstGateNcyc 0:Gate 1:Ncyc
+pv0 = PVUtil.getDouble(pvs[0])
+# BasicWaveTypeSelect 
+pv1 = PVUtil.getDouble(pvs[1])
+# BurstTriggerSrc
+pv2 = PVUtil.getDouble(pvs[2])
+
+## Script Body
+if (pv0==0) :
+    widget.setPropertyValue('enabled', False)
+else:
+    # 4:Noise 
+    if (pv1==4):
+	widget.setPropertyValue('enabled', False)
+    else :
+	# 0:EXT
+	if (pv2==0):
+	    widget.setPropertyValue('enabled', False)
+	# 1:INT, 2,MAN
+	else:
+	    widget.setPropertyValue('enabled', True)
+
+
+
+]]></text>
                     <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
-                  </rule>
-                </rules>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                    <pv_name>usbtmc:icslab:BurstTriggerSrc</pv_name>
+                  </script>
+                </scripts>
                 <items>
                   <item>'item' = 'External'</item>
-                  <item>'item' = 'Internal'</item>
-                  <item>'item' = 'Manual'</item>
                 </items>
               </widget>
               <widget type="label" version="2.0.0">
@@ -1178,41 +1157,40 @@
                 <x>169</x>
                 <y>188</y>
                 <width>115</width>
-                <rules>
-                  <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==2">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==3">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==4">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==5">
-                      <value>true</value>
-                    </exp>
-                    <exp bool_exp="pv0==6">
-                      <value>true</value>
-                    </exp>
-                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
-                  </rule>
-                  <rule name="BurstMode" prop_id="enabled" out_exp="false">
-                    <exp bool_exp="pv0==0">
-                      <value>false</value>
-                    </exp>
-                    <exp bool_exp="pv0==1">
-                      <value>true</value>
-                    </exp>
+                <scripts>
+                  <script file="EmbeddedPy">
+                    <text><![CDATA[# Embedded python script for Edge 
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))
+
+# BurstGateNcyc 0:Gate 1:Ncyc
+pv0 = PVUtil.getDouble(pvs[0])
+# BasicWaveTypeSelect 
+pv1 = PVUtil.getDouble(pvs[1])
+# BurstTriggerSrc
+pv2 = PVUtil.getDouble(pvs[2])
+
+## Script Body
+if (pv0==0) :
+    widget.setPropertyValue('enabled', False)
+else:
+    # 4:Noise 
+    if (pv1==4):
+	widget.setPropertyValue('enabled', False)
+    else :
+	# 0:EXT
+	if (pv2==0):
+	    widget.setPropertyValue('enabled', True)
+	# 1:INT, 2,MAN
+	else:
+	    widget.setPropertyValue('enabled', False)
+
+]]></text>
                     <pv_name>usbtmc:icslab:BurstGateNcyc</pv_name>
-                  </rule>
-                </rules>
+                    <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
+                    <pv_name>usbtmc:icslab:BurstTriggerSrc</pv_name>
+                  </script>
+                </scripts>
                 <items>
                   <item>'item' = 'RISE'</item>
                   <item>'item' = 'FALL'</item>
@@ -1228,7 +1206,7 @@
     <height>450</height>
     <active_tab>1</active_tab>
     <rules>
-      <rule name="New Rule" prop_id="active_tab" out_exp="false">
+      <rule name="Change Active Tab" prop_id="active_tab" out_exp="false">
         <exp bool_exp="pv0==0">
           <value>0</value>
         </exp>

@@ -789,28 +789,28 @@ drvWS3122::SetWaveTypeCmds(epicsInt32 value)
 	    << "\t cmd " << value_s << std::endl;
 
   
-  // status = this->usbTmcWrite(value_s);
-  char output[512];
+  status = this->usbTmcWrite(value_s);
+  // char output[512];
 
-  if(value == 1) {
-    status = this->usbTmcWrite(value_s);
-    return status;
-  }
-  else if (value == 2) {
-    sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,FRQ,14HZ,AMP,1V,OFST,1V,PHSE,10,DUTY,21");
-  }
-  else if (value == 3) {
-    sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SINE,FRQ,14HZ,AMP,1V,OFST,0V,PHSE,0,DUTY,21");
-  }
-  else if (value == 4) {
-    sprintf(output, "C1:BTWV STATE,OFF");
-  }
-  else if (value == 5) {
-    sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,CARR,FRQ,14HZ,CARR,AMP,1V,CARR,OFST,1V,CARR,PHSE,10,CARR,DUTY,30");
-  }
-   else if (value == 6) {
-    sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,CARR,FRQ,14HZ,CARR,AMP,1V,CARR,OFST,1V,CARR,PHSE,10,CARR,DUTY,30");
-  }
+  // if(value == 1) {
+  //   status = this->usbTmcWrite(value_s);
+  //   return status;
+  // }
+  // else if (value == 2) {
+  //   sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,FRQ,14HZ,AMP,1V,OFST,1V,PHSE,10,DUTY,21");
+  // }
+  // else if (value == 3) {
+  //   sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SINE,FRQ,14HZ,AMP,1V,OFST,0V,PHSE,0,DUTY,21");
+  // }
+  // else if (value == 4) {
+  //   sprintf(output, "C1:BTWV STATE,OFF");
+  // }
+  // else if (value == 5) {
+  //   sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,CARR,FRQ,14HZ,CARR,AMP,1V,CARR,OFST,1V,CARR,PHSE,10,CARR,DUTY,30");
+  // }
+  //  else if (value == 6) {
+  //   sprintf(output, "C1:BTWV STATE,ON,CARR,WVTP,SQUARE,CARR,FRQ,14HZ,CARR,AMP,1V,CARR,OFST,1V,CARR,PHSE,10,CARR,DUTY,30");
+  // }
   
   
   // std::string test1="C1:BTWV STATE,ON,CARR,WVTP,SQUARE,FRQ,14HZ,AMP,1V,OFST,1V,PHSE,10,DUTY,0.21percent";
@@ -825,12 +825,12 @@ drvWS3122::SetWaveTypeCmds(epicsInt32 value)
   //   status = this->usbTmcWrite(test2);
   // }
 
-  value_s = output;  
-  std::cout << "1 : value " << value << "\tdrvWS3122::SetWaveTypeCmds : " << value_s.length()
-	    << "\t cmd " << value_s << std::endl;
+  // value_s = output;  
+  // std::cout << "1 : value " << value << "\tdrvWS3122::SetWaveTypeCmds : " << value_s.length()
+  // 	    << "\t cmd " << value_s << std::endl;
 
   
-  status = this->usbTmcWrite(value_s);
+  // status = this->usbTmcWrite(value_s);
   
   return status;
 };
