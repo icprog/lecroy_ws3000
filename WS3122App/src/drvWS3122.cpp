@@ -291,7 +291,7 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
   // std::cout << "function " << function
   // 	    << " iValue "   << iValue
   // 	    << " fValue "   << fValue
-  // 	    << " value_s"   << value_s
+  // 	    << " value_s "   << value_s
   // 	    << std::endl;
 
   
@@ -761,7 +761,7 @@ drvWS3122::SetWaveTypeCmds(epicsInt32 value)
   
   getIntegerParam(parHeader_, &par);
 
-  std::cout <<  GetHeaderType((EHeaderType_t)  par) << std::endl;
+  // std::cout <<  GetHeaderType((EHeaderType_t)  par) << std::endl;
   
   switch ((EHeaderType_t)  par)
     {
@@ -935,13 +935,14 @@ drvWS3122::SetWaveState(epicsInt32 value)
   std::cout << "SetWaveState " << value_oss.str() << std::endl;
   // Only OFF is valid
   if (value == 0) {
-    //    status = this->usbTmcWrite(value_oss.str());
     setIntegerParam(parHeader_, (int) kHeaderBSWV);
   }
   else if (value == 1) {
     setIntegerParam(parHeader_, (int) kHeaderBTWV);
     
   }
+
+  status = this->usbTmcWrite(value_oss.str());
   
   return status;
 };

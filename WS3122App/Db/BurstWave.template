@@ -163,6 +163,7 @@ record(mbbi, "$(P)$(R)BurstTriggerMode_RBV")
 
 record(bo, "$(P)$(R)BurstPolarity")
 {
+    field(PINI, "YES")
     field(DTYP, "asynInt32")
     field( OUT, "@asyn($(PORT),0,0) PAR_BURST_PLRT")
     field(ZNAM, "NEG")
@@ -185,6 +186,7 @@ record(bi, "$(P)$(R)BurstPolarity_RBV")
 
 record(bo, "$(P)$(R)BurstEdge")
 {
+    field(PINI, "YES")
     field(DTYP, "asynInt32")
     field( OUT, "@asyn($(PORT),0,0) PAR_BURST_EDGE")
     field(ZNAM, "RISE")

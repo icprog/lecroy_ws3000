@@ -343,7 +343,7 @@ BasicWave::buildCommand()
   fullCommandStream << getWaveCmdSnip(symmetry_flag,   kWaveSymm,    symmetryVal,  front_comma);
   fullCommandStream << getWaveCmdSnip(std_dev_flag,    kWaveStdDev,  stdDevVal,    front_comma);
   fullCommandStream << getWaveCmdSnip(mean_flag,       kWaveMean,    meanVal,      front_comma);
-  std::cout << "CommandStream " << fullCommandStream.str() << std::endl;
+  //  std::cout << "CommandStream " << fullCommandStream.str() << std::endl;
 };
 
 void
@@ -527,6 +527,8 @@ BurstWave::buildCommand()
   
   fullCmdStream_flag = true;
 
+  std::cout << fullCmdStream.str() << std::endl;
+
 };
 
 
@@ -596,6 +598,7 @@ BurstWave::setTriggerMode(ETriggerMode_t id)
 {
   triggerModeID = id;
   triggerModeString = GetTriggerMode(id);
+  //  std::cout << "BurstWave::setTriggerMode " << triggerModeString << std::endl;
 };
 
 void
@@ -603,7 +606,7 @@ BurstWave::setEdge(EEdgeModeMap_t id)
 {
   edgeModeID = id;
   edgeModeString = GetEdgeMode(id);
-  
+  //  std::cout << "BurstWave::setEdge " << edgeModeString << std::endl;
 };
 
 
@@ -641,11 +644,11 @@ BurstWave::setWaveState(EWaveState_t id)
 int 
 BurstWave::set_flags(EBasicWaveType_t wave_type_id, EBurstMode_t gate_ncyc_id, ETriggerSrc_t trigger_src_id)
 {
-  std::cout
-  << "WaveType     : " << GetBasicWaveType (wave_type_id)
-  << "\tBurstMode  : " << GetBurstMode (gate_ncyc_id)
-  << "\tTriggerSrc : " << GetTriggerSrc (trigger_src_id)
-  << std::endl;
+  // std::cout
+  // << "WaveType     : " << GetBasicWaveType (wave_type_id)
+  // << "\tBurstMode  : " << GetBurstMode (gate_ncyc_id)
+  // << "\tTriggerSrc : " << GetTriggerSrc (trigger_src_id)
+  // << std::endl;
 
   if (wave_type_id == kWaveTypeDc || wave_type_id == kWaveTypeUnknown) {
     // DC cannot be used BURST mode
@@ -806,7 +809,6 @@ BurstWave::getCmdSnip(bool cmd_flag, EBurstParameter_t id, bool front_prefix)
     result.str("");
   }
   
-
   return result.str();
 };
 

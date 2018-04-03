@@ -1196,6 +1196,30 @@ else:
                   <item>'item' = 'FALL'</item>
                 </items>
               </widget>
+              <widget type="label" version="2.0.0">
+                <name>Label_93</name>
+                <text>STATE Status</text>
+                <x>314</x>
+                <y>1</y>
+                <width>107</width>
+                <height>30</height>
+                <font>
+                  <font name="Header 3" family="Source Sans Pro" style="BOLD_ITALIC" size="16.0">
+                  </font>
+                </font>
+                <vertical_alignment>1</vertical_alignment>
+                <wrap_words>false</wrap_words>
+              </widget>
+              <widget type="led" version="2.0.0">
+                <name>Text Entry_75</name>
+                <pv_name>usbtmc:icslab:WaveState</pv_name>
+                <x>458</x>
+                <width>108</width>
+                <height>30</height>
+                <off_label>OFF</off_label>
+                <on_label>ON</on_label>
+                <square>true</square>
+              </widget>
             </widget>
           </widget>
         </children>

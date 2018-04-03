@@ -282,7 +282,7 @@ record(bo, "$(P)$(R)WaveState")
     field( OUT, "@asyn($(PORT),0,0) CMD_WAVE_STATE")
     field(ZNAM, "OFF")
     field(ONAM, "ON")
-    field( VAL, 0)
+    field( VAL, 1)
 }
 
 record(bi, "$(P)$(R)WaveState_RBV")
@@ -293,3 +293,4 @@ record(bi, "$(P)$(R)WaveState_RBV")
     field(ONAM, "ON")
     field(SCAN, "I/O Intr")
 }
+
