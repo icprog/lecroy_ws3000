@@ -38,29 +38,28 @@
 #define MAX_ASYN_ADDRESS        0
 #define MAX_BUFFER_SIZE	        512
 
-#define DevIDNString                 "DEV_IDN"                   // asynOctet      w  
-#define DevManufacturerString        "DEV_MANUFACTURER"          // asynOctet,    r/o manufacturer name 
-#define DevModelString               "DEV_MODEL"                 // asynOctet,    r/o model name 
-#define DevSerialNumberString        "DEV_SERIAL_NUMBER"         // asynOctet,    r/o serial number 
-
+#define DevIDNString                 "DEV_IDN"                      // asynOctet    w  
+#define DevManufacturerString        "DEV_MANUFACTURER"             // asynOctet    r/o manufacturer name 
+#define DevModelString               "DEV_MODEL"                    // asynOctet    r/o model name 
+#define DevSerialNumberString        "DEV_SERIAL_NUMBER"            // asynOctet    r/o serial number 
 
 
 #define ParHeaderPathString          "PAR_HEADER_PATH"              // asynParamInt32
 #define ParHeaderString              "PAR_HEADER"                   // asynParamInt32
 #define ParBasicWaveTypeSelecString  "BASIC_WAVE_TYPE_SELECT"
 
-#define ParWaveFrequencyString       "PAR_WAVE_FREQUENCY"           //asynFloat64
-#define ParWaveAmplifierString       "PAR_WAVE_AMPLIFIER"           //asynFloat64
-#define ParWaveOffsetString          "PAR_WAVE_OFFSET"              //asynFloat64
-#define ParWavePhaseString           "PAR_WAVE_PHASE"               //asynFloat64
-#define ParWaveWidthString           "PAR_WAVE_WIDTH"               //asynFloat64
-#define ParWaveRiseString            "PAR_WAVE_RISE"                //asynFloat64
-#define ParWaveFallString            "PAR_WAVE_FALL"                //asynFloat64
-#define ParWaveDelayString           "PAR_WAVE_DELAY"               //asynFloat64
-#define ParWaveSymmetryString        "PAR_WAVE_SYMMETRY"            //asynFloat64
-#define ParWaveStdDevString          "PAR_WAVE_STDDEV"              //asynFloat64
-#define ParWaveMeanString            "PAR_WAVE_MEAN"                //asynFloat64
-#define ParWaveDutyCycleString       "PAR_WAVE_DUTYCYCLE"           //asynFloat64
+#define ParWaveFrequencyString       "PAR_WAVE_FREQUENCY"           // asynFloat64
+#define ParWaveAmplifierString       "PAR_WAVE_AMPLIFIER"           // asynFloat64
+#define ParWaveOffsetString          "PAR_WAVE_OFFSET"              // asynFloat64
+#define ParWavePhaseString           "PAR_WAVE_PHASE"               // asynFloat64
+#define ParWaveWidthString           "PAR_WAVE_WIDTH"               // asynFloat64
+#define ParWaveRiseString            "PAR_WAVE_RISE"                // asynFloat64
+#define ParWaveFallString            "PAR_WAVE_FALL"                // asynFloat64
+#define ParWaveDelayString           "PAR_WAVE_DELAY"               // asynFloat64
+#define ParWaveSymmetryString        "PAR_WAVE_SYMMETRY"            // asynFloat64
+#define ParWaveStdDevString          "PAR_WAVE_STDDEV"              // asynFloat64
+#define ParWaveMeanString            "PAR_WAVE_MEAN"                // asynFloat64
+#define ParWaveDutyCycleString       "PAR_WAVE_DUTYCYCLE"           // asynFloat64
 
 
 #define ParBurstGateNcycString       "PAR_BURST_GATE_NCYC"          // asynParamInt32
@@ -71,21 +70,19 @@
 
 #define ParBurstManualTriggerString  "PAR_BURST_MTRIG"              // asynParamInt32
 
-#define ParBurstPeriodString         "PAR_BURST_PERIOD"             //asynFloat64
-#define ParBurstStartPhaseString     "PAR_BURST_START_PHASE"        //asynFloat64
-#define ParBurstDelayString          "PAR_BURST_DELAY"              //asynFloat64
-#define ParBurstCycleTimeString      "PAR_BURST_CYCLE_TIME"         //asynFloat64
-
-
+#define ParBurstPeriodString         "PAR_BURST_PERIOD"             // asynFloat64
+#define ParBurstStartPhaseString     "PAR_BURST_START_PHASE"        // asynFloat64
+#define ParBurstDelayString          "PAR_BURST_DELAY"              // asynFloat64
+#define ParBurstCycleTimeString      "PAR_BURST_CYCLE_TIME"         // asynFloat64
 
 
 #define CmdWaveStateString           "CMD_WAVE_STATE"               // asynParamInt32
-#define CmdOutputString              "CMD_OUTPUT"
-#define CmdOutputLoadString          "CMD_OUTPUT_LOAD"
-#define CmdOutputPolarityString      "CMD_OUTPUT_POLARITY"
-#define CmdSetWaveTypeString         "CMD_SET_WAVE_TYPE"
+#define CmdOutputString              "CMD_OUTPUT"                   // asynParamInt32
+#define CmdOutputLoadString          "CMD_OUTPUT_LOAD"              // asynParamInt32
+#define CmdOutputPolarityString      "CMD_OUTPUT_POLARITY"          // asynParamInt32
+#define CmdSetWaveTypeString         "CMD_SET_WAVE_TYPE"            // asynParamInt32
 #define CmdPhaseInvertString         "CMD_PHASE_INVERT"             // asynParamInt32
-#define CmdScreenSaveString          "CMD_SCREEN_SAVE"
+#define CmdScreenSaveString          "CMD_SCREEN_SAVE"              // asynParamInt32
 #define CmdClockSourceString         "CMD_CLOCK_SOURCE"             // asynParamInt32
 
 
@@ -94,12 +91,9 @@ public:
   drvWS3122(const char *portName, const char *asynUSBTMCPortName);
   virtual ~drvWS3122();
 
-
-  //virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-  //virtual asynStatus readOctet (asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
-  virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-  virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
-  virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t 	nChars, size_t *nActual);
+  virtual asynStatus writeInt32  (asynUser *pasynUser, epicsInt32    value);
+  virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64  value);
+  virtual asynStatus writeOctet  (asynUser *pasynUser, const char   *value, size_t nChars, size_t *nActual);
   
   friend std::ostream& operator<<(std::ostream& os, const drvWS3122 &ws);
 
@@ -129,15 +123,13 @@ protected:
   int parWaveMean_;
   int parWaveDutyCycle_;
 
-
   int parBurstGateNcyc_;
 
   int parBurstTriggerSrc_;
   int parBurstTriggerMode_;
   int parBurstEdge_;
   int parBurstPolatiry_;
-  
-  
+    
   int parBurstManualTrigger_;
   int parBurstPeriod_;
   int parBurstStartPhase_;

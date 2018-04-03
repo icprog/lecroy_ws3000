@@ -343,7 +343,7 @@ BasicWave::buildCommand()
   fullCommandStream << getWaveCmdSnip(symmetry_flag,   kWaveSymm,    symmetryVal,  front_comma);
   fullCommandStream << getWaveCmdSnip(std_dev_flag,    kWaveStdDev,  stdDevVal,    front_comma);
   fullCommandStream << getWaveCmdSnip(mean_flag,       kWaveMean,    meanVal,      front_comma);
- 
+  std::cout << "CommandStream " << fullCommandStream.str() << std::endl;
 };
 
 void

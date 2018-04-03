@@ -13,11 +13,11 @@
 typedef enum {
 	      kHeaderPathC1,
 	      kHeaderPathC2,
-	      kHeaderPathM1,
-	      kHeaderPathM2,
-	      kHeaderPathM3,
-	      kHeaderPathM4,
-	      kHeaderPathM5,
+     	      kHeaderPathM1,
+      	      kHeaderPathM2,
+      	      kHeaderPathM3,
+      	      kHeaderPathM4,
+      	      kHeaderPathM5,
 	      kHeaderPathUnknown
 } EHeaderPath_t;
 
@@ -32,14 +32,14 @@ typedef enum {
 // SWWV : Sweep Wave Command
 
 typedef enum {
-	      kHeaderARWV
-	      , kHeaderBSWV
+	      kHeaderBSWV
 	      , kHeaderBTWV
+	      , kHeaderARWV
 	      , kHeaderMDWV
 	      , kHeaderSWWV
 	      //	      , kHeaderSYNC
 	      //              , kHeaderOUTP
-	      //	      , kHeaderUnknown
+	      // , kHeaderUnknown
 } EHeaderType_t;
 
 
@@ -188,11 +188,11 @@ inline HeaderPathMap CreateHeaderPathMap()
 inline HeaderTypeMap CreateHeaderMap()
 {
   HeaderTypeMap map;
-  map[kHeaderARWV]    = "ARWV";
   map[kHeaderBSWV]    = "BSWV";
   map[kHeaderBTWV]    = "BTWV";
   map[kHeaderMDWV]    = "MDWV";
   map[kHeaderSWWV]    = "SWWV";
+  map[kHeaderARWV]    = "ARWV";
   // map[kHeaderSYNC]    = "SYNC";
   // map[kHeaderOUTP]    = "OUTP";
   // map[kHeaderUnknown] = "UNKNOWN";
