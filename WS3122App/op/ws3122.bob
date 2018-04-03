@@ -5,9 +5,8 @@
     <name>Digital Clock_1</name>
     <lcd_design>17</lcd_design>
     <lcd_font>3</lcd_font>
-    <y>10</y>
-    <width>126</width>
-    <height>40</height>
+    <width>100</width>
+    <height>50</height>
     <date_visible>true</date_visible>
     <shadows_enabled>false</shadows_enabled>
   </widget>
@@ -51,11 +50,12 @@
     <y>20</y>
     <width>210</width>
     <height>40</height>
+    <tooltip>Set selected Parameters</tooltip>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_20</name>
     <text>Wave Type</text>
-    <x>180</x>
+    <x>228</x>
     <y>86</y>
     <width>75</width>
     <font>
@@ -69,29 +69,15 @@
     <name>Combo Box</name>
     <pv_name>usbtmc:icslab:HeaderPath</pv_name>
     <x>100</x>
-    <y>67</y>
+    <y>80</y>
     <width>70</width>
-    <height>43</height>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_21</name>
-    <text>Output</text>
-    <x>560</x>
-    <y>67</y>
-    <width>92</width>
-    <height>38</height>
-    <font>
-      <font family="Droid Serif" style="REGULAR" size="14.0">
-      </font>
-    </font>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
+    <height>33</height>
   </widget>
   <widget type="radio" version="2.0.0">
     <name>Combo Box_3</name>
     <pv_name>usbtmc:icslab:Header</pv_name>
     <x>314</x>
-    <y>83</y>
+    <y>86</y>
     <width>202</width>
     <height>33</height>
     <actions>
@@ -105,7 +91,7 @@
     <name>Tabs</name>
     <tabs>
       <tab>
-        <name>BSWV</name>
+        <name>Burst</name>
         <children>
           <widget type="group" version="2.0.0">
             <name>Basic / Carrier Wave Parameters</name>
@@ -727,14 +713,14 @@
         </children>
       </tab>
       <tab>
-        <name>BTWV</name>
+        <name>Basic</name>
         <children>
           <widget type="group" version="2.0.0">
             <name>Burst Parameters</name>
             <x>40</x>
             <y>10</y>
             <width>700</width>
-            <height>400</height>
+            <height>390</height>
             <widget type="group" version="2.0.0">
               <name>Group_3</name>
               <x>23</x>
@@ -1229,6 +1215,7 @@ else:
     <width>790</width>
     <height>450</height>
     <active_tab>1</active_tab>
+    <direction>1</direction>
     <rules>
       <rule name="Change Active Tab" prop_id="active_tab" out_exp="false">
         <exp bool_exp="pv0==0">
@@ -1240,5 +1227,37 @@ else:
         <pv_name>usbtmc:icslab:Header</pv_name>
       </rule>
     </rules>
+    <tooltip>Please use the radio button to select Wave Type.</tooltip>
+  </widget>
+  <widget type="radio" version="2.0.0">
+    <name>Action Button_3</name>
+    <pv_name>usbtmc:icslab:Output</pv_name>
+    <x>610</x>
+    <y>86</y>
+    <width>160</width>
+    <height>40</height>
+    <actions>
+    </actions>
+    <tooltip>$(pv_name)
+$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <items>
+      <item>Item 1</item>
+      <item>Item 2</item>
+    </items>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_94</name>
+    <text>Output</text>
+    <x>543</x>
+    <y>86</y>
+    <width>47</width>
+    <font>
+      <font family="Droid Serif" style="REGULAR" size="14.0">
+      </font>
+    </font>
+    <vertical_alignment>1</vertical_alignment>
+    <auto_size>true</auto_size>
+    <tooltip>Enable Output in selected Channel</tooltip>
   </widget>
 </display>

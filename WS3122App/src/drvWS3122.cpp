@@ -325,8 +325,8 @@ drvWS3122::set_wave_parameters(int function, epicsInt32 iValue, epicsFloat64 fVa
 	    basicWave -> setCarrierFlag(true);
 	    burstWave -> setEnable(true);
 	    burstWave -> setCarrierWaveTypeID((EBasicWaveType_t) wave_type);
-	    std::cout << GetBasicWaveType((EBasicWaveType_t) wave_type) << std::endl;
-	    std::cout << burstWave -> getCarrierWaveTypeString() << std::endl;
+	    //	    std::cout << GetBasicWaveType((EBasicWaveType_t) wave_type) << std::endl;
+	    //	    std::cout << burstWave -> getCarrierWaveTypeString() << std::endl;
 	  }
 	  this -> set_burst_wave_flags();
 	  break;
@@ -790,7 +790,7 @@ drvWS3122::SetWaveTypeCmds(epicsInt32 value)
     }
   
   std::cout << "0 : value " << value << "\tdrvWS3122::SetWaveTypeCmds : " << value_s.length()
-	    << "\t cmd " << value_s << std::endl;
+   	    << "\t cmd " << value_s << std::endl;
 
   
   status = this->usbTmcWrite(value_s);
@@ -914,7 +914,7 @@ drvWS3122::SetWaveState(epicsInt32 value)
   asynStatus  status = asynSuccess;
   int    par_header_path = 0;
   int    par_header = 0;
-  int    wave_type  = 0;
+  //  int    wave_type  = 0;
   std::ostringstream value_oss;   // stream used for the conversion
   value_oss.str(""); value_oss.clear();
 
@@ -932,7 +932,7 @@ drvWS3122::SetWaveState(epicsInt32 value)
   value_oss << GetCmdSymbol(kCmdSymbolComma);
   value_oss << GetWaveState((EWaveState_t) value);
 
-  std::cout << "SetWaveState " << value_oss.str() << std::endl;
+  // std::cout << "SetWaveState " << value_oss.str() << std::endl;
   // Only OFF is valid
   if (value == 0) {
     setIntegerParam(parHeader_, (int) kHeaderBSWV);

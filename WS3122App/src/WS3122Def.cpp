@@ -527,7 +527,7 @@ BurstWave::buildCommand()
   
   fullCmdStream_flag = true;
 
-  std::cout << fullCmdStream.str() << std::endl;
+  //  std::cout << fullCmdStream.str() << std::endl;
 
 };
 

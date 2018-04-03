@@ -2,7 +2,7 @@ caput usbtmc:icslab:HeaderPath C1
 
 
 caput usbtmc:icslab:Header BSWV
-caput usbtmc:icslab:BasicWaveTypeSelect Sine
+caput usbtmc:icslab:BasicWaveTypeSelect Square
 
 caput usbtmc:icslab:WaveFrequency    140
 caput usbtmc:icslab:WaveAmplifier    1
