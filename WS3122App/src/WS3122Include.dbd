@@ -1,4 +1,0 @@
-include "base.dbd"
-include "asyn.dbd"
-include "drvAsynUSBTMC.dbd"
-registrar(drvWS3122Register)

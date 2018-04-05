@@ -32,6 +32,10 @@ dbLoadRecords("${TOP}/db/BasicWave.db",  "P=$(P):,R=$(R):, PORT=$(WS3122PORT)")
 dbLoadRecords("${TOP}/db/BurstWave.db",  "P=$(P):,R=$(R):, PORT=$(WS3122PORT)")
 dbLoadRecords("${TOP}/db/WS3122Cmds.db", "P=$(P):,R=$(R):, PORT=$(WS3122PORT)")
 
+dbLoadRecords("${TOP}/db/iocAdminSoft.db", "IOC=$(P):$(R):IocStats")
+
+
+
 cd "${TOP}/iocBoot/${IOC}"
 
 iocInit
