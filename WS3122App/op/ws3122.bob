@@ -28,7 +28,8 @@
     <text>Channel</text>
     <x>30</x>
     <y>86</y>
-    <width>56</width>
+    <width>58</width>
+    <height>17</height>
     <font>
       <font family="Droid Serif" style="REGULAR" size="14.0">
       </font>
@@ -57,7 +58,8 @@
     <text>Wave Type</text>
     <x>228</x>
     <y>86</y>
-    <width>75</width>
+    <width>79</width>
+    <height>17</height>
     <font>
       <font family="Droid Serif" style="REGULAR" size="14.0">
       </font>
@@ -91,7 +93,7 @@
     <name>Tabs</name>
     <tabs>
       <tab>
-        <name>Burst</name>
+        <name>Basic</name>
         <children>
           <widget type="group" version="2.0.0">
             <name>Basic / Carrier Wave Parameters</name>
@@ -114,10 +116,10 @@
             <widget type="label" version="2.0.0">
               <name>Label_76</name>
               <class>HEADER2</class>
-              <text>Wave Type</text>
+              <text>Waveform  Type</text>
               <x>13</x>
               <y>27</y>
-              <width>112</width>
+              <width>156</width>
               <height>30</height>
               <font use_class="true">
                 <font name="Header 2" family="Source Sans Pro" style="BOLD_ITALIC" size="21.0">
@@ -608,7 +610,7 @@
             <widget type="combo" version="2.0.0">
               <name>Combo Box_2</name>
               <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
-              <x>133</x>
+              <x>179</x>
               <y>27</y>
               <width>116</width>
             </widget>
@@ -713,7 +715,7 @@
         </children>
       </tab>
       <tab>
-        <name>Basic</name>
+        <name>Burst</name>
         <children>
           <widget type="group" version="2.0.0">
             <name>Burst Parameters</name>
@@ -1214,7 +1216,6 @@ else:
     <y>140</y>
     <width>790</width>
     <height>450</height>
-    <active_tab>1</active_tab>
     <direction>1</direction>
     <rules>
       <rule name="Change Active Tab" prop_id="active_tab" out_exp="false">
@@ -1251,7 +1252,8 @@ $(actions)</tooltip>
     <text>Output</text>
     <x>543</x>
     <y>86</y>
-    <width>47</width>
+    <width>49</width>
+    <height>17</height>
     <font>
       <font family="Droid Serif" style="REGULAR" size="14.0">
       </font>
