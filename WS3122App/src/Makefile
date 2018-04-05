@@ -34,6 +34,18 @@ $(PROD_NAME)_LIBS += asyn
 $(PROD_NAME)_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 
+ifneq ($(DEVIOCSTATS),)
+$(PROD_NAME)_DBD  += devIocStats.dbd
+$(PROD_NAME)_LIBS += devIocStats
+endif
+
+ifneq ($(AUTOSAVE),)
+$(PROD_NAME)_DBD  += asSupport.dbd
+$(PROD_NAME)_LIBS += autosave
+endif
+
+
+
 include $(TOP)/configure/RULES
 
 

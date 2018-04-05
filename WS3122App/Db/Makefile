@@ -13,8 +13,17 @@ DB += WS3122Cmds.db
 
 DB_INSTALLS += $(ASYN)/db/asynRecord.db
 
+
+ifneq ($(DEVIOCSTATS),)
+DB_INSTALLS += $(DEVIOCSTATS)/db/iocAdminSoft.db
+endif
+
+ifneq ($(AUTOSAVE),)
+DB_INSTALLS += $(firstword $(wildcard $(AUTOSAVE)/asApp/Db/save_restoreStatus.db $(AUTOSAVE)/db/save_restoreStatus.db))
+endif
+
+
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
- 

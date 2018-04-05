@@ -1,4 +1,4 @@
-EPICS IOC for WaveStation 3122
+Naive EPICS IOC for WaveStation 3122
 ---
 [![Build Status](https://travis-ci.org/jeonghanlee/lecroy_ws3122.svg?branch=master)](https://travis-ci.org/jeonghanlee/lecroy_ws3122)
 
@@ -12,7 +12,7 @@ EPICS IOC for WaveStation 3122
 
 * BSWV (SINE, SQUARE, RAMP, PULSE, NOISE, ARB, DC) : all parameters can be defined, however, according to the wave type, invalid parameters will be disabled automatically. The all parameters should be defined first, before send the command to the wave station. If one would like to use, please look command orders at cmds file.
 
-* BTWV (work in progress)
+* BTWV : Due to the vendor SCPI command limitation, we cannot set the entire parameters (BTWW and its carrier Waveform). We have to define the Carrier Waveform parameters first, then we have to define BTWV parameters. 
 
 
 # Warning
@@ -21,13 +21,22 @@ EPICS IOC for WaveStation 3122
 
 # Requirements
 
-* Asyn should be compiled with DRV_USBTMC=YES in configure/CONFIG_SITE
-* RELEASE.local
+* Asyn should be compiled with DRV_USBTMC=YES, which can be enable in (ASYN)/configure/CONFIG_SITE (libusb-1.0 or libusbx is needed according to the Linux distribution)
+
+* Add RELEASE.local as follows:
 ```
 EPICS_BASE=/home/jhlee/epics_env/epics-base
 ASYN=${EPICS_MODULES}/asyn
-STREAM=${EPICS_MODULES}/stream
 ```
+
+* Optional Modules : (iocStats, autosave)
+
+# Optional 
+DEVIOCSTATS=${EPICS_MODULES}/iocStats
+AUTOSAVE=${EPICS_MODULES}/autosave
+
+* UI is for latest CS Studio with Display Builder (not BOY) in WS3122App/op
+
 
 # Device Configuration and Information
 ## Settings
@@ -46,7 +55,7 @@ $ lsusb
 Bus 001 Device 072: ID 05ff:0a21 LeCroy Corp.
 ```
 
-## UDEV
+## UDEV configuraiton for WS3122 
 
 [UDEV configuration](tools/README.md)
 

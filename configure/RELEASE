@@ -37,10 +37,14 @@
 #RULES = $(MODULES)/build-rules
 
 EPICS_BASE=/home/jhlee/epics_env/epics-base
-ASYN=${EPICS_MODULES}/asyn
-STREAM=${EPICS_MODULES}/stream
-#devIocStats=${EPICS_MODULES}/iocStats
 
+# Mandatory
+ASYN=${EPICS_MODULES}/asyn
+
+# Optional 
+#STREAM=${EPICS_MODULES}/stream
+#DEVIOCSTATS=${EPICS_MODULES}/iocStats
+#AUTOSAVE=${EPICS_MODULES}/autosave
 
 # These allow developers to override the RELEASE variable settings
 # without having to modify the configure/RELEASE file itself.
