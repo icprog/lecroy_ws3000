@@ -38,7 +38,11 @@ dbLoadRecords("${TOP}/db/iocAdminSoft.db", "IOC=$(P):$(R):IocStats")
 
 cd "${TOP}/iocBoot/${IOC}"
 
+< save_restore_before_init.cmd
+
 iocInit
+
+< save_restore_after_init.cmd
 
 dbl > "${TOP}/${IOC}_PVs.list"
 

@@ -29,6 +29,7 @@ record(mbbo, "$(P)$(R)BasicWaveTypeSelect")
     field(FFSV, "INVALID")
     field(UNSV, "INVALID")
     field( VAL, "1")
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(mbbi, "$(P)$(R)BasicWaveTypeSelect_RBV")
@@ -78,6 +79,7 @@ record(ao, "$(P)$(R)WaveFrequency")
     field(PREC, 6)
     field( VAL, 14)
     field( EGU, "Hz")
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(ai, "$(P)$(R)WaveFrequency_RBV")
@@ -106,6 +108,7 @@ record(ao, "$(P)$(R)WaveAmplifier")
     field(PREC, 3)
     field( VAL, 1)
     field( EGU, "V")
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(ai, "$(P)$(R)WaveAmplifier_RBV")
@@ -134,6 +137,7 @@ record(ao, "$(P)$(R)WaveOffset")
     field( VAL, 0)
     field(PREC, 3)
     field( EGU, "V")
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(ai, "$(P)$(R)WaveOffset_RBV")
@@ -156,6 +160,8 @@ record(ao, "$(P)$(R)WavePhase")
     field(DRVL, 0)
     field(DRVH, 360)
     field( VAL, 0)
+    info(autosaveFields_pass0, "VAL")
+
 }
 
 record(ai, "$(P)$(R)WavePhase_RBV")
@@ -177,6 +183,7 @@ record(ao, "$(P)$(R)WaveWidth")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_WIDTH")
     field( VAL, 0)
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(ai, "$(P)$(R)WaveWidth_RBV")
@@ -196,6 +203,7 @@ record(ao, "$(P)$(R)WaveRise")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_RISE")
     field(PREC, 5)
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(ai, "$(P)$(R)WaveRise_RBV")
@@ -214,6 +222,8 @@ record(ao, "$(P)$(R)WaveFall")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_FALL")
+    info(autosaveFields_pass0, "VAL")
+    
 }
 
 record(ai, "$(P)$(R)WaveFall_RBV")
@@ -235,6 +245,8 @@ record(ao, "$(P)$(R)WaveDelay")
     field(DRVL, 0)
     field(PREC, 5)
     field( EGU, "Hz")
+    info(autosaveFields_pass0, "VAL")
+    
 }
 
 record(ai, "$(P)$(R)WaveDelay_RBV")
@@ -258,6 +270,7 @@ record(ao, "$(P)$(R)WaveSymmetry")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_SYMMETRY")
     field(DRVL, 0)
     field(DRVH, 100)
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(ai, "$(P)$(R)WaveSymmetry_RBV")
@@ -286,6 +299,7 @@ record(ao, "$(P)$(R)WaveStdDev")
     field( VAL, 0.0005)
     field(PREC, 5)
     field( EGU, "V")
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(ai, "$(P)$(R)WaveStdDev_RBV")
@@ -310,6 +324,7 @@ record(ao, "$(P)$(R)WaveMean")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_MEAN")
     field(PREC, 5)
     field( EGU, "V")
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(ai, "$(P)$(R)WaveMean_RBV")
@@ -332,6 +347,7 @@ record(ao, "$(P)$(R)WaveDutyCycle")
     field(DRVH, 99.9)
     field(PREC, 2)
     field( EGU, "Percent")
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(ai, "$(P)$(R)WaveDutyCycle_RBV")

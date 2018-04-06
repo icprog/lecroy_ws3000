@@ -19,7 +19,7 @@ DB_INSTALLS += $(DEVIOCSTATS)/db/iocAdminSoft.db
 endif
 
 ifneq ($(AUTOSAVE),)
-DB_INSTALLS += $(firstword $(wildcard $(AUTOSAVE)/asApp/Db/save_restoreStatus.db $(AUTOSAVE)/db/save_restoreStatus.db))
+DB_INSTALLS += $(AUTOSAVE)/db/save_restoreStatus.db
 endif
 
 
