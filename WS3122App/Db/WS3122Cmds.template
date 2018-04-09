@@ -24,6 +24,7 @@ record(mbbo, "$(P)$(R)HeaderPath")
    field(FFSV, "INVALID")
    field(UNSV, "INVALID")
    field( VAL, "0")
+   info(autosaveFields_, "VAL")
 }
 
 record(mbbi, "$(P)$(R)HeaderPath_RBV")
@@ -75,6 +76,7 @@ record(mbbo, "$(P)$(R)Header")
    field(FTSV, "INVALID")
    field(FFSV, "INVALID")
    field(UNSV, "INVALID")
+   info(autosaveFields_, "VAL")
 }
 
 record(mbbi, "$(P)$(R)Header_RBV")
@@ -177,6 +179,7 @@ record(bo, "$(P)$(R)SetWaveType")
 {
     field(DTYP, "asynInt32")
     field( OUT, "@asyn($(PORT),0,0) CMD_SET_WAVE_TYPE")
+    info(autosaveFields_, "VAL")
 }
 
 
@@ -215,6 +218,7 @@ record(bo, "$(P)$(R)Output")
     field(ONAM, "ON")
     field( VAL, 0)
     field(PINI, "YES")
+    info(autosaveFields_, "VAL")
 }
 
 record(bi, "$(P)$(R)Output_RBV")
@@ -238,6 +242,7 @@ record(bo, "$(P)$(R)OutputLoad")
     field( OUT, "@asyn($(PORT),0,0) CMD_OUTPUT_LOAD")
     field(ZNAM, "50")
     field(ONAM, "HZ")
+    info(autosaveFields_, "VAL")
 }
 
 record(bi, "$(P)$(R)OutputLoad_RBV")
@@ -262,6 +267,7 @@ record(bo, "$(P)$(R)OutputPolarity")
     field( OUT, "@asyn($(PORT),0,0) CMD_OUTPUT_POLARITY")
     field(ZNAM, "NOR")
     field(ONAM, "INVT")
+    info(autosaveFields_, "VAL")
 }
 
 record(bi, "$(P)$(R)OutputPolarity_RBV")
@@ -283,6 +289,7 @@ record(bo, "$(P)$(R)WaveState")
     field(ZNAM, "OFF")
     field(ONAM, "ON")
     field( VAL, 1)
+    info(autosaveFields_pass0, "VAL")
 }
 
 record(bi, "$(P)$(R)WaveState_RBV")

@@ -75,6 +75,7 @@ record(bo, "$(P)$(R)ROSC")
     field( OUT, "@asyn($(PORT),0,0) CMD_CLOCK_SOURCE")
     field(ZNAM, "INT")
     field(ONAM, "EXT")
+    info(autosaveFields, "VAL")
 }
 
 record(bi, "$(P)$(R)ROSC_RBV")
@@ -96,7 +97,8 @@ record(bo, "$(P)$(R)PhaseInvert")
     field( OUT, "@asyn($(PORT),0,0) CMD_PHASE_INVERT")
     field(ZNAM, "OFF")
     field(ONAM, "ON")
-#    field(FLNK, "$(P)$(R)PhaseInvert_RBV")
+    #    field(FLNK, "$(P)$(R)PhaseInvert_RBV")
+    info(autosaveFields, "VAL")
  
 }
 
@@ -152,7 +154,8 @@ record(mbbo, "$(P)$(R)ScreenSave")
     field(FFSV, "INVALID")
     field(UNSV, "INVALID")
     field(IVOA, "Don't drive outputs")
-#    field(FLNK, "$(P)$(R)ScreenSave_RBV")
+    #    field(FLNK, "$(P)$(R)ScreenSave_RBV")
+    info(autosaveFields, "VAL")
 }
 
 

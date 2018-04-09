@@ -10,6 +10,7 @@ record(bo, "$(P)$(R)BurstGateNcyc")
     field(ZNAM, "GATE")
     field(ONAM, "NCYC")
     field( VAL, 1)
+    info(autosaveFields, "VAL")
 }
 
 record(bi, "$(P)$(R)BurstGateNcyc_RBV")
@@ -33,6 +34,7 @@ record(bo, "$(P)$(R)BurstManualTrigger")
     field(ZNAM, "OFF")
     field(ONAM, "ON")
     field( VAL, 0)
+    info(autosaveFields, "VAL")
 }
 
 record(bi, "$(P)$(R)BurstManualTrigger_RBV")
@@ -72,6 +74,7 @@ record(mbbo, "$(P)$(R)BurstTriggerSrc")
    field(FFSV, "INVALID")
    field(UNSV, "INVALID")
    field( VAL, "0")
+   info(autosaveFields, "VAL")
 }
 
 record(mbbi, "$(P)$(R)BurstTriggerSrc_RBV")
@@ -128,6 +131,7 @@ record(mbbo, "$(P)$(R)BurstTriggerMode")
    field(FFSV, "INVALID")
    field(UNSV, "INVALID")
    field( VAL, "0")
+   info(autosaveFields, "VAL")
 }
 
 record(mbbi, "$(P)$(R)BurstTriggerMode_RBV")
@@ -169,6 +173,7 @@ record(bo, "$(P)$(R)BurstPolarity")
     field(ZNAM, "NEG")
     field(ONAM, "POS")
     field( VAL, 0)
+    info(autosaveFields, "VAL")
 }
 
 record(bi, "$(P)$(R)BurstPolarity_RBV")
@@ -192,6 +197,7 @@ record(bo, "$(P)$(R)BurstEdge")
     field(ZNAM, "RISE")
     field(ONAM, "FALL")
     field( VAL, 0)
+    info(autosaveFields, "VAL")
 }
 
 record(bi, "$(P)$(R)BurstEdge_RBV")
@@ -216,6 +222,7 @@ record(ao, "$(P)$(R)BurstPeriod")
     field(DRVH, 1000)
     field( VAL, 1)
     field( EGU, "S")
+    info(autosaveFields, "VAL")
 }
 
 record(ai, "$(P)$(R)BurstPeriod_RBV")
@@ -238,6 +245,7 @@ record(ao, "$(P)$(R)BurstStartPhase")
     field(DRVL, 0)
     field(DRVH, 360)
     field( VAL, 0)
+    info(autosaveFields, "VAL")
 }
 
 record(ai, "$(P)$(R)BurstStartPhase_RBV")
@@ -259,6 +267,7 @@ record(ao, "$(P)$(R)BurstDelay")
     field( OUT, "@asyn($(PORT),0,0) PAR_BURST_DELAY")
     field(DRVL, 0)
     field( EGU, "S")
+    info(autosaveFields, "VAL")
 }
 
 record(ai, "$(P)$(R)BurstDelay_RBV")
@@ -281,6 +290,7 @@ record(ao, "$(P)$(R)BurstCycleTime")
     field(DRVL, 1)
     field(DRVH, 50000)
     field( EGU, "Hz")
+    info(autosaveFields, "VAL")
 }
 
 record(ai, "$(P)$(R)BurstCycleTime_RBV")

@@ -1,9 +1,9 @@
-#-save other things every thirty seconds
-#- create_monitor_set("auto_settings.req", 30, "P=as:")
+#- Save other things every thirty seconds
 
-#- epicsEnvSet("AUTO_SETTINGS", "auto_settings.req")
-#- autosaveBuild("$(AUTO_SETTINGS)", "_settings.req", 1)
+makeAutosaveFileFromDbInfo("$(AS_PATH)/req/$(IOC)_settings.req", "autosaveFields_pass0")
+makeAutosaveFileFromDbInfo("$(AS_PATH)/req/$(IOC)_values.req", "autosaveFields")
 
 
-makeAutosaveFileFromDbInfo("$(TOP)/as/req/auto_settings.req", "autosaveFields_pass0")
-create_monitor_set("auto_settings.req", 30, "P=as:")
+create_monitor_set("$(IOC)_settings.req", 5, "P=$(AS_PREFIX)")
+create_monitor_set("$(IOC)_values.req",   5, "P=$(AS_PREFIX)")
+
