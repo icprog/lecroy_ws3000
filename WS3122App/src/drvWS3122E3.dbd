@@ -1,0 +1,7 @@
+registrar(drvWS3122Register)
+# iocshSystemCommand is already defined in softIoc.dbd
+# epics-base/src/ioc/misc/system.dbd
+#
+# Thus, E3 (ESS EPICS Environment) doesn't need to
+# add the following :
+# registrar(iocshSystemCommand)
