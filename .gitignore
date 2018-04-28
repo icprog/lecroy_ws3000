@@ -12,4 +12,11 @@ lib/
 as/
 autosave/
 /\342*
-
+.cvsignore
+ws3000.Makefile
+*.db.d
+WS3122App/Db/BasicWave.db
+WS3122App/Db/BurstWave.db
+WS3122App/Db/WS3122Base.db
+WS3122App/Db/WS3122Cmds.db
+WS3122App/Db/ws3122.db

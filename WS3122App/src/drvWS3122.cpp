@@ -112,8 +112,8 @@ drvWS3122::drvWS3122(const char *portName, const char *asynUSBTMCPortName)
 drvWS3122::~drvWS3122()
 {
   pasynOctetSyncIO->disconnect(usbTmcAsynUser);
-  if(basicWave) delete basicWave; basicWave = NULL;
-  if(burstWave) delete burstWave; burstWave = NULL;
+  if(basicWave) { delete basicWave; basicWave = NULL; }
+  if(burstWave) { delete burstWave; burstWave = NULL; }
 };
 
 asynStatus
