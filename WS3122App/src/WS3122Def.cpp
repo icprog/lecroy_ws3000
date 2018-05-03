@@ -115,8 +115,8 @@ BasicWave::set_flags(EBasicWaveType_t id)
     {
     case kWaveTypeSine:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = false;   phase_flag      = true;
-      duty_cycle_flag = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = false;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
       symmetry_flag   = false;
@@ -124,7 +124,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
     case kWaveTypeSquare:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = false;   phase_flag      = true;
+      offset_flag     = true;    phase_flag      = true;
       duty_cycle_flag = true;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
@@ -133,8 +133,8 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
     case kWaveTypeRamp:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = false;   phase_flag      = true;
-      duty_cycle_flag = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = false;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
       symmetry_flag   = true;
@@ -142,7 +142,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
     case kWaveTypePulse:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = false;   phase_flag      = true;
+      offset_flag     = true;    phase_flag      = false;
       duty_cycle_flag = true;
       width_flag      = true;    rise_flag       = true;
       fall_flag       = true;    delay_flag      = true;
@@ -152,7 +152,7 @@ BasicWave::set_flags(EBasicWaveType_t id)
     case kWaveTypeNoise:
       frequency_flag  = false;   amplifier_flag  = false;
       offset_flag     = false;   phase_flag      = false;
-      duty_cycle_flag = true;
+      duty_cycle_flag = false;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
       symmetry_flag   = false;
@@ -160,17 +160,17 @@ BasicWave::set_flags(EBasicWaveType_t id)
       break;
     case kWaveTypeArb:
       frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = false;   phase_flag      = true;
-      duty_cycle_flag = true;
+      offset_flag     = true;    phase_flag      = true;
+      duty_cycle_flag = false;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
       symmetry_flag   = false;
       std_dev_flag    = false;    mean_flag      = false;
       break;
     case kWaveTypeDc:
-      frequency_flag  = true;    amplifier_flag  = true;
-      offset_flag     = true;    phase_flag      = true;
-      duty_cycle_flag = true;
+      frequency_flag  = false;   amplifier_flag  = false;
+      offset_flag     = true;    phase_flag      = false;
+      duty_cycle_flag = false;
       width_flag      = false;    rise_flag      = false;
       fall_flag       = false;    delay_flag     = false;
       symmetry_flag   = false;
@@ -335,7 +335,6 @@ BasicWave::buildCommand()
   fullCommandStream << getWaveCmdSnip(amplifier_flag,  kWaveAmpl,    amplifierVal, front_comma);
   fullCommandStream << getWaveCmdSnip(offset_flag,     kWaveOffset,  offsetVal,    front_comma);
   fullCommandStream << getWaveCmdSnip(phase_flag,      kWavePhase,   phaseVal,     front_comma);
-  fullCommandStream << getWaveCmdSnip(duty_cycle_flag, kWaveDuty,    dutyCycleVal, front_comma);
   fullCommandStream << getWaveCmdSnip(width_flag,      kWaveWidth,   widthVal,     front_comma);
   fullCommandStream << getWaveCmdSnip(rise_flag,       kWaveRise,    riseVal,      front_comma);
   fullCommandStream << getWaveCmdSnip(fall_flag,       kWaveFall,    fallVal,      front_comma);
@@ -343,6 +342,7 @@ BasicWave::buildCommand()
   fullCommandStream << getWaveCmdSnip(symmetry_flag,   kWaveSymm,    symmetryVal,  front_comma);
   fullCommandStream << getWaveCmdSnip(std_dev_flag,    kWaveStdDev,  stdDevVal,    front_comma);
   fullCommandStream << getWaveCmdSnip(mean_flag,       kWaveMean,    meanVal,      front_comma);
+  fullCommandStream << getWaveCmdSnip(duty_cycle_flag, kWaveDuty,    dutyCycleVal, front_comma);
   //  std::cout << "CommandStream " << fullCommandStream.str() << std::endl;
 };
 

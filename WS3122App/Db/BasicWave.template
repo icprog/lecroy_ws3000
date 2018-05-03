@@ -201,7 +201,7 @@ record(ao, "$(P)$(R)WaveRise")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_RISE")
-    field(PREC, 5)
+    field(PREC, 3)
     info(autosaveFields, "VAL")
 }
 
@@ -221,6 +221,7 @@ record(ao, "$(P)$(R)WaveFall")
     field(PINI, "YES")
     field(DTYP, "asynFloat64")
     field( OUT, "@asyn($(PORT),0,0) PAR_WAVE_FALL")
+    field(PREC, 3)
     info(autosaveFields, "VAL")
     
 }
@@ -230,7 +231,6 @@ record(ai, "$(P)$(R)WaveFall_RBV")
     field(DTYP, "asynFloat64")
     field( INP, "@asyn($(PORT),0,0) PAR_WAVE_FALL")
     field(SCAN, "I/O Intr")
-    field(PREC, 5)
 }
 
 
@@ -337,6 +337,7 @@ record(ai, "$(P)$(R)WaveMean_RBV")
 ## DutyCycle 
 ## Range is defined for maximum, it comes from PULSE.
 ## If SQUARE, the range is [20%, 80%]
+## If PULSE, the range is [0.1%, 99.9%]
 record(ao, "$(P)$(R)WaveDutyCycle")
 {
     field(PINI, "YES")

@@ -30,7 +30,7 @@
     <x>30</x>
     <y>86</y>
     <width>58</width>
-    <height>17</height>
+    <height>18</height>
     <font>
       <font family="Droid Serif" style="REGULAR" size="14.0">
       </font>
@@ -60,7 +60,7 @@
     <x>228</x>
     <y>86</y>
     <width>79</width>
-    <height>17</height>
+    <height>18</height>
     <font>
       <font family="Droid Serif" style="REGULAR" size="14.0">
       </font>
@@ -157,7 +157,7 @@
                     <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==6">
-                    <value>true</value>
+                    <value>false</value>
                   </exp>
                   <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
                 </rule>
@@ -218,7 +218,7 @@
                     <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==6">
-                    <value>true</value>
+                    <value>false</value>
                   </exp>
                   <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
                 </rule>
@@ -248,22 +248,22 @@
               <rules>
                 <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
                   <exp bool_exp="pv0==0">
-                    <value>false</value>
+                    <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==1">
-                    <value>false</value>
+                    <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==2">
-                    <value>false</value>
+                    <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==3">
-                    <value>false</value>
+                    <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==4">
                     <value>false</value>
                   </exp>
                   <exp bool_exp="pv0==5">
-                    <value>false</value>
+                    <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==6">
                     <value>true</value>
@@ -314,7 +314,7 @@
                     <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==6">
-                    <value>true</value>
+                    <value>false</value>
                   </exp>
                   <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
                 </rule>
@@ -497,10 +497,10 @@
                     <value>false</value>
                   </exp>
                   <exp bool_exp="pv0==3">
-                    <value>false</value>
+                    <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==4">
-                    <value>true</value>
+                    <value>false</value>
                   </exp>
                   <exp bool_exp="pv0==5">
                     <value>false</value>
@@ -688,25 +688,25 @@
               <rules>
                 <rule name="Basic Wave Type Selection" prop_id="enabled" out_exp="false">
                   <exp bool_exp="pv0==0">
-                    <value>true</value>
+                    <value>false</value>
                   </exp>
                   <exp bool_exp="pv0==1">
                     <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==2">
-                    <value>true</value>
+                    <value>false</value>
                   </exp>
                   <exp bool_exp="pv0==3">
                     <value>true</value>
                   </exp>
                   <exp bool_exp="pv0==4">
-                    <value>true</value>
+                    <value>false</value>
                   </exp>
                   <exp bool_exp="pv0==5">
-                    <value>true</value>
+                    <value>false</value>
                   </exp>
                   <exp bool_exp="pv0==6">
-                    <value>true</value>
+                    <value>false</value>
                   </exp>
                   <pv_name>usbtmc:icslab:BasicWaveTypeSelect</pv_name>
                 </rule>
@@ -1254,7 +1254,7 @@ $(actions)</tooltip>
     <x>543</x>
     <y>86</y>
     <width>49</width>
-    <height>17</height>
+    <height>18</height>
     <font>
       <font family="Droid Serif" style="REGULAR" size="14.0">
       </font>
