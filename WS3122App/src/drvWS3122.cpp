@@ -93,7 +93,7 @@ drvWS3122::drvWS3122(const char *portName, const char *asynUSBTMCPortName)
 		   MAX_ASYN_ADDRESS, 
 		   asynInt32Mask  | asynFloat64Mask | asynOctetMask |  asynDrvUserMask, 
 		   asynInt32Mask  | asynFloat64Mask | asynOctetMask,
-		   0, /* asynFlags.  This driver does not block and it is not multi-device, so flag is 0 */
+		   1,    /* Slow Machine so flag is 1. If Fast Machine, set 1 */
 		   1,    /* Autoconnect */
 		   0, 0) /* Default priority and stack size*/    
 {
